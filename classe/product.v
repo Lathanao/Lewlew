@@ -79,8 +79,8 @@ pub fn (mut p Product) save() Product {
 	
 	today :=  time.now()
 
-	println("------save-----")
-	println(p)
+	// println("------save-----")
+	// println(p)
 	mut condition_where := ';'
 	mut condition_where_lang := ';'
 	mut type_query := 'INSERT INTO '

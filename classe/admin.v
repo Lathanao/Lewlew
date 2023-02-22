@@ -2,8 +2,7 @@
 // Use of this source code is governed by a GPL license that can be found in the LICENSE file.
 module classes
 
-struct Admin {
+pub struct Admin {
 	AdminAbstract
-	AdminFilter
 	AdminEntity
 }
