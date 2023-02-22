@@ -41,12 +41,12 @@ fn main() {
 		db: mysql.Connection{
 			username: 'magento'
 			password: 'magento'
-			dbname: 'feca_1'
+			dbname: 'raw_pcw'
 		}
 	}
 
 	app.db.connect() ?
-	app.db.select_db('raw_pcw') ?
+	// app.db.select_db('raw_pcw') ?
 
 	app.factory{db: app.db}
 	// println(app.factory)
@@ -107,23 +107,24 @@ pub fn (mut app App) login() vweb.Result {
 
 [post]
 ['/login']
-pub fn (mut app App) login_post() vweb.Result {
+pub fn (mut app App) login_post() ?vweb.Result {
 	email := app.form['email']
 	password := app.form['password']
 
 	println(email)
 	println(password)
 
-	if !validate.is_email(email) {
-			app.error << 'Invalid email address.'
-	}
-	if !validate.is_password_admin(password) {
-			app.error << 'Invalid password.'
-	}
-
+	// if !validate.is_email(email) {
+	// 		app.error << 'Invalid email address.'
+	// }
+	// if !validate.is_password_admin(password) {
+	// 		app.error << 'Invalid password.'
+	// }
+	println(app.error)
 	if app.error.len == 0 {
 
-			app.admin = app.factory.admin().filter_by_email({'email': email})
+			// app.admin = app.factory.admin().filter_by_email({'email': email})
+			app.admin = app.factory.admin().fetch({'email': email}) ?
 
 			// app.admin = new Employee();
 			// $isEmployeeLoaded = $this->context->employee->getByEmail($email, $passwd);
@@ -173,10 +174,10 @@ pub fn (mut app App) login_post() vweb.Result {
 			return app.file(os.join_path(os.resource_abs_path('/templates/loginwall.html')))
 	}
 
-	if email.len > 0 && password.len > 4 {
-		app.set_cookie(name: 'logged', value: '1')
-		return app.redirect('/')
-	}
+	// if email.len > 0 && password.len > 4 {
+	// 	app.set_cookie(name: 'logged', value: '1')
+	// 	return app.redirect('/')
+	// }
 	return app.redirect('/login')
 }
 
@@ -199,17 +200,17 @@ fn hash_password(password string, username string) string {
 ['/api/test']
 pub fn (mut app App) api_test() vweb.Result {
 		mut p := []classe.Product
-		p << classe.Product{
-			id                  : 10
-			sku                 : 'ABC'
-			ean13               : '123ABC'
-		}
-		p << classe.Product{
-			id                  : 11
-			sku                 : 'DEF'
-			ean13               : '456DEF'
-		}
-		return app.json(p)
+		// p << classe.Product{
+		// 	id                  : 10
+		// 	sku                 : 'ABC'
+		// 	ean13               : '123ABC'
+		// }
+		// p << classe.Product{
+		// 	id                  : 11
+		// 	sku                 : 'DEF'
+		// 	ean13               : '456DEF'
+		// }
+		return app.text('yop')
 }
 
 

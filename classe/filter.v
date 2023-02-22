@@ -23,16 +23,16 @@ struct Filter {
 }
 
 
-pub fn (mut p Product) filter_id (q int) Product {
-	res,_ :=  p.db.exec( 'SELECT * FROM product WHERE id_product == $q;' )
-	if res.len == 0 {
+pub fn (mut p Product) filter_id (q int) ?Product {
+	res :=  p.db.query( 'SELECT * FROM product WHERE id_product == $q;' ) ?
+	if res.maps().len == 0 {
 		return Product{}
 	}
-	return p.hydrate(res[0])
+	return Product{}
 }
 
 
-pub fn (pp Product) filter_by_id (criteria  map[string]string) Product {
+pub fn (pp Product) filter_by_id (criteria  map[string]string) ?Product {
 	mut p := pp
 	fileds_required := make_query_fileds_required(p)
 	//println(fileds_required)
@@ -44,9 +44,9 @@ pub fn (pp Product) filter_by_id (criteria  map[string]string) Product {
 	//println('------------------ query filter_by_id')
 	//println(query)
 
-	res,_ :=  p.db.exec( query )
+	res :=  p.db.query( query ) ?
 	//println(res)
-	if res.len == 0 {
+	if res.maps().len == 0 {
 		return Product{}
 	}
 
@@ -55,11 +55,11 @@ pub fn (pp Product) filter_by_id (criteria  map[string]string) Product {
 	//println(p.hydrate(res[0]))
 	//result << p.hydrate(res[0])
 
-	return p.hydrate(res[0])
+	return Product{}
 }
 
 
-pub fn (pp Product) filter_by_query(criteria map[string]string) []Product {
+pub fn (pp Product) filter_by_query(criteria map[string]string) ?[]Product {
 
 	mut p := pp
 
@@ -71,26 +71,26 @@ pub fn (pp Product) filter_by_query(criteria map[string]string) []Product {
 	//println('------------------ run')
 	//println(p.db)
 	
-	rows, code :=  p.db.exec( query )
+	rows :=  p.db.query( query ) ?
 	//println('------------------ res.len')
 	//println(res)
 	//println(code)
-	if rows.len == 0 {
+	if rows.maps().len == 0 {
 		return [Product{}]
 	}
 
 	mut result := []Product{}
 	//println('-----------Product-------filter_by_query')
-	for row in rows {
-		//println(re)
-		//println(typeof(re).name)
-		// mut pp := p.hydrate(row)
+	// for row in rows {
+	// 	//println(re)
+	// 	//println(typeof(re).name)
+	// 	// mut pp := p.hydrate(row)
 	
-		//println(re)
-		//println('-----PRINT pp ---')
-		//println(pp)
-		result << p.hydrate(row)
-	}
+	// 	//println(re)
+	// 	//println('-----PRINT pp ---')
+	// 	//println(pp)
+	// 	result << p.hydrate(row)
+	// }
 	println('-----------Product-------result len')
 	println(result.len)
 	return result
