@@ -20,6 +20,7 @@ const (
 
 struct App {
 	vweb.Context
+	
 mut:
 	cnt 				int
 	db   				mysql.Connection
@@ -38,17 +39,19 @@ pub mut:
 
 fn main() {
 	mut app := App{
-		db: mysql.Connection{
+		
+	}
+	app.db = mysql.Connection{
 			username: 'magento'
 			password: 'magento'
 			dbname: 'raw_pcw'
 		}
-	}
-
-	app.db.connect() ?
+	// app.db.connect() ?
 	// app.db.select_db('raw_pcw') ?
+	dump(app.db)
 
 	app.factory{db: app.db}
+	app.factory.start()
 	// println(app.factory)
 
 	// app.handle_static(os.resource_abs_path('static/HTMLElement/datagrid'), false)
@@ -66,8 +69,14 @@ fn main() {
 	// for k, v in app.static_files {
 	// 	println(k + " : " + v)
 	// }
+	email := 'tanguy.salmon@gmail.com'
 
-	vweb.run<App>(&app, port) 
+
+	// app.admin = app.factory.admin().fetch({'email': email}) ?
+	app.admin = app.factory.admin().create() ?
+	// dump(app.admin)
+
+	//vweb.run<App>(&app, port) 
 }
 
 

@@ -131,6 +131,12 @@ pub fn make_query_condition(query map[string]string, schema_name string) string 
 		conjonction = ' AND'
 	}
 
+	if query['email'].len > 0 {
+		email := query['email']
+		condition += conjonction + " email = '$email'"
+		conjonction = ' AND'
+	}
+
 	if query['order_by'].len > 0 {
 		println(' ORDER BY')
 	}

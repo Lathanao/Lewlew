@@ -4,11 +4,11 @@ import mysql
 
 [heap]
 pub struct Factory {
-	db    	mysql.Connection
+	db    	&mysql.Connection
 	
 mut:
 	filter  Filter
-	adminfilter   AdminFilter
+	adminfactory   AdminFactory
 	id    	int
 	title 	string
 	text  	string
@@ -17,8 +17,12 @@ mut:
 }
 
 pub fn (mut f Factory) start() &Factory {
+	dump('------')
+	dump(f.db)
+	dump('------')
 	f.filter = Filter{db: f.db}
-	f.adminfilter = AdminFilter{filter: f.filter}
+	// f.adminfactory = AdminFactory{db: f.db}
+	dump(f)
 	return f
 }
 
@@ -41,12 +45,12 @@ pub fn (f Factory) product() Product {
 	return p
 }
 
-pub fn (mut f Factory) admin() AdminFilter {
-	return f.adminfilter
+pub fn (mut f Factory) admin() AdminFactory {
+	return f.adminfactory
 }
 
 
 
 pub fn (mut f Factory) admin_filter_by_email(criteria map[string]string) ?Admin {
-	return f.adminfilter.fetch({'email': criteria['email']})
+	return f.adminfactory.fetch({'email': criteria['email']})
 }

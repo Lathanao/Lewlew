@@ -72,25 +72,3 @@ pub fn (a AdminFilter) filter_by_email (criteria map[string]string) Admin {
 	return result
 }
 
-pub fn (a AdminFilter) fetch(criteria map[string]string) ?Admin {
-
-	filter := make_query_condition(criteria, 'ps_employee')
-
-	query := 'SELECT * FROM `ps_employee` $filter;'
-	
-	println(a)
-	println(query)
-	println(filter)
-
-	mut connection := mysql.Connection{
-			username: 'magento'
-			password: 'magento'
-			dbname: 'raw_pcw'
-	}
-
-	results := connection.query(query) ?
-
-
-	println('return result')
-	return Admin{}
-}
