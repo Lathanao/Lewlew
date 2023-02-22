@@ -1,5 +1,3 @@
-// Copyright (c) 2019-2020 Alexander Medvednikov. All rights reserved.
-// Use of this source code is governed by a GPL license that can be found in the LICENSE file.
 module classes
 
 //import crypto.sha256
@@ -20,7 +18,7 @@ mut:
 
 fn (mut a Admin) init() {
 	//println('---AdminUser-----init-------')
-	// res,_ := a.db.exec( 'pragma table_info("admin_user");' )
+	// res,_ := a.db.query( 'pragma table_info("admin_user");' )
 	//println(res)
 	// for line in res {
 	// 	a.schema << line.vals[1]

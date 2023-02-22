@@ -1,17 +1,14 @@
-// Copyright (c) 2019-2020 Alexander Medvednikov. All rights reserved.
-// Use of this source code is governed by a GPL license that can be found in the LICENSE file.
 module classes
 
 //import crypto.sha256
 //import rand
 //import os
 //import time
-import sqlite
+import mysql
 
 struct AdminFilter {
-
-
-
+mut: 
+	filter Filter
 }
 
 // struct SshKey {
@@ -52,7 +49,7 @@ pub fn (a AdminFilter) filter_by_email (criteria map[string]string) Admin {
 
 	// println('--- Admin ---exec------')
 	// db := sqlite.connect('/var/www/vproject/blog/db/blog.db') or { panic(err) }
-	// _, code :=  db.exec( query )
+	// _, code :=  db.query( query )
 
 	// if code == 101 {
 	// 	println('coonn db')
@@ -73,4 +70,27 @@ pub fn (a AdminFilter) filter_by_email (criteria map[string]string) Admin {
 	// }
 
 	return result
+}
+
+pub fn (a AdminFilter) fetch(criteria map[string]string) ?Admin {
+
+	filter := make_query_condition(criteria, 'ps_employee')
+
+	query := 'SELECT * FROM `ps_employee` $filter;'
+	
+	println(a)
+	println(query)
+	println(filter)
+
+	mut connection := mysql.Connection{
+			username: 'magento'
+			password: 'magento'
+			dbname: 'raw_pcw'
+	}
+
+	results := connection.query(query) ?
+
+
+	println('return result')
+	return Admin{}
 }
