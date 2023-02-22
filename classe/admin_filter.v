@@ -41,36 +41,36 @@ struct AdminFilter {
 // }
 
 
-// pub fn (mut a AdminUser) filter_by_query (criteria map[string]string) []AdminUser {
-// 	println('---AdminUser---filter_by_query------')
-// 	filter := make_query(criteria)
+pub fn (a AdminFilter) filter_by_email (criteria map[string]string) Admin {
+	// println('--- Admin ---filter_by_query------')
+	// filter := make_query_condition(criteria, 'employee')
 
-// 	query := 'SELECT * FROM `admin_user` $filter;'
+	// query := 'SELECT * FROM `admin_user` $filter;'
 	
-// 	//println(query)
-// 	//println(a.db)
+	// //println(query)
+	// //println(a.db)
 
-// 	println('---AdminUser---exec------')
-// 	db := sqlite.connect('/var/www/vproject/blog/db/blog.db') or { panic(err) }
-// 	_, code :=  db.exec( query )
+	// println('--- Admin ---exec------')
+	// db := sqlite.connect('/var/www/vproject/blog/db/blog.db') or { panic(err) }
+	// _, code :=  db.exec( query )
 
-// 	if code == 101 {
-// 		println('coonn db')
-// 	} else {
-// 		{ panic('No connexion to database') }
-// 	}
+	// if code == 101 {
+	// 	println('coonn db')
+	// } else {
+	// 	{ panic('No connexion to database') }
+	// }
 
-// 	// if res.len == 0 {
-// 	// 	println(3)
-// 	// 	return [a]
-// 	// }
+	// if res.len == 0 {
+	// 	println(3)
+	// 	return [a]
+	// }
 
-// 	mut result := [a]
-// 	// println('-----------AdminUser-------filter_by_query')
-// 	// for re in res {
-// 	// 	println('---AdminUser---hydrate------')
-// 	// 	result << a.hydrate(re)
-// 	// }
+	mut result := Admin{}
+	// println('-----------AdminUser-------filter_by_query')
+	// for re in res {
+	// 	println('---AdminUser---hydrate------')
+	// 	result << a.hydrate(re)
+	// }
 
-// 	return result
-// }
+	return result
+}

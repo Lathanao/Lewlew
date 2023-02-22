@@ -1,4 +1,5 @@
 module classes
+import mysql
 //  
 //  classes
 //  _____________________________________________
@@ -10,13 +11,15 @@ module classes
 import strings
 
 struct Filter {
+		db   			mysql.Connection
+
 	pub mut:
-		id    int
-		title string
-		text  string
-		page  int
+		id    	int
+		title 	string
+		text  	string
+		page  	int
 		nr_view int
-		sku string
+		sku 		string
 }
 
 
@@ -34,7 +37,7 @@ pub fn (pp Product) filter_by_id (criteria  map[string]string) Product {
 	fileds_required := make_query_fileds_required(p)
 	//println(fileds_required)
 
-	filter := make_query(criteria, p.schema_name)
+	filter := make_query_condition(criteria, p.schema_name)
 
 	query := 'SELECT $fileds_required FROM `product` INNER JOIN `product_lang` ON (`product`.`id` = `product_lang`.`id_product`) $filter;'
 	
@@ -60,7 +63,7 @@ pub fn (pp Product) filter_by_query(criteria map[string]string) []Product {
 
 	mut p := pp
 
-	filter := make_query(criteria, p.schema_name)
+	filter := make_query_condition(criteria, p.schema_name)
 	//println('------------------ query')
 
 	query := 'SELECT * FROM `product` p INNER JOIN `product_lang` pl ON (p.`id` = pl.`id_product`) $filter;'
@@ -109,7 +112,7 @@ pub fn make_query_fileds_required(p Product) string {
 	return fileds_required.str()
 }
 
-pub fn make_query(query map[string]string, schema_name string) string {
+pub fn make_query_condition(query map[string]string, schema_name string) string {
 	//println('---AdminUser---make_query------')
 	nb_page := 10
 

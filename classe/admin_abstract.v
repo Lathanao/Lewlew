@@ -18,14 +18,13 @@ mut:
     cache		map[string]string [skip]
 }
 
-fn (mut a Admin) init() &Admin {
+fn (mut a Admin) init() {
 	//println('---AdminUser-----init-------')
-	res,_ := a.db.exec( 'pragma table_info("admin_user");' )
+	// res,_ := a.db.exec( 'pragma table_info("admin_user");' )
 	//println(res)
-	for line in res {
-		a.schema << line.vals[1]
-	}
-	return a
+	// for line in res {
+	// 	a.schema << line.vals[1]
+	// }
 }
 
 fn (a Admin) hydrate (data sqlite.Row) Admin {

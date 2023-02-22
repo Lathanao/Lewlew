@@ -25,7 +25,8 @@ mut:
 	db   				mysql.Connection
 	factory 		classe.Factory
 	logged_in   bool
-	nb_request  int = 0
+	nb_request  int
+pub mut:
 	error		 		[]string
 	admin 			classe.Admin
 }
@@ -47,7 +48,7 @@ fn main() {
 	app.db.connect() ?
 	app.db.select_db('raw_pcw') ?
 
-	// app.factory.start()
+	app.factory{db: app.db}
 	// println(app.factory)
 
 	// app.handle_static(os.resource_abs_path('static/HTMLElement/datagrid'), false)
@@ -69,9 +70,7 @@ fn main() {
 	vweb.run<App>(&app, port) 
 }
 
-pub fn (mut app App) init_once() {
-	
-}
+
 
 pub fn (mut app App) index() vweb.Result {
 	if app.logged_in() {
@@ -82,42 +81,22 @@ pub fn (mut app App) index() vweb.Result {
 		println('else app.logged_in()')
 		return app.redirect('/login')
 	}
+
+	// return app.text('index')
 		
 }
 
 pub fn (mut app App) logged_in() bool {
-	println('logged_in')
+	println('check logged_in')
 	islogged := app.get_cookie('logged') or { return false }
 	return islogged != ''
 }
 
 
-pub fn (mut app App) account() vweb.Result {
-		return app.index()
-}
-pub fn (mut app App) adminaccount() vweb.Result {
-		return app.index()
-}
 
-pub fn (mut app App) order() vweb.Result {
-		return app.index()
-}
-
-pub fn (mut app App) settings() vweb.Result {
-		return app.index()
-}
-
-
-
-pub fn (mut app App) before_request() {
-		app.nb_request++
-		println( app )
-}
-
-
-['/loginold']
-pub fn (mut app App) login_old() vweb.Result {
-	if app.logged_in() {
+['/login']
+pub fn (mut app App) login() vweb.Result {
+	if app.logged_in() {	
 		return app.redirect('/')
 	}
 	else {
@@ -125,12 +104,15 @@ pub fn (mut app App) login_old() vweb.Result {
 	}
 }
 
+
 [post]
 ['/login']
-pub fn (mut app App) login() vweb.Result {
+pub fn (mut app App) login_post() vweb.Result {
 	email := app.form['email']
 	password := app.form['password']
 
+	println(email)
+	println(password)
 
 	if !validate.is_email(email) {
 			app.error << 'Invalid email address.'
@@ -140,6 +122,8 @@ pub fn (mut app App) login() vweb.Result {
 	}
 
 	if app.error.len == 0 {
+
+			app.admin = app.factory.admin().filter_by_email({'email': email})
 
 			// app.admin = new Employee();
 			// $isEmployeeLoaded = $this->context->employee->getByEmail($email, $passwd);
@@ -197,9 +181,6 @@ pub fn (mut app App) login() vweb.Result {
 }
 
 
-
-
-
 fn hash_password(password string, username string) string {
 
 	println(password)
@@ -213,11 +194,6 @@ fn hash_password(password string, username string) string {
 	println(pw.str())
 	return sha256.sum(pw.bytes()).hex().str()
 }
-
-
-
-
-
 
 
 ['/api/test']
@@ -236,14 +212,42 @@ pub fn (mut app App) api_test() vweb.Result {
 		return app.json(p)
 }
 
+
 ['/api/order']
 pub fn (mut app App) api_post() ?vweb.Result {
 		get_users_query_result := app.db.query('SELECT * FROM ps_orders LIMIT 10') ?
 		return app.json(get_users_query_result.maps())
 }
 
+
 ['/api/employee']
 pub fn (mut app App) api_employee() ?vweb.Result {
 		get_users_query_result := app.db.query('SELECT * FROM ps_employee LIMIT 10') ?
 		return app.json(get_users_query_result.maps())
+}
+
+
+
+pub fn (mut app App) account() vweb.Result {
+		return app.index()
+}
+pub fn (mut app App) adminaccount() vweb.Result {
+		return app.index()
+}
+
+pub fn (mut app App) order() vweb.Result {
+		return app.index()
+}
+
+pub fn (mut app App) settings() vweb.Result {
+		return app.index()
+}
+
+pub fn (mut app App) before_request() {
+		app.nb_request++
+		//println( app )
+}
+
+pub fn (mut app App) init_once() {
+	
 }
