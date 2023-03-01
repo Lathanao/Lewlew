@@ -13,6 +13,7 @@ import json
 import math
 import mysql
 import validate
+import v.vcache
 
 const (
 	port = 8888
@@ -37,28 +38,27 @@ pub mut:
 // 	content 		int
 // }
 
+const (
+	BO_hash_key = 'set_your_secret_key_for_hashing'
+	FO_hash_key = 'set_your_secret_key_for_hashing'
+	vcache_folder = os.join_path(os.temp_dir(), 'vcache_folder')
+)
+
 fn main() {
-	mut app := App{
-		
-	}
+	mut app := App{}
 	app.db = mysql.Connection{
 			username: 'magento'
 			password: 'magento'
 			dbname: 'raw_pcw'
 		}
-	// app.db.connect() ?
-	// app.db.select_db('raw_pcw') ?
-	dump(app.db)
+	app.db.connect() ?
 
-	app.factory{db: app.db}
-	app.factory.start()
-	// println(app.factory)
-
-	// app.handle_static(os.resource_abs_path('static/HTMLElement/datagrid'), false)
+	app.factory = classe.Factory{	
+		db: &app.db,
+		adminfactory: classe.AdminFactory{db: &app.db}}
 
 	app.mount_static_folder_at(os.resource_abs_path('backend/account'), '/backend')
 	app.mount_static_folder_at(os.resource_abs_path('backend/login'),   '/backend')
-
 	app.mount_static_folder_at(os.resource_abs_path('static/HTMLElement'), '/wc')
 	app.mount_static_folder_at(os.resource_abs_path('static/js'), 			'/js')
 	app.mount_static_folder_at(os.resource_abs_path('static/js'), 			'/js')
@@ -69,14 +69,19 @@ fn main() {
 	// for k, v in app.static_files {
 	// 	println(k + " : " + v)
 	// }
-	email := 'tanguy.salmon@gmail.com'
 
+	// // app.admin = app.factory.create_admin()?
 
-	// app.admin = app.factory.admin().fetch({'email': email}) ?
-	app.admin = app.factory.admin().create() ?
 	// dump(app.admin)
 
-	//vweb.run<App>(&app, port) 
+
+	os.setenv('VCACHE', vcache_folder, true)
+	eprintln('testsuite_begin, vcache_folder = $vcache_folder')
+	os.rmdir_all(vcache_folder) or {}
+	vcache.new_cache_manager([])
+
+
+	vweb.run<App>(&app, port) 
 }
 
 
@@ -105,6 +110,7 @@ pub fn (mut app App) logged_in() bool {
 
 ['/login']
 pub fn (mut app App) login() vweb.Result {
+	println("['/login']")
 	if app.logged_in() {	
 		return app.redirect('/')
 	}
@@ -113,6 +119,44 @@ pub fn (mut app App) login() vweb.Result {
 	}
 }
 
+
+['/logout']
+pub fn (mut app App) logout() vweb.Result {
+		println("['/logout']")
+		time_now := time.Time{unix: time.utc().unix_time()}
+
+		app.set_cookie(
+			name: 'logged', 
+			value: '0',
+			expires: time_now.add( time.offset() * time.second - (24*3600) * time.second ))
+
+		app.set_cookie(
+			name: 'test', 
+			value: '0',
+			expires: time_now.add( time.offset() * time.second - (48*3600) * time.second ))
+		
+		return app.file(os.join_path(os.resource_abs_path('/templates/loginwall.html')))
+}
+
+
+[post]
+['/logout']
+pub fn (mut app App) logout_post() vweb.Result {
+		println("[post] ['/logout']")
+		time_now := time.Time{unix: time.utc().unix_time()}
+
+		app.set_cookie(
+			name: 'logged', 
+			value: '0',
+			expires: time_now.add( time.offset() * time.second - (24*3600) * time.second ))
+
+		app.set_cookie(
+			name: 'test', 
+			value: '0',
+			expires: time_now.add( time.offset() * time.second - (48*3600) * time.second ))
+		
+		return app.file(os.join_path(os.resource_abs_path('/templates/loginwall.html')))
+}
 
 [post]
 ['/login']
@@ -132,54 +176,54 @@ pub fn (mut app App) login_post() ?vweb.Result {
 	println(app.error)
 	if app.error.len == 0 {
 
-			// app.admin = app.factory.admin().filter_by_email({'email': email})
-			app.admin = app.factory.admin().fetch({'email': email}) ?
+			admin := app.factory.fetch_admin({'email': email})?
+			tool := classe.Tool{}
 
-			// app.admin = new Employee();
-			// $isEmployeeLoaded = $this->context->employee->getByEmail($email, $passwd);
+			if admin.id > 0 {
+					app.error << 'The admin does not exist, or the password provided is incorrect.'
+					return app.redirect('/logout')
+			} else {
+					// Logger::addLog(sprintf($this->l('Back Office connection from %s', 'AdminTab', false, false), Tools::getRemoteAddr()), 1, null, '', 0, true, (int) $this->context->employee->id);
+
+					remote_addr := tool.get_remote_ip()
+					// Update cookie
+					
+
+					// $cookie = $this->context->cookie;
+					// $cookie->id_employee = $this->context->employee->id;
+					// $cookie->email = $this->context->employee->email;
+					// $cookie->profile = $this->context->employee->id_profile;
+					// $cookie->passwd = $this->context->employee->passwd;
+					// $cookie->remote_addr = $this->context->employee->remote_addr;
+
+					// if !tool.get_value('stay_logged_in') {
+					// 		app.set_cookie(name: 'last_activity', value: '1')
+					// } 
 
 
+					mut cm := vcache.new_cache_manager([])
+					x := cm.save('.session', 'first/cache/entry', 'hello') or {
+						assert false
+						''
+					}
 
-			// $employeeAssociatedShop = $this->context->employee->getAssociatedShops();
-			// if (!$isEmployeeLoaded
-			// 		|| (!$employeeAssociatedShop && !$this->context->employee->isSuperAdmin())) {
-			// 		$this->errors[] = Tools::displayError('The employee does not exist, or the password provided is incorrect.');
-			// 		$this->context->employee->logout();
-			// } else {
-			// 		Logger::addLog(sprintf($this->l('Back Office connection from %s', 'AdminTab', false, false), Tools::getRemoteAddr()), 1, null, '', 0, true, (int) $this->context->employee->id);
 
-			// 		$this->context->employee->remote_addr = (int) ip2long(Tools::getRemoteAddr());
-			// 		// Update cookie
-			// 		$cookie = $this->context->cookie;
-			// 		$cookie->id_employee = $this->context->employee->id;
-			// 		$cookie->email = $this->context->employee->email;
-			// 		$cookie->profile = $this->context->employee->id_profile;
-			// 		$cookie->passwd = $this->context->employee->passwd;
-			// 		$cookie->remote_addr = $this->context->employee->remote_addr;
+					time_now := time.Time{unix: time.utc().unix_time()}
+					
+					app.set_cookie(
+						name: 'logged', 
+						value: '1',
+						expires: time_now.add( time.offset() * time.second + (24*3600) * time.second ))
 
-			// 		if (!Tools::getValue('stay_logged_in')) {
-			// 				$cookie->last_activity = time();
-			// 		} else {
-			// 				// Needed in some edge cases, see Github issue #399.
-			// 				unset($cookie->last_activity);
-			// 		}
+					app.set_cookie(
+						name: 'test', 
+						value: '1',
+						expires: time_now.add( time.offset() * time.second + (48*3600) * time.second ))
 
-			// 		$cookie->write();
+					app.set_cookie(name: 'last_activity', value: time.utc().unix_time().str())
 
-			// 		// If there is a valid controller name submitted, redirect to it
-			// 		if (isset($_POST['redirect']) && Validate::isControllerName($_POST['redirect'])) {
-			// 				$url = $this->context->link->getAdminLink($_POST['redirect']);
-			// 		} else {
-			// 				$tab = new Tab((int) $this->context->employee->default_tab);
-			// 				$url = $this->context->link->getAdminLink($tab->class_name);
-			// 		}
-
-			// 		if (Tools::isSubmit('ajax')) {
-			// 				$this->ajaxDie(json_encode(['hasErrors' => false, 'redirect' => $url]));
-			// 		} else {
-			// 				$this->redirect_after = $url;
-			// 		}
-			// }
+					return app.index()
+			}
 			return app.file(os.join_path(os.resource_abs_path('/templates/loginwall.html')))
 	}
 
@@ -236,11 +280,10 @@ pub fn (mut app App) api_employee() ?vweb.Result {
 		return app.json(get_users_query_result.maps())
 }
 
-
-
 pub fn (mut app App) account() vweb.Result {
 		return app.index()
 }
+
 pub fn (mut app App) adminaccount() vweb.Result {
 		return app.index()
 }
@@ -252,6 +295,8 @@ pub fn (mut app App) order() vweb.Result {
 pub fn (mut app App) settings() vweb.Result {
 		return app.index()
 }
+
+
 
 pub fn (mut app App) before_request() {
 		app.nb_request++

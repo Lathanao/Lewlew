@@ -7,6 +7,7 @@ module classes
 //import sqlite
 
 struct AdminEntity {
+pub:
 	id                  int
 mut:
     last_name           string

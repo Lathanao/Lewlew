@@ -6,7 +6,7 @@ module classes
 //import time
 import mysql
 
-struct AdminFactory {
+pub struct AdminFactory {
 	db    			&mysql.Connection
 mut: 
 	filter			Filter
@@ -17,7 +17,7 @@ mut:
 	cache				map[string]string [skip]
 }
 
-pub fn (a AdminFactory) create() ?Admin {
+pub fn (a AdminFactory) create_admin(criteria map[string]string) ?Admin {
 	// dump(a)
 	schema_name := 'ps_employee'
 
@@ -47,7 +47,36 @@ pub fn (a AdminFactory) create() ?Admin {
 	return Admin{}
 }
 
-pub fn (a AdminFactory) fetch(criteria map[string]string) ?Admin {
+pub fn (a AdminFactory) fetch_admin(criteria map[string]string) ?Admin {
+
+	// filter := make_query_condition(criteria, 'ps_employee')
+
+	// query := 'SELECT * FROM `ps_employee` $filter;'
+	
+	// println(a)
+	// println(query)
+	// println(filter)
+
+	// mut connection := mysql.Connection{
+	// 		username: 'magento'
+	// 		password: 'magento'
+	// 		dbname: 'raw_pcw'
+	// }
+	// connection.connect() ?
+	// results := connection.query(query) ?
+
+	// println(results)
+	// println(results.maps())
+	// println(typeof(results.maps()))
+
+	// // println(a.hydrate(results.maps()))
+
+	// println('return result')
+	return Admin{}
+}
+
+
+pub fn (a AdminFactory) fetch_admin_by_email(criteria map[string]string) ?Admin {
 
 	// filter := make_query_condition(criteria, 'ps_employee')
 

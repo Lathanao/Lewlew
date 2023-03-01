@@ -2,31 +2,18 @@ module classe
 import mysql
 /* import sqlite */
 
-[heap]
 pub struct Factory {
 	db    	&mysql.Connection
 	
 mut:
-	filter  Filter
 	adminfactory   AdminFactory
 	id    	int
 	title 	string
 	text  	string
-	
 	cache_pragma_def map[string][]string
 }
 
-pub fn (mut f Factory) start() &Factory {
-	dump('------')
-	dump(f.db)
-	dump('------')
-	f.filter = Filter{db: f.db}
-	// f.adminfactory = AdminFactory{db: f.db}
-	dump(f)
-	return f
-}
-
-pub fn (f Factory) product() Product {
+pub fn (f Factory) create_product() Product {
 	mut p := (Product{db: &f.db})
 
 	// // Add Generic field to easy iterate in hydrate(), etc...
@@ -45,12 +32,13 @@ pub fn (f Factory) product() Product {
 	return p
 }
 
-pub fn (mut f Factory) admin() AdminFactory {
-	return f.adminfactory
+
+
+
+pub fn (mut f Factory) fetch_admin_by_email(criteria map[string]string) ?Admin {
+	return f.adminfactory.fetch_admin_by_email(criteria)
 }
 
-
-
-pub fn (mut f Factory) admin_filter_by_email(criteria map[string]string) ?Admin {
-	return f.adminfactory.fetch({'email': criteria['email']})
+pub fn (mut f Factory) fetch_admin(criteria map[string]string) ?Admin {
+	return f.adminfactory.fetch_admin(criteria)
 }

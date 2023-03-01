@@ -7,6 +7,7 @@ import Orders       from "/templates/Order.js"
 import Account      from "/backend/account.js"
 import Login        from "/backend/login.js"
 
+
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$")
 
 const getParams = match => {
@@ -31,6 +32,7 @@ const router = async () => {
         { path: "/settings", view: Settings },
         { path: "/order", view: Orders },
         { path: "/login", view: Login },
+        { path: "/logout", view: Login },
 
         { path: "/account", view: Account },
         { path: "/account/:id", view: Account }
