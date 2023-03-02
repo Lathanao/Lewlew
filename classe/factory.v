@@ -3,7 +3,7 @@ import mysql
 /* import sqlite */
 
 pub struct Factory {
-	db    	&mysql.Connection
+	db    	mysql.Connection
 	
 mut:
 	adminfactory   AdminFactory
@@ -30,13 +30,6 @@ pub fn (f Factory) create_product() Product {
 	// // Add schema name to know the table base quikly
 	// p.schema_name = 'product'
 	return p
-}
-
-
-
-
-pub fn (mut f Factory) fetch_admin_by_email(criteria map[string]string) ?Admin {
-	return f.adminfactory.fetch_admin_by_email(criteria)
 }
 
 pub fn (mut f Factory) fetch_admin(criteria map[string]string) ?Admin {
