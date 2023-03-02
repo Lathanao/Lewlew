@@ -127,13 +127,13 @@ pub fn make_query_condition(query map[string]string, schema_name string) string 
 
 	if query['password'].len > 0 {
 		password := query['password']
-		condition += conjonction + " password = '$password'"
+		condition += conjonction + " `password` = '$password'"
 		conjonction = ' AND'
 	}
 
 	if query['email'].len > 0 {
 		email := query['email']
-		condition += conjonction + " email = '$email'"
+		condition += conjonction + " `email` = '$email'"
 		conjonction = ' AND'
 	}
 

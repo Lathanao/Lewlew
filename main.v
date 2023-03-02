@@ -14,6 +14,7 @@ import math
 import mysql
 import validate
 import v.vcache
+import x.json2
 
 const (
 	port = 8888
@@ -42,20 +43,24 @@ const (
 	BO_hash_key = 'set_your_secret_key_for_hashing'
 	FO_hash_key = 'set_your_secret_key_for_hashing'
 	vcache_folder = os.join_path(os.temp_dir(), 'vcache_folder')
+	session_expire = 1*24*3600
 )
 
 fn main() {
 	mut app := App{}
 	app.db = mysql.Connection{
-			username: 'magento'
-			password: 'magento'
-			dbname: 'raw_pcw'
+		username: 'magento'
+		password: 'magento'
+		dbname: 'raw_pcw'
 		}
-	app.db.connect() ?
+	// app.db.connect() ?
 
-	app.factory = classe.Factory{	
-		db: &app.db,
-		adminfactory: classe.AdminFactory{db: &app.db}}
+	// app.factory = classe.Factory{	
+	// 	db: app.db,
+	// 	adminfactory: classe.AdminFactory{db: &app.db}
+	// }
+
+
 
 	app.mount_static_folder_at(os.resource_abs_path('backend/account'), '/backend')
 	app.mount_static_folder_at(os.resource_abs_path('backend/login'),   '/backend')
@@ -80,6 +85,13 @@ fn main() {
 	os.rmdir_all(vcache_folder) or {}
 	vcache.new_cache_manager([])
 
+	// password := 'tanguy'
+	// passhash := sha256.sum('$password$BO_hash_key'.bytes()).hex().str()
+	// admin := app.factory.fetch_admin({'password': passhash})?
+
+	// println("============== return main ===============")
+	// println(admin)
+
 
 	vweb.run<App>(&app, port) 
 }
@@ -87,7 +99,7 @@ fn main() {
 
 
 pub fn (mut app App) index() vweb.Result {
-	if app.logged_in() {
+	if app.is_logged() {
 		println('if app.logged_in()')
 		return app.file(os.join_path(os.resource_abs_path('/templates/index.html')))
 	}
@@ -100,7 +112,7 @@ pub fn (mut app App) index() vweb.Result {
 		
 }
 
-pub fn (mut app App) logged_in() bool {
+pub fn (mut app App) is_logged() bool {
 	println('check logged_in')
 	islogged := app.get_cookie('logged') or { return false }
 	return islogged != ''
@@ -111,7 +123,7 @@ pub fn (mut app App) logged_in() bool {
 ['/login']
 pub fn (mut app App) login() vweb.Result {
 	println("['/login']")
-	if app.logged_in() {	
+	if app.is_logged() {	
 		return app.redirect('/')
 	}
 	else {
@@ -155,17 +167,32 @@ pub fn (mut app App) logout_post() vweb.Result {
 			value: '0',
 			expires: time_now.add( time.offset() * time.second - (48*3600) * time.second ))
 		
+		app.set_cookie(name: 'last_activity', value: time.utc().unix_time().str())
+
 		return app.file(os.join_path(os.resource_abs_path('/templates/loginwall.html')))
 }
+
 
 [post]
 ['/login']
 pub fn (mut app App) login_post() ?vweb.Result {
+
+	app.factory = classe.Factory{	
+		db: app.db,
+		adminfactory: classe.AdminFactory{db: app.db}
+		}
+
+	println("============== login_post ===============")
+	// println(app.factory)
+
+
 	email := app.form['email']
 	password := app.form['password']
+	passhash := sha256.sum('$password$BO_hash_key'.bytes()).hex().str()
 
-	println(email)
-	println(password)
+	// println(email)
+	// println(password)
+	// println(passhash)
 
 	// if !validate.is_email(email) {
 	// 		app.error << 'Invalid email address.'
@@ -173,54 +200,56 @@ pub fn (mut app App) login_post() ?vweb.Result {
 	// if !validate.is_password_admin(password) {
 	// 		app.error << 'Invalid password.'
 	// }
+
 	println(app.error)
 	if app.error.len == 0 {
 
-			admin := app.factory.fetch_admin({'email': email})?
+			admin := app.factory.fetch_admin({'password': passhash})?
 			tool := classe.Tool{}
 
-			if admin.id > 0 {
+			println("============== result fetch_admin ===============")
+			println(admin)
+			if admin.id == 0 {
 					app.error << 'The admin does not exist, or the password provided is incorrect.'
 					return app.redirect('/logout')
 			} else {
-					// Logger::addLog(sprintf($this->l('Back Office connection from %s', 'AdminTab', false, false), Tools::getRemoteAddr()), 1, null, '', 0, true, (int) $this->context->employee->id);
 
-					remote_addr := tool.get_remote_ip()
-					// Update cookie
-					
-
-					// $cookie = $this->context->cookie;
-					// $cookie->id_employee = $this->context->employee->id;
-					// $cookie->email = $this->context->employee->email;
-					// $cookie->profile = $this->context->employee->id_profile;
-					// $cookie->passwd = $this->context->employee->passwd;
-					// $cookie->remote_addr = $this->context->employee->remote_addr;
-
-					// if !tool.get_value('stay_logged_in') {
-					// 		app.set_cookie(name: 'last_activity', value: '1')
-					// } 
-
-
-					mut cm := vcache.new_cache_manager([])
-					x := cm.save('.session', 'first/cache/entry', 'hello') or {
-						assert false
-						''
+					ses := classe.Session {
+						id:      			admin.id,
+						ip:       		'127.0.0.1',
+						timestamp:    time.ticks(),
+						token:        rand.uuid_v4()
 					}
 
-
+					ses_json := json2.encode<classe.Session>(ses)
 					time_now := time.Time{unix: time.utc().unix_time()}
 					
 					app.set_cookie(
 						name: 'logged', 
 						value: '1',
-						expires: time_now.add( time.offset() * time.second + (24*3600) * time.second ))
+						expires: time_now.add( time.offset() * time.second + (24*3600) * time.second )
+						)
 
 					app.set_cookie(
-						name: 'test', 
-						value: '1',
-						expires: time_now.add( time.offset() * time.second + (48*3600) * time.second ))
+						name: 'sessionhash', 
+						value: sha256.sum(ses_json.bytes()).hex().str(),
+						expires: time_now.add( time.offset() * time.second + (48*3600) * time.second )
+						)
+
+					app.set_cookie(
+						name: 'session', 
+						value: ses_json,
+						expires: time_now.add( time.offset() * time.second + (48*3600) * time.second )
+						)
 
 					app.set_cookie(name: 'last_activity', value: time.utc().unix_time().str())
+
+
+					mut cm := vcache.new_cache_manager([])
+					x := cm.save('.session', 'admin/session/admin_id', ses_json) or {
+						assert false
+						''
+					}
 
 					return app.index()
 			}
@@ -305,4 +334,12 @@ pub fn (mut app App) before_request() {
 
 pub fn (mut app App) init_once() {
 	
+}
+
+['/admin/forgot_password']
+pub fn (mut app App) admin_forgotpassword() vweb.Result {
+	// csrf := rand.string(30)
+	// app.set_cookie(name: 'csrf', value: csrf)
+	// return $vweb.html()
+	return app.file(os.join_path(os.resource_abs_path('/templates/loginwall.html')))
 }
