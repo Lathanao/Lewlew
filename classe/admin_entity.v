@@ -30,9 +30,8 @@ struct AdminEntity {
 //     modified_at         int 
 
 
-pub:
-	id              					int
 pub mut:
+	id              					int
 	id_profile								int
 	id_lang										int
 	lastname									string

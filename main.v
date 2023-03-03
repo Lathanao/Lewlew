@@ -17,7 +17,7 @@ import v.vcache
 import x.json2
 
 const (
-	port = 8888
+	port = 8882
 )
 
 struct App {
@@ -32,6 +32,7 @@ mut:
 pub mut:
 	error		 		[]string
 	admin 			classe.Admin
+	session  		classe.Session
 }
 
 // struct ApiResponse {
@@ -47,13 +48,15 @@ const (
 )
 
 fn main() {
-	mut app := App{}
+	mut app := App{
+		session: classe.Session{}
+	}
 	app.db = mysql.Connection{
 		username: 'magento'
 		password: 'magento'
 		dbname: 'raw_pcw'
 		}
-	// app.db.connect() ?
+	app.db.connect() ?
 
 	// app.factory = classe.Factory{	
 	// 	db: app.db,
@@ -108,27 +111,37 @@ pub fn (mut app App) index() vweb.Result {
 		return app.redirect('/login')
 	}
 
-	// return app.text('index')
-		
+	println('index redirect logout')
+	return app.redirect('/logout')
 }
 
 pub fn (mut app App) is_logged() bool {
 	println('check logged_in')
-	islogged := app.get_cookie('logged') or { return false }
-	return islogged != ''
-}
+	uuid := app.get_cookie('uuid') or { return false }
+	println('uuid: ' + uuid)
 
+	println('load session from cache')
+	mut cm := vcache.new_cache_manager([])
+	session := cm.load('.session', 'admin/session/test') or { return false }
+	
+	println('load session from json')
+	app.session = json2.decode<classe.Session>(session) or { return false }
+	println('session: ' + session)
+
+	println('return $app.session.id > 0')
+	return app.session.id > 0
+}
 
 
 ['/login']
 pub fn (mut app App) login() vweb.Result {
-	println("['/login']")
-	if app.is_logged() {	
-		return app.redirect('/')
-	}
-	else {
-		return app.file(os.join_path(os.resource_abs_path('/templates/loginwall.html')))
-	}
+	time_now := time.Time{unix: time.utc().unix_time()}
+	// app.set_cookie(
+	// 		name: 'uuid', 
+	// 		value: '',
+	// 		expires: time_now.add( - 1 * time.second )
+	// 		)
+	return app.file(os.join_path(os.resource_abs_path('/templates/loginwall.html')))
 }
 
 
@@ -137,39 +150,14 @@ pub fn (mut app App) logout() vweb.Result {
 		println("['/logout']")
 		time_now := time.Time{unix: time.utc().unix_time()}
 
-		app.set_cookie(
-			name: 'logged', 
-			value: '0',
-			expires: time_now.add( time.offset() * time.second - (24*3600) * time.second ))
-
-		app.set_cookie(
-			name: 'test', 
-			value: '0',
-			expires: time_now.add( time.offset() * time.second - (48*3600) * time.second ))
-		
-		return app.file(os.join_path(os.resource_abs_path('/templates/loginwall.html')))
-}
-
-
-[post]
-['/logout']
-pub fn (mut app App) logout_post() vweb.Result {
-		println("[post] ['/logout']")
-		time_now := time.Time{unix: time.utc().unix_time()}
-
-		app.set_cookie(
-			name: 'logged', 
-			value: '0',
-			expires: time_now.add( time.offset() * time.second - (24*3600) * time.second ))
-
-		app.set_cookie(
-			name: 'test', 
-			value: '0',
-			expires: time_now.add( time.offset() * time.second - (48*3600) * time.second ))
-		
-		app.set_cookie(name: 'last_activity', value: time.utc().unix_time().str())
-
-		return app.file(os.join_path(os.resource_abs_path('/templates/loginwall.html')))
+		// println('logout delete cookie')
+		// app.set_cookie(
+		// 		name: 'uuid', 
+		// 		value: '',
+		// 		expires: time_now.add( - 1 * time.second )
+		// 		)
+			
+		return app.redirect('/login')
 }
 
 
@@ -177,22 +165,13 @@ pub fn (mut app App) logout_post() vweb.Result {
 ['/login']
 pub fn (mut app App) login_post() ?vweb.Result {
 
-	app.factory = classe.Factory{	
-		db: app.db,
-		adminfactory: classe.AdminFactory{db: app.db}
-		}
-
 	println("============== login_post ===============")
 	// println(app.factory)
 
 
 	email := app.form['email']
 	password := app.form['password']
-	passhash := sha256.sum('$password$BO_hash_key'.bytes()).hex().str()
 
-	// println(email)
-	// println(password)
-	// println(passhash)
 
 	// if !validate.is_email(email) {
 	// 		app.error << 'Invalid email address.'
@@ -200,67 +179,60 @@ pub fn (mut app App) login_post() ?vweb.Result {
 	// if !validate.is_password_admin(password) {
 	// 		app.error << 'Invalid password.'
 	// }
-
-	println(app.error)
+	println('app.error.len' + app.error.len.str())
 	if app.error.len == 0 {
-
+			println('yo')
+			app.factory = classe.Factory{	
+				adminfactory: classe.AdminFactory{db: app.db}
+			}
+			passhash := sha256.sum('$password$BO_hash_key'.bytes()).hex().str()
+			println("test Admin")
+			println(email)
+			println(password)
+			println(passhash.str())
 			admin := app.factory.fetch_admin({'password': passhash})?
-			tool := classe.Tool{}
+			println("admin.id: " + admin.id.str())
 
-			println("============== result fetch_admin ===============")
-			println(admin)
 			if admin.id == 0 {
+					println("dmin.id == 0 ")
 					app.error << 'The admin does not exist, or the password provided is incorrect.'
 					return app.redirect('/logout')
-			} else {
 
+			} else {
+					tool := classe.Tool{}
+					
+					uuid := rand.uuid_v4()
+					println('create ses')
 					ses := classe.Session {
 						id:      			admin.id,
 						ip:       		'127.0.0.1',
 						timestamp:    time.ticks(),
-						token:        rand.uuid_v4()
+						token:        uuid
 					}
 
+					println('save session in cache')
 					ses_json := json2.encode<classe.Session>(ses)
-					time_now := time.Time{unix: time.utc().unix_time()}
-					
-					app.set_cookie(
-						name: 'logged', 
-						value: '1',
-						expires: time_now.add( time.offset() * time.second + (24*3600) * time.second )
-						)
-
-					app.set_cookie(
-						name: 'sessionhash', 
-						value: sha256.sum(ses_json.bytes()).hex().str(),
-						expires: time_now.add( time.offset() * time.second + (48*3600) * time.second )
-						)
-
-					app.set_cookie(
-						name: 'session', 
-						value: ses_json,
-						expires: time_now.add( time.offset() * time.second + (48*3600) * time.second )
-						)
-
-					app.set_cookie(name: 'last_activity', value: time.utc().unix_time().str())
-
-
 					mut cm := vcache.new_cache_manager([])
-					x := cm.save('.session', 'admin/session/admin_id', ses_json) or {
+					saved := cm.save('.session', 'admin/session/test', ses_json) or {
 						assert false
 						''
 					}
-
+					println('save session in cache: ' + saved)
+					
+					println('create cookie uuid')
+					time_now := time.Time{unix: time.utc().unix_time()}
+					app.set_cookie(
+						name: 'uuid', 
+						value: uuid,
+						expires: time_now.add( time.offset() * time.second + (48*3600) * time.second )
+						)
+					println('return index /')
 					return app.index()
 			}
-			return app.file(os.join_path(os.resource_abs_path('/templates/loginwall.html')))
+			
 	}
-
-	// if email.len > 0 && password.len > 4 {
-	// 	app.set_cookie(name: 'logged', value: '1')
-	// 	return app.redirect('/')
-	// }
-	return app.redirect('/login')
+	println('return /logout')
+	return app.redirect('/logout')
 }
 
 
@@ -298,7 +270,7 @@ pub fn (mut app App) api_test() vweb.Result {
 
 ['/api/order']
 pub fn (mut app App) api_post() ?vweb.Result {
-		get_users_query_result := app.db.query('SELECT * FROM ps_orders LIMIT 10') ?
+		get_users_query_result := app.db.query('SELECT * FROM ps_orders LIMIT 10;') ?
 		return app.json(get_users_query_result.maps())
 }
 
