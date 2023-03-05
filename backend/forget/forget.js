@@ -2,8 +2,7 @@ import AbstractView from "/templates/AbstractView.js";
 export default class extends AbstractView {
     constructor(params) {
         super(params);
-        this.setTitle("Login");
-        this.__template_path = "/backend/login.html"
-        console.log('Hello from lew/backend/login/login.js')
+        this.setTitle("Forget Password");
+        this.__template_path = "/backend/forget.html"
     }
 }

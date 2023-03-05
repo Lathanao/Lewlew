@@ -67,6 +67,7 @@ fn main() {
 
 	app.mount_static_folder_at(os.resource_abs_path('backend/account'), '/backend')
 	app.mount_static_folder_at(os.resource_abs_path('backend/login'),   '/backend')
+	app.mount_static_folder_at(os.resource_abs_path('backend/forget'),  '/backend')
 	app.mount_static_folder_at(os.resource_abs_path('static/HTMLElement'), '/wc')
 	app.mount_static_folder_at(os.resource_abs_path('static/js'), 			'/js')
 	app.mount_static_folder_at(os.resource_abs_path('static/js'), 			'/js')
@@ -161,7 +162,7 @@ pub fn (mut app App) is_logged() bool {
 
 ['/login']
 pub fn (mut app App) login() vweb.Result {
-	return app.file(os.join_path(os.resource_abs_path('/templates/loginwall.html')))
+	return app.file(os.join_path(os.resource_abs_path('/templates/login.html')))
 }
 
 ['/logout']
@@ -227,6 +228,10 @@ pub fn (mut app App) settings() vweb.Result {
 		return app.index()
 }
 
+pub fn (mut app App) forget() vweb.Result {
+		return app.file(os.join_path(os.resource_abs_path('/templates/login.html')))
+}
+
 pub fn (mut app App) before_request() {
 		app.nb_request++
 }
@@ -240,5 +245,5 @@ pub fn (mut app App) admin_forgotpassword() vweb.Result {
 	// csrf := rand.string(30)
 	// app.set_cookie(name: 'csrf', value: csrf)
 	// return $vweb.html()
-	return app.file(os.join_path(os.resource_abs_path('/templates/loginwall.html')))
+	return app.file(os.join_path(os.resource_abs_path('/templates/login.html')))
 }

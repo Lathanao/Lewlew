@@ -6,7 +6,7 @@ import Orders       from "/templates/Order.js"
 
 import Account      from "/backend/account.js"
 import Login        from "/backend/login.js"
-
+import Forget       from "/backend/forget.js"
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$")
 
@@ -33,6 +33,7 @@ const router = async () => {
         { path: "/order", view: Orders },
         { path: "/login", view: Login },
         { path: "/logout", view: Login },
+        { path: "/forget", view: Forget },
 
         { path: "/account", view: Account },
         { path: "/account/:id", view: Account }
