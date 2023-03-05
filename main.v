@@ -33,6 +33,7 @@ pub mut:
 	error		 		[]string
 	admin 			classe.Admin
 	session  		classe.Session
+	cm 					vcache.CacheManager
 }
 
 // struct ApiResponse {
@@ -64,7 +65,6 @@ fn main() {
 	// }
 
 
-
 	app.mount_static_folder_at(os.resource_abs_path('backend/account'), '/backend')
 	app.mount_static_folder_at(os.resource_abs_path('backend/login'),   '/backend')
 	app.mount_static_folder_at(os.resource_abs_path('static/HTMLElement'), '/wc')
@@ -74,26 +74,11 @@ fn main() {
 	app.mount_static_folder_at(os.resource_abs_path('static/image'), 		'/image')
 	app.mount_static_folder_at(os.resource_abs_path('templates'), 			'/templates')
 
-	// for k, v in app.static_files {
-	// 	println(k + " : " + v)
-	// }
-
-	// // app.admin = app.factory.create_admin()?
-
-	// dump(app.admin)
-
 
 	os.setenv('VCACHE', vcache_folder, true)
 	eprintln('testsuite_begin, vcache_folder = $vcache_folder')
 	os.rmdir_all(vcache_folder) or {}
 	vcache.new_cache_manager([])
-
-	// password := 'tanguy'
-	// passhash := sha256.sum('$password$BO_hash_key'.bytes()).hex().str()
-	// admin := app.factory.fetch_admin({'password': passhash})?
-
-	// println("============== return main ===============")
-	// println(admin)
 
 
 	vweb.run<App>(&app, port) 
@@ -128,7 +113,7 @@ pub fn (mut app App) index_post() ?vweb.Result {
 			passhash := sha256.sum('$password$BO_hash_key'.bytes()).hex().str()
 			admin := app.factory.fetch_admin({'password': passhash})?
 
-			if admin.id == 0 {
+			if admin.id == 0 || admin.email != email {
 					app.error << 'The admin does not exist, or the password provided is incorrect.'
 					return app.redirect('/logout')
 
@@ -137,10 +122,10 @@ pub fn (mut app App) index_post() ?vweb.Result {
 					
 					uuid := rand.uuid_v4()
 					ses := classe.Session {
-						id:      			admin.id,
-						ip:       		'127.0.0.1',
-						timestamp:    time.ticks(),
-						token:        uuid
+						uuid:      			uuid,
+						ip:       			'127.0.0.1',
+						created_at:    	time.ticks(),
+						updated_at:    	time.ticks(),
 					}
 
 					ses_json := json2.encode<classe.Session>(ses)
@@ -171,7 +156,7 @@ pub fn (mut app App) is_logged() bool {
 	session := cm.load('.session', 'admin/session/test') or { return false }
 	
 	app.session = json2.decode<classe.Session>(session) or { return false }
-	return app.session.id > 0
+	return app.session.uuid.len > 0
 }
 
 ['/login']
@@ -181,17 +166,41 @@ pub fn (mut app App) login() vweb.Result {
 
 ['/logout']
 pub fn (mut app App) logout() vweb.Result {
+	app.clean_session()
+
+	return app.redirect('/login')
+}
+
+pub fn (mut app App) clean_session() bool {
+
 	time_now := time.Time{unix: time.utc().unix_time()}
 	app.set_cookie(
 			name: 'uuid', 
 			value: '',
 			expires: time_now.add( - 1 * time.second )
 			)
-	return app.redirect('/login')
+
+	uuid := app.get_cookie('uuid') or { return false }
+	mut cm := vcache.new_cache_manager([])
+	session_to_delete := cm.exists('.session', 'admin/session') or { return false }
+	os.rm(session_to_delete) or { return false }
+	return true
+}
+
+pub fn (mut app App) check_session_exist() bool {
+
+	time_now := time.Time{unix: time.utc().unix_time()}
+	mut cm := vcache.new_cache_manager([])
+	session_to_delete := cm.exists('.session', 'admin/session') or { return false }
+	os.rm(session_to_delete) or { return false }
+	return true
 }
 
 ['/api/order']
 pub fn (mut app App) api_post() ?vweb.Result {
+		// if app.is_logged() {
+		// 	return app.json('Resource not found')
+		// }
 		get_users_query_result := app.db.query('SELECT * FROM ps_orders LIMIT 10;') ?
 		return app.json(get_users_query_result.maps())
 }

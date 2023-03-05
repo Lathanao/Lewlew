@@ -15,20 +15,20 @@ pub const (
 
 pub struct Session {
 pub mut:
-	id       			int
+	uuid       		string
 	ip       			string
-	timestamp     i64 
-	token         string 
+	created_at    i64
+	updated_at    i64
 }
 
 
 
 pub fn (s Session) to_json() string {
 	mut mp := map[string]json2.Any{}
-	mp['id'] = json2.Any(s.id)
+	mp['uuid'] = json2.Any(s.uuid)
 	mp['ip'] = json2.Any(s.ip)
-	mp['timestamp'] = json2.Any(s.timestamp)
-	mp['token'] = json2.Any(s.token)
+	mp['created_at'] = json2.Any(s.created_at)
+	mp['updated_at'] = json2.Any(s.updated_at)
 	/*
 	$for field in Employee.fields {
 		d := e.$(field.name)
@@ -45,10 +45,10 @@ pub fn (s Session) to_json() string {
 
 pub fn (mut s Session) from_json(any json2.Any) {
 	mp := any.as_map()
-	s.id = mp['id'] or { json2.Any('') }.int()
+	s.uuid = mp['uuid'] or { json2.Any('') }.str()
 	s.ip = mp['ip'] or { json2.Any(0) }.str()
-	s.timestamp = mp['timestamp'] or { json2.Any(0) }.i64()
-	s.token = mp['token'] or { json2.Any(0) }.str()
+	s.created_at = mp['created_at'] or { json2.Any(0) }.i64()
+	s.updated_at = mp['updated_at'] or { json2.Any(0) }.i64()
 }
 
 // pub fn (mut ses Session) logout() vweb.Result {

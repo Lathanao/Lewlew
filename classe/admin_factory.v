@@ -72,35 +72,20 @@ pub fn (mut a AdminFactory) fetch_admin(criteria map[string]string) ?Admin {
 }
 
 fn (a AdminFactory) hydrate (data map[string]string) Admin {
-	// println("============== hydrate ===============")
-	// println(data)
-	// println(data['id'])
   mut result := AdminEntity{}
-	// println('start for -----------')
 	$for field in AdminEntity.fields {
-		// println(field.name + "= " + field.typ.str())
 		$if field.typ is int {
-			// println(field.name)
-			
 			result.$(field.name) = data[field.name].int()
-			// println("---")
 		}
-		// $if field.typ is string {
-		// 	println(field.name + "= " + data[field.name])
-		// 	result.$(field.name) = data[field.name]
-		// 	println("---")
-		// }
-		// $if field.typ is bool {
-		// 	println(field.name + "= " + data[field.name])
-		// 	result.$(field.name) = data[field.name].bool()
-		// 	println("---")
-		// }
-		// $if field.typ is f32 {
-		// 	println(field.name + "= " + data[field.name])
-		// 	result.$(field.name) = data[field.name].f32()
-		// 	println("---")
-		// }
+		$if field.typ is string {
+			result.$(field.name) = data[field.name]
+		}
+		$if field.typ is bool {
+			result.$(field.name) = data[field.name].bool()
+		}
+		$if field.typ is f32 {
+			result.$(field.name) = data[field.name].f32()
+		}
 	}
-	println('hydrate return admin')
 	return (Admin{AdminAbstract{}, result})
 }
