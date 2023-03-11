@@ -1,7 +1,7 @@
 /* eslint no-undef: 0 */
 import { interpolateTable } from '/js/tool/interpolateTable.js'
 
-import "/wc/dropdown/dropdown.js"
+import "/component/dropdown/dropdown.js"
 
 export class WCToolbar extends HTMLElement {
   static get observedAttributes () {

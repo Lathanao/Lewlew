@@ -1,4 +1,4 @@
-export class WCGridButton extends HTMLElement {
+export class GridButton extends HTMLElement {
 
   constructor () {
     super()
@@ -65,6 +65,8 @@ export class WCGridButton extends HTMLElement {
     this.innerHTML = this.__template
     this.__initialized = true
 
+    console.log('Render button')
+    
     let buttonList = this.querySelectorAll('.modal-open')
 
     buttonList.forEach((Value, index, obj) => {
@@ -91,4 +93,4 @@ export class WCGridButton extends HTMLElement {
 
 
 
-customElements.define('wc-datagrid-button', WCGridButton)
+customElements.define('wc-datagrid-button', GridButton)

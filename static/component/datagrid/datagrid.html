@@ -8,6 +8,9 @@
         
         <wc-datagrid-pageview onClick={handleClick()}></wc-datagrid-pageview>
 
+      </div>
+      <div class="flex items-center lg:border-l lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
+
         <wc-datagrid-modal></wc-datagrid-modal>
 
         <script>
@@ -40,7 +43,6 @@
             }
           };
 
-
           function toggleModal() {
             const body = document.querySelector('body')
             const modal = document.querySelector('.modal')
@@ -48,7 +50,6 @@
             modal.classList.toggle('pointer-events-none')
             body.classList.toggle('modal-active')
           }
-
 
         </script>
 

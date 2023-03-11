@@ -1,4 +1,4 @@
-export class WCGridButtonDelete extends HTMLElement {
+export class GridButtonDelete extends HTMLElement {
 
   constructor () {
     super()
@@ -30,4 +30,4 @@ export class WCGridButtonDelete extends HTMLElement {
   }
 }
 
-customElements.define('wc-grid-button-delete', WCGridButtonDelete)
+customElements.define('wc-grid-button-delete', GridButtonDelete)

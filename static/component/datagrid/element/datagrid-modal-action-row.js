@@ -1,6 +1,6 @@
 import { interpolate } from '/static/js/tools/interpolate.js'
 
-export class WCDataGridModalActionRow extends HTMLElement {
+export class DataGridModalActionRow extends HTMLElement {
 
   constructor () {
     super()
@@ -50,4 +50,4 @@ export class WCDataGridModalActionRow extends HTMLElement {
   }
 }
 
-customElements.define('wc-datagrid-modal-action-row', WCDataGridModalActionRow)
+customElements.define('wc-datagrid-modal-action-row', DataGridModalActionRow)
