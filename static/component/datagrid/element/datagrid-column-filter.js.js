@@ -1,12 +1,13 @@
 import { interpolate } from '/static/js/tools/interpolate.js'
 
-export class WCGridViewSwitcher extends HTMLElement {
+export class GridViewSwitcher extends HTMLElement {
 
   constructor () {
     super()
     this.__initialized = false
     this.__template = ''
     this.__datasource = {}
+    console.log('------  End constructor WCGridView  ------')
   }
 
   async connectedCallback () {
@@ -37,4 +38,4 @@ export class WCGridViewSwitcher extends HTMLElement {
   }
 }
 
-customElements.define('wc-grid-view', WCGridViewSwitcher)
+customElements.define('wc-grid-view', GridViewSwitcher)

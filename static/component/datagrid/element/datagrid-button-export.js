@@ -1,4 +1,6 @@
-export class WCGridViewSwitcher extends HTMLElement {
+import { interpolate } from '/static/js/tools/interpolate.js'
+
+export class GridViewSwitcher extends HTMLElement {
 
   constructor () {
     super()
@@ -35,4 +37,4 @@ export class WCGridViewSwitcher extends HTMLElement {
   }
 }
 
-customElements.define('wc-grid-view', WCGridViewSwitcher)
+customElements.define('wc-grid-view', GridViewSwitcher)

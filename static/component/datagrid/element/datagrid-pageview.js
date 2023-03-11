@@ -1,4 +1,4 @@
-export class WCPageView extends HTMLElement {
+export class PageView extends HTMLElement {
 
   constructor () {
     super()
@@ -61,4 +61,4 @@ export class WCPageView extends HTMLElement {
   }
 }
 
-customElements.define('wc-datagrid-pageview', WCPageView)
+customElements.define('wc-datagrid-pageview', PageView)
