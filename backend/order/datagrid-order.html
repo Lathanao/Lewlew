@@ -1,0 +1,149 @@
+<h1>Orders yo</h1>
+
+<div class="mx-auto container bg-white dark:bg-gray-800 dark:bg-gray-800 shadow rounded">
+  <div class="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
+
+    <wc-datagrid-button></wc-datagrid-button>
+
+    <div class="w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
+      
+      <div class="flex items-center lg:border-l lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
+        <wc-datagrid-pageview onClick={handleClick()}></wc-datagrid-pageview>
+      </div>
+
+      <div class="flex items-center lg:border-l lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
+        <wc-datagrid-modal></wc-datagrid-modal>
+        <script>
+          var openmodal = document.querySelectorAll('.modal-open')
+          for (var i = 0; i < openmodal.length; i++) {
+            openmodal[i].addEventListener('click', function (event) {
+              event.preventDefault()
+              toggleModal()
+            })
+          }
+
+          const overlay = document.querySelector('.modal-overlay')
+          overlay.addEventListener('click', toggleModal)
+
+          var closemodal = document.querySelectorAll('.modal-close')
+          for (var i = 0; i < closemodal.length; i++) {
+            closemodal[i].addEventListener('click', toggleModal)
+          }
+
+          document.onkeydown = function (evt) {
+            evt = evt || window.event
+            var isEscape = false
+            if ("key" in evt) {
+              isEscape = (evt.key === "Escape" || evt.key === "Esc")
+            } else {
+              isEscape = (evt.keyCode === 27)
+            }
+            if (isEscape && document.body.classList.contains('modal-active')) {
+              toggleModal()
+            }
+          };
+
+          function toggleModal() {
+            const body = document.querySelector('body')
+            const modal = document.querySelector('.modal')
+            modal.classList.toggle('opacity-0')
+            modal.classList.toggle('pointer-events-none')
+            body.classList.toggle('modal-active')
+          }
+
+        </script>
+      </div>
+
+      <div class="flex items-center lg:border-l lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
+        <wc-grid-view></wc-grid-view>
+      </div>
+      
+      <div class="lg:ml-6 flex items-center">
+        <button
+          class="bg-gray-200 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded text-indigo-700 px-5 h-8 flex items-center text-sm">Download
+          All</button>
+        <div
+          class="text-white ml-4 cursor-pointer focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 w-8 h-8 rounded flex items-center justify-center">
+          <a href="/catalog/product/0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="28" height="28"
+              viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z"></path>
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <table class="min-w-full bg-white dark:bg-gray-800">
+      <thead>
+        <tr class="w-full h-16 border-gray-300 border-b py-8">
+          <th
+            class="pl-8 text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
+            <input type="checkbox"
+              class="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-white dark:bg-gray-800 outline-none"
+              onclick="checkAll(this)">
+          </th>
+
+          ${header.map(title => `
+          <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
+            ${title}</th>
+          `).join('\n')}
+
+          <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
+            <div class="opacity-0 w-2 h-2 rounded-full bg-indigo-400"></div>
+          </th>
+          <td class="text-gray-600 dark:text-gray-400 font-normal pr-8 text-left text-sm tracking-normal leading-4">
+            More</td>
+        </tr>
+      </thead>
+      <tbody>
+        ${cells.map(cell => `
+        <tr class="h-16 border-gray-300 border-b">
+          <td class="pl-8 pr-6 whitespace-no-wrap text-sm  leading-4">
+            <input type="checkbox"
+              class="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-white dark:bg-gray-800 outline-none"
+              onclick="tableInteract(this)">
+          </td>
+          <td class="pr-6 whitespace-no-wrap text-sm  tracking-normal leading-4">
+            ${cell.id_order}
+          </td>
+
+          <td class="pr-6 whitespace-no-wrap">
+            <div class="flex items-center">
+              <div class="h-8 w-8">
+                <img src="https://tuk-cdn.s3.amazonaws.com/assets/components/advance_tables/at_${cell.id}.png" alt=""
+                  class="h-full w-full rounded-full overflow-hidden shadow">
+              </div>
+              <p class="ml-2 tracking-normal leading-4 text-sm">
+                ${cell.reference}
+              </p>
+            </div>
+          </td>
+          <td class="text-sm pr-6 whitespace-no-wrap tracking-normal leading-4">
+            ${cell.conversion_rate}
+          </td>
+          <td class="text-sm pr-6 whitespace-no-wrap tracking-normal leading-4">
+            ${cell.email}
+          </td>
+          <td class="text-sm pr-6 whitespace-no-wrap tracking-normal leading-4">
+            ${cell.phone}
+          </td>
+          <td class="text-sm pr-6 whitespace-no-wrap tracking-normal leading-4">
+            ${cell.website}
+          </td>
+          <td class="pr-6">
+            <div class="w-2 h-2 rounded-full bg-indigo-400"></div>
+          </td>
+          <td class="pr-8 relative">
+
+          </td>
+        </tr>
+        `).join('\n')}
+      </tbody>
+    </table>
+  </div>
+</div>
