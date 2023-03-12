@@ -1,4 +1,4 @@
-import AbstractView from "/templates/AbstractView.js";
+import AbstractView from "/js/AbstractView.js";
 import "/component/datagrid/datagrid.js";
 
 

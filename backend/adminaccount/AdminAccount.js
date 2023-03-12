@@ -1,5 +1,5 @@
 import AbstractView from "/templates/AbstractView.js";
-import "/wc/form/form.js";
+import "/component/form/form.js";
 
 export default class extends AbstractView {
     constructor(params) {

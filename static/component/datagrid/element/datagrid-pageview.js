@@ -12,8 +12,7 @@ export class PageView extends HTMLElement {
 
     this.__template = `        
     <p class="text-base text-gray-600 dark:text-gray-400" id="page-view">Viewing 1 - 20 of 60</p>
-    <a class="text-gray-600 dark:text-gray-400 ml-2 border-transparent border cursor-pointer rounded"
-  onclick="{headerClicked}">
+    <a class="text-gray-600 dark:text-gray-400 ml-2 border-transparent border cursor-pointer rounded">
       <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="20"
         height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
         stroke-linejoin="round">
@@ -21,8 +20,7 @@ export class PageView extends HTMLElement {
         <polyline points="15 6 9 12 15 18"></polyline>
       </svg>
     </a>
-    <a class="text-gray-600 dark:text-gray-400 border-transparent border rounded focus:outline-none cursor-pointer"
-      onclick="pageView(true)">
+    <a class="text-gray-600 dark:text-gray-400 border-transparent border rounded focus:outline-none cursor-pointer">
       <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="20"
         height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
         stroke-linejoin="round">
@@ -34,26 +32,21 @@ export class PageView extends HTMLElement {
     this.render()
   }
   
-  headerClicked (e) {
-    console.log('clicked')
-    this.render()
-  }
-
-  render () {
+  render() {
     this.innerHTML = this.__template
     this.__initialized = true
+    
+    let buttonPageView = this.querySelectorAll('a')
 
-
-
-    let buttonList = this.querySelectorAll('a');
-
-    buttonList.forEach((Value, index, obj) => {
-      openmodal[index].addEventListener('click', function (event) {
+    buttonPageView.forEach((Value, index, obj) => {
+      buttonPageView[index].addEventListener('click', function (event) {
         event.preventDefault()
-        __doSomething(event)
         console.log('click action button')
+
+        console.log('dispatchEvent')
+        this.dispatchEvent(new CustomEvent('kick', {detail: {kicked: true}}));
       }); 
-    },'biding');
+    });
   }
 
   async connectadoptedCallbackedCallback () {

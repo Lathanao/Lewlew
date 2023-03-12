@@ -1,9 +1,5 @@
-import Dashboard    from "/templates/Dashboard.js"
-import Posts        from "/templates/Post.js"
-import PostView     from "/templates/PostView.js"
-import Settings     from "/templates/Settings.js"
-import Orders       from "/templates/Order.js"
-
+import Dashboard    from "/backend/dashboard.js"
+import Orders       from "/backend/order.js"
 import Account      from "/backend/account.js"
 import Login        from "/backend/login.js"
 import Forget       from "/backend/forget.js"
@@ -27,9 +23,6 @@ const navigateTo = url => {
 const router = async () => {
     const routes = [
         { path: "/", view: Dashboard },
-        { path: "/post", view: Posts },
-        { path: "/post/:id", view: PostView },
-        { path: "/settings", view: Settings },
         { path: "/order", view: Orders },
         { path: "/login", view: Login },
         { path: "/logout", view: Login },
@@ -37,8 +30,6 @@ const router = async () => {
 
         { path: "/account", view: Account },
         { path: "/account/:id", view: Account }
-
-
     ];
 
     // Test each route for potential match
@@ -73,5 +64,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+  
+
     router()
 });
+
+const Observable = async () => {
+
+	this.observers = [];
+
+	this.attach = function(observer){
+		this.observers.push(observer);
+	}
+	this.dettach = function(observer){
+		observers.switch(observers.indexOf(observer), 1);
+	}
+	this.notify = function(v){
+		for (observerKey in this.observers){
+			this.observers[observerKey].update(v);
+		}
+	}
+}
