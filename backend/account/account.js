@@ -1,6 +1,6 @@
-import AbstractView from "/templates/AbstractView.js";
+import AbstractView from "/js/AbstractView.js";
 // import "/backend/datagrid/datagrid-account.js";
-import "/wc/datagrid/datagrid.js";
+import "/component/datagrid/datagrid.js";
 
 export default class extends AbstractView {
     constructor(params) {
