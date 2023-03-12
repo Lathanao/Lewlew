@@ -81,8 +81,8 @@ export class DatagridModal extends HTMLElement {
     modalList.forEach((Value, index, obj) => {
       openmodal[index].addEventListener('click', function (event) {
         event.preventDefault()
-        __doSomething(event)
-        console.log('click action button')
+        // __doSomething(event)
+        // console.log('click action button')
       }); 
     },'biding');
   }

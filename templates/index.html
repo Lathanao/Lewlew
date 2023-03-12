@@ -21,15 +21,15 @@
       <div class="flex items-start justify-between">
         <div class="h-screen hidden lg:block my-4 ml-4 shadow-lg relative w-80">
           <wc-menu 
-            template="/wc/menu/menu.html" 
-            source="/wc/menu/menu.json"
+            template="/component/menu/menu.html" 
+            source="/component/menu/menu.json"
           ></wc-menu>
         </div>
       
         <div class="flex flex-col w-full pl-0 md:p-4 md:space-y-4">
           <wc-toolbar 
-            template="/wc/toolbar/toolbar.html" 
-            source="/wc/toolbar/toolbar.json"
+            template="/component/toolbar/toolbar.html" 
+            source="/component/toolbar/toolbar.json"
           ></wc-toolbar>
  
           <div class="overflow-auto h-screen pb-24 pt-2 pr-2 pl-2 md:pt-0 md:pr-0 md:pl-0">
@@ -40,7 +40,8 @@
     </main>
 
     <script type="module" src="/js/app.js"></script>
-    <script type="module" src="/wc/menu/menu.js"></script>
-    <script type="module" src="/wc/toolbar/toolbar.js"></script>
+    <script type="module" src="/js/abstractview.js"></script>
+    <script type="module" src="/component/menu/menu.js"></script>
+    <script type="module" src="/component/toolbar/toolbar.js"></script>
 </body>
 </html>

@@ -64,12 +64,13 @@ fn main() {
 	// 	adminfactory: classe.AdminFactory{db: &app.db}
 	// }
 
-
+	app.mount_static_folder_at(os.resource_abs_path('backend/dashboard'),'/backend')
 	app.mount_static_folder_at(os.resource_abs_path('backend/account'), '/backend')
 	app.mount_static_folder_at(os.resource_abs_path('backend/login'),   '/backend')
 	app.mount_static_folder_at(os.resource_abs_path('backend/forget'),  '/backend')
-	app.mount_static_folder_at(os.resource_abs_path('static/HTMLElement'), '/wc')
-	app.mount_static_folder_at(os.resource_abs_path('static/js'), 			'/js')
+	app.mount_static_folder_at(os.resource_abs_path('backend/order'),  	'/backend')
+	
+	app.mount_static_folder_at(os.resource_abs_path('static/component'), '/component')
 	app.mount_static_folder_at(os.resource_abs_path('static/js'), 			'/js')
 	app.mount_static_folder_at(os.resource_abs_path('static/css'), 			'/css')
 	app.mount_static_folder_at(os.resource_abs_path('static/image'), 		'/image')
@@ -151,24 +152,16 @@ pub fn (mut app App) index_post() ?vweb.Result {
 
 
 
-pub fn (mut app App) is_logged() bool {
-	uuid := app.get_cookie('uuid') or { return false }
-	mut cm := vcache.new_cache_manager([])
-	session := cm.load('.session', 'admin/session/test') or { return false }
-	
-	app.session = json2.decode<classe.Session>(session) or { return false }
-	return app.session.uuid.len > 0
-}
+
 
 ['/login']
 pub fn (mut app App) login() vweb.Result {
+	app.clean_session()
 	return app.file(os.join_path(os.resource_abs_path('/templates/login.html')))
 }
 
 ['/logout']
 pub fn (mut app App) logout() vweb.Result {
-	app.clean_session()
-
 	return app.redirect('/login')
 }
 
@@ -188,20 +181,48 @@ pub fn (mut app App) clean_session() bool {
 	return true
 }
 
-pub fn (mut app App) check_session_exist() bool {
+// pub fn (mut app App) check_session_exist() bool {
 
-	time_now := time.Time{unix: time.utc().unix_time()}
+// 	time_now := time.Time{unix: time.utc().unix_time()}
+// 	mut cm := vcache.new_cache_manager([])
+// 	session := cm.load('.session', 'admin/session') or { return false }
+// 	os.rm(session_to_delete) or { return false }
+// 	return true
+
+// 	uuid := app.get_cookie('uuid') or { return false }
+// 	println('================ check_session_exist ===================')
+// 	println(uuid)
+// 	return uuid != ''
+// }
+
+pub fn (mut app App) is_logged() bool {
+	uuid := app.get_cookie('uuid') or { return false }
+
 	mut cm := vcache.new_cache_manager([])
-	session_to_delete := cm.exists('.session', 'admin/session') or { return false }
-	os.rm(session_to_delete) or { return false }
-	return true
+	session := cm.load('.session', 'admin/session/test') or { return false }
+	println(session)
+	time.sleep(500 * time.millisecond)
+	app.session = json2.decode<classe.Session>(session) or { return false }
+	app.session.updated_at = time.ticks()
+	
+	println(session)
+	ses_json := json2.encode<classe.Session>(app.session)
+	saved := cm.save('.session', 'admin/session/test', ses_json) or { return false }
+
+	return saved.len > 0
 }
 
+
+[post]
 ['/api/order']
 pub fn (mut app App) api_post() ?vweb.Result {
 		// if app.is_logged() {
 		// 	return app.json('Resource not found')
 		// }
+		
+
+		println('/api/order')
+		println(app.is_logged())
 		get_users_query_result := app.db.query('SELECT * FROM ps_orders LIMIT 10;') ?
 		return app.json(get_users_query_result.maps())
 }

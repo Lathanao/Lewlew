@@ -39,6 +39,31 @@ export class WCDataGrid extends HTMLElement {
     this.__datasource = this.getAttribute('datasource')
     this.__column = this.getAttribute('column')
     this.__data = ""
+
+    // this.addEventListener('event-datagrid-button', this.handleDone);
+    // this.addEventListener('done', this.handleDone);
+
+    this.addEventListener('kick', function (e) {
+      console.log('get event');
+      console.log(e.detail.kicked); // true
+    })
+
+
+
+    this.addEventListener('click', (e) => {
+      console.log('checked', e.target.checked);
+      this.dispatchEvent(this.checkEvent);
+    });
+
+    this.checkEvent = new CustomEvent("checkup", {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+
+    });
+
+
+
     console.log('start datagrid')
   }
 
@@ -71,9 +96,6 @@ export class WCDataGrid extends HTMLElement {
       }).then(res => res.json())
       .then(res => this.__data = res);
     }
-
-
-
 
     // await fetch("https://jsonplaceholder.typicode.com/users")
     // .then(res => res.json())
