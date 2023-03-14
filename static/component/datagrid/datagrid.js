@@ -1,16 +1,22 @@
 /* eslint no-undef: 0 */
 import { interpolateTable } from '/js/tool/interpolateTable.js'
+import { LewElement } from  "/js/LewElement.js";
 
 import "/component/datagrid/element/datagrid-view-switcher.js";
 import "/component/datagrid/element/datagrid-button-delete.js";
 import "/component/datagrid/element/datagrid-button.js";
 import "/component/datagrid/element/datagrid-pageview.js";
 
-export class WCDataGrid extends HTMLElement {
+
+LewElement.storage = {}
+LewElement.storage.bank = "Hello bank"
+export class WCDataGrid extends LewElement {
   static get observedAttributes () {
     return ['src', 'context']
   }
   
+  static storage = {};
+
   attributeChangedCallback (name, oldValue, newValue) {
     if (!this.__initialized) { return }
     if (oldValue !== newValue) {
@@ -32,6 +38,10 @@ export class WCDataGrid extends HTMLElement {
     this.render()
   }
 
+  async update() {
+      console.log('updated')
+  }
+
   constructor () {
     super()
     this.__initialized = false
@@ -43,31 +53,40 @@ export class WCDataGrid extends HTMLElement {
     // this.addEventListener('event-datagrid-button', this.handleDone);
     // this.addEventListener('done', this.handleDone);
 
-    this.addEventListener('kick', function (e) {
-      console.log('get event');
-      console.log(e.detail.kicked); // true
-    })
+    // this.addEventListener('kick', function (e) {
+    //   console.log('get event');
+    //   console.log(e.detail.kicked); // true
+    // })
 
-
+    const customEvent = new MyEvent(
+      'custom-event',
+      {
+        bubbles: true,
+      },
+      'Something important',
+    );
 
     this.addEventListener('click', (e) => {
-      console.log('checked', e.target.checked);
-      this.dispatchEvent(this.checkEvent);
+      console.log('Click on: ', e.target.checked);
+      this.dispatchEvent(      new Event('checkup', {
+        bubbles: true,
+      }));
+      this.dispatchEvent(customEvent);
     });
 
-    this.checkEvent = new CustomEvent("checkup", {
-      bubbles: true,
-      cancelable: true,
-      composed: true,
+    // this.checkEvent = new CustomEvent("checkup", {
+    //   bubbles: true,
+    //   cancelable: true,
+    //   composed: true,
 
-    });
+    // });
 
 
 
     console.log('start datagrid')
   }
 
-  async connectedCallback () {
+  async connectedCallback() {
     
     let payload = {
       uuid: "",
@@ -113,10 +132,10 @@ export class WCDataGrid extends HTMLElement {
       .then(res => this.__template = res)
     }
 
-    console.log(this.__datasource)
-    console.log(this.__template)
-    console.log(this.__column)
-    console.log(this.__data)
+    // console.log(this.__datasource)
+    // console.log(this.__template)
+    // console.log(this.__column)
+    // console.log(this.__data)
 
     this.render()
   }
@@ -129,3 +148,15 @@ export class WCDataGrid extends HTMLElement {
 }
 
 customElements.define('wc-datagrid', WCDataGrid)
+
+
+class MyEvent extends Event {
+  constructor(name, options, importantData) {
+    super(name, options);
+    this.importantData = importantData;
+    this.dataReceived = false;
+  }
+  logImportantData() {
+    console.log(this.importantData);
+  }
+}

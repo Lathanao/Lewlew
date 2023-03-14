@@ -4,6 +4,10 @@ import Account      from "/backend/account.js"
 import Login        from "/backend/login.js"
 import Forget       from "/backend/forget.js"
 
+// LewElement.storage.bank = 'Hello Bank';
+
+
+
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$")
 
 const getParams = match => {
@@ -69,19 +73,3 @@ document.addEventListener("DOMContentLoaded", () => {
     router()
 });
 
-const Observable = async () => {
-
-	this.observers = [];
-
-	this.attach = function(observer){
-		this.observers.push(observer);
-	}
-	this.dettach = function(observer){
-		observers.switch(observers.indexOf(observer), 1);
-	}
-	this.notify = function(v){
-		for (observerKey in this.observers){
-			this.observers[observerKey].update(v);
-		}
-	}
-}
