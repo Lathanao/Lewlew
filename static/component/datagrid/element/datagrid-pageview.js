@@ -1,4 +1,6 @@
-export class PageView extends HTMLElement {
+import { LewElement } from  "/js/LewElement.js";
+
+export class PageView extends LewElement {
 
   constructor () {
     super()
@@ -6,6 +8,8 @@ export class PageView extends HTMLElement {
     this.__template = ''
     this.__datasource = {}
     this.__event = ''
+    // this.attach('wc-datagrid');
+    // this.notify('1010');
   }
 
   async connectedCallback () {
@@ -38,13 +42,18 @@ export class PageView extends HTMLElement {
     
     let buttonPageView = this.querySelectorAll('a')
 
+    console.log(this.storage)
+
     buttonPageView.forEach((Value, index, obj) => {
       buttonPageView[index].addEventListener('click', function (event) {
         event.preventDefault()
-        console.log('click action button')
+        // console.log('click action button')
 
-        console.log('dispatchEvent')
-        this.dispatchEvent(new CustomEvent('kick', {detail: {kicked: true}}));
+        // console.log('dispatchEvent')
+        // this.dispatchEvent(new CustomEvent('kick', {detail: {kicked: true}}));
+        console.log('start notify')
+        console.log(this)
+        // this.notify('1010');
       }); 
     });
   }

@@ -2,15 +2,24 @@ export class GridButton extends HTMLElement {
 
   constructor () {
     super()
+    this.__name = 'GridButton'
     this.__initialized = false
     this.__template = ''
     this.__datasource = {}
     this.__event = ''
 
-    this.addEventListener('checkup', function (e) {
+    parent.checkEvent = new CustomEvent("checkup", {
+        bubbles: true,
+        cancelable: true,
+        composed: true,
+    });
+
+    this.addEventListener('custom-event', function (e) {
       console.log('get CustomEvent');
-      console.log(e); // true
-    })
+      console.log(e); 
+      console.log(this); 
+    }, this)
+    
   }
 
   async connectedCallback () {
