@@ -40,7 +40,7 @@ class ChainElement extends HTMLElement {
       super();
       this.state = state;
       this.props = captureProps(this);
-      this.attachShadow({ mode: 'open' });
+      // this.attachShadow({ mode: 'open' });
       ChainElement.list.push(this);
       this.build();
   }
@@ -52,77 +52,16 @@ class ChainElement extends HTMLElement {
       ChainElement.list.forEach((value) => value.build());
   }
 
-  static doc = {
-      select: (q) => {
-          return document.querySelector(q);
-      },
-      selectAll: (q) => {
-          return document.querySelectorAll(q);
-      },
-      byId: (q) => {
-          return document.getElementById(q);
-      },
-      byTag: (q) => {
-          return document.getElementsByTagName(q);
-      },
-      byClass: (q) => {
-          return document.getElementsByClassName(q);
-      },
-      create: (q) => {
-          return document.createElement(q);
-      },
-      remove: (q) => {
-          return document.removeChild(q);
-      },
-      append: (q) => {
-          return document.appendChild(q);
-      },
-      replace: (q, y) => {
-          return document.replaceChild(q, y);
-      },
-  };
-
-  static shad = {
-      select: (e, q) => {
-          return e.shadowRoot.querySelector(q);
-      },
-      selectAll: (e, q) => {
-          return e.shadowRoot.querySelectorAll(q);
-      },
-      byId: (e, q) => {
-          return e.shadowRoot.getElementById(q);
-      },
-      byTag: (e, q) => {
-          return e.shadowRoot.getElementsByTagName(q);
-      },
-      byClass: (e, q) => {
-          return e.shadowRoot.getElementsByClassName(q);
-      },
-      create: (e, q) => {
-          return e.shadowRoot.createElement(q);
-      },
-      remove: (e, q) => {
-          return e.shadowRoot.removeChild(q);
-      },
-      append: (e, q) => {
-          return e.shadowRoot.appendChild(q);
-      },
-      replace: (e, q, y) => {
-          return e.shadowRoot.replaceChild(q, y);
-      },
-  };
-
-  static makeTag(name, element) {
-      window.customElements.define(name, element);
-  }
-
   builder(state, props, global, query) {
       return '';
+  }
+  postBuild(state, props, global, query) {
+    return false;
   }
 
   build() {
       this.props = captureProps(this);
-      this.shadowRoot.innerHTML = this.builder(
+      this.innerHTML = this.builder(
           this.state,
           this.props,
           ChainElement.storage,
@@ -136,12 +75,27 @@ class ChainElement extends HTMLElement {
       );
   }
 
-  postBuild(state, props, global, query) {
-      return null;
-  }
-
   setState(newState) {
       this.state = { ...this.state, ...newState };
       this.build();
   }
+  testt() {
+    console.log('test');
+  }
+
+  attach(observer) {
+    this.observers.push(observer);
+  };
+  dettach(observer) {
+    this.observers.switch(observers.indexOf(observer), 1);
+  };
+  notify(v) {
+    console.log('observerKey ======')
+    console.log(this.observers)
+    
+    for (observerKey in this.observers) {
+      console.log(observerKey)
+      this.observers[observerKey].update(v);
+    }
+  };
 }

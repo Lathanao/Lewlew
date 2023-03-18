@@ -140,7 +140,7 @@ export class WCDataGrid extends LewElement {
     this.render()
   }
 
-  render () {
+  render() {
     console.log('start render')
     this.innerHTML = interpolateTable(this.__template, this.__data, this.__column)
     this.__initialized = true
