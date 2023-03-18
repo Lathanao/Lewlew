@@ -1,4 +1,5 @@
 import AbstractView from "/js/AbstractView.js";
+import "/component/wc-blink.js";
 export default class extends AbstractView {
     constructor(params) {
         super(params);
