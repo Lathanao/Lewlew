@@ -11,8 +11,8 @@
   const keys = Object.keys(datas)
   const values = Object.values(datas)
   const headers = datas[0]
-  const thvalues = []
-  const trvalues = []
+  const headervalues = []
+  const rowvalues = []
   const th = 'header'
   const tr = 'cells'
 
@@ -20,25 +20,37 @@
   // console.log(datas[0])
   // console.log(headers)
 
+  console.log('typeof column')
+  console.log(typeof column)
 
+  console.log(column.split(','))
+  console.log(column.replace(/^\s+|\s+$/gm,''))
+  console.log('slice column')
+  console.log(column.slice(1, -1).replace(/\s/g,'').split(','))
+  
 
-  // console.log('column')
-  // console.log(column)
-
-  // console.log('thvalues')
-  // console.log(thvalues)
+  console.log('headervalues')
+  console.log(headervalues)
 
   datas.forEach(row => {
     for (var k in row) (column.indexOf(k) > -1) || delete row[k];
-    trvalues.push(row)
+    rowvalues.push(row)
   })
 
-  Object.keys(datas[0]).forEach(key => {
-    thvalues.push(key.charAt(0).toUpperCase() + key.slice(1))
+  column.slice(1, -1).replace(/\s/g,'').split(',').forEach(row => {
+    headervalues.push(row.charAt(0).toUpperCase() + row.slice(1))
   })
+
+  // Object.keys(datas[0]).forEach(key => {
+  //   console.log(key)
+  //   headervalues.push(key.charAt(0).toUpperCase() + key.slice(1))
+  // })
+
+  console.log('headervalues')
+  console.log(headervalues)
 
   try {
-    return new Function(th, tr, `return \`${template}\`;`)(thvalues, trvalues)
+    return new Function(th, tr, `return \`${template}\`;`)(headervalues, rowvalues)
   } catch (e) {
     throw new TemplateException(template, datas, e)
   }

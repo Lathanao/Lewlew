@@ -5,7 +5,14 @@
 <wc-datagrid 
     template="/backend/datagrid-order.html" 
     datasource="/api/order"
-    column="['id_order', reference, id_cart, conversion_rate, total_paid, date_add]"
+    column="[
+      id_order, 
+      reference, 
+      delivery_number,
+      email, 
+      valid, 
+      date_add
+    ]"
 ></wc-datagrid>
 
 <wc-menu-wrapper position='right'>    

@@ -7,9 +7,11 @@ import "/component/datagrid/element/datagrid-button-delete.js";
 import "/component/datagrid/element/datagrid-button.js";
 import "/component/datagrid/element/datagrid-pageview.js";
 
-
+LewElement.observers = []
 LewElement.storage = {}
-LewElement.storage.bank = "Hello bank"
+LewElement.storage.bank = "Bank works well"
+LewElement.storage.label = "Push the button"
+
 export class WCDataGrid extends LewElement {
   static get observedAttributes () {
     return ['src', 'context']
@@ -134,7 +136,7 @@ export class WCDataGrid extends LewElement {
 
     // console.log(this.__datasource)
     // console.log(this.__template)
-    // console.log(this.__column)
+    console.log(this.__column)
     // console.log(this.__data)
 
     this.render()
