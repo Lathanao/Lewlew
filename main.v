@@ -74,6 +74,7 @@ fn main() {
 	app.mount_static_folder_at(os.resource_abs_path('static/js'), 			'/js')
 	app.mount_static_folder_at(os.resource_abs_path('static/css'), 			'/css')
 	app.mount_static_folder_at(os.resource_abs_path('static/image'), 		'/image')
+	app.mount_static_folder_at(os.resource_abs_path('static/'), 		    '/')
 	app.mount_static_folder_at(os.resource_abs_path('templates'), 			'/templates')
 
 
@@ -219,12 +220,27 @@ pub fn (mut app App) api_post() ?vweb.Result {
 		// if app.is_logged() {
 		// 	return app.json('Resource not found')
 		// }
-		
+		limit := app.form['limit']
+	  offset := app.form['offset']
 
 		println('/api/order')
 		println(app.is_logged())
-		get_users_query_result := app.db.query('SELECT * FROM ps_orders LIMIT 10;') ?
-		return app.json(get_users_query_result.maps())
+		orders_result := app.db.query('SELECT *, (
+                    SELECT osl.`name`
+                    FROM `ps_order_state_lang` osl
+                    WHERE osl.`id_order_state` = o.`current_state`
+                    AND osl.`id_lang` = 2
+                    LIMIT 1
+                ) AS `state_name`, o.`date_add` AS `date_add`, o.`date_upd` AS `date_upd`
+                FROM `ps_orders` o
+                LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
+                WHERE 1
+                ORDER BY o.`date_add` DESC
+								LIMIT 10;') ?
+		map_result := orders_result.maps()
+
+		dump(map_result)
+		return app.json(map_result)
 }
 
 ['/api/employee']
