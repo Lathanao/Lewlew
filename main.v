@@ -238,8 +238,6 @@ pub fn (mut app App) api_post() ?vweb.Result {
                 ORDER BY o.`date_add` DESC
 								LIMIT 10;') ?
 		map_result := orders_result.maps()
-
-		dump(map_result)
 		return app.json(map_result)
 }
 
