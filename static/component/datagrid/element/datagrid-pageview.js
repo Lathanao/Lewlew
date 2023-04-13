@@ -1,19 +1,17 @@
-import { LewElement } from  "/js/LewElement.js";
+import { LewElement } from "/js/LewElement.js";
 
 export class PageView extends LewElement {
-
-  constructor () {
-    super()
-    this.__initialized = false
-    this.__template = ''
-    this.__datasource = {}
-    this.__event = ''
+  constructor() {
+    super();
+    this.__initialized = false;
+    this.__template = "";
+    this.__datasource = {};
+    this.__event = "";
     // this.attach('wc-datagrid');
     // this.notify('1010');
   }
 
-  async connectedCallback () {
-
+  async connectedCallback() {
     this.__template = `        
     <p class="text-base text-gray-600 dark:text-gray-400" id="page-view">Viewing 1 - 20 of 60</p>
     <a class="text-gray-600 dark:text-gray-400 ml-2 border-transparent border cursor-pointer rounded">
@@ -33,34 +31,30 @@ export class PageView extends LewElement {
       </svg>
     </a>`;
 
-    this.render()
+    this.render();
   }
-  
-  render() {
-    this.innerHTML = this.__template
-    this.__initialized = true
-    
-    let buttonPageView = this.querySelectorAll('a')
 
-    console.log(this.storage)
+  render() {
+    this.innerHTML = this.__template;
+    this.__initialized = true;
+
+    let buttonPageView = this.querySelectorAll("a");
 
     buttonPageView.forEach((Value, index, obj) => {
-      buttonPageView[index].addEventListener('click', function (event) {
-        event.preventDefault()
-        // console.log('click action button')
+      buttonPageView[index].addEventListener("click", function (event) {
+        event.preventDefault();
 
-        // console.log('dispatchEvent')
         // this.dispatchEvent(new CustomEvent('kick', {detail: {kicked: true}}));
-        console.log('start notify')
-        console.log(this)
+        console.log("start notify");
+        console.log(this);
         // this.notify('1010');
-      }); 
+      });
     });
   }
 
-  async connectadoptedCallbackedCallback () {
-    console.log('adopted')
+  async connectadoptedCallbackedCallback() {
+    console.log("adopted");
   }
 }
 
-customElements.define('wc-datagrid-pageview', PageView)
+customElements.define("wc-datagrid-pageview", PageView);

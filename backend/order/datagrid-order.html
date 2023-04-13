@@ -63,8 +63,12 @@
           </th>
 
     ${header.map(title => `
-          <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
-            ${title}</th>
+          <th class="text-gray-600 dark:text-gray-400 text-left text-sm tracking-normal leading-4">
+            <div class="cursor-pointer items-center flex mr-10">
+              ${title}
+              <img class="mx-3 opacity-0" src="/image/simple_dropdown_with_icons-svg1.svg" alt="">
+            </div>
+          </th>
     `).join('\n')}
 
           <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
@@ -93,7 +97,7 @@
           <td class="pr-6 whitespace-no-wrap">
             <div class="flex items-center">
               <div class="h-8 w-8">
-                <img src="https://tuk-cdn.s3.amazonaws.com/assets/components/advance_tables/at_${cell.id}.png" alt=""
+                <img src="/image/man.png" alt=""
                   class="h-full w-full rounded-full overflow-hidden shadow">
               </div>
               <p class="ml-2 tracking-normal leading-4 text-sm">
@@ -108,10 +112,14 @@
             ${cell.date_add}
           </td>
           <td class="pr-6">
-            <div class="w-2 h-2 rounded-full bg-indigo-400"></div>
-          </td>
-          <td class="pr-8 relative">
-
+            <wc-datagrid-modal-action-row
+              id=${cell.id_order}
+              action='{
+                "Edit": "/edit/${cell.id_order}", 
+                "Preview":"/Preview/${cell.id_order}", 
+                "Delete": "/Delete/${cell.id_order}" 
+              }'
+            />
           </td>
         </tr>
     `).join('\n')}
