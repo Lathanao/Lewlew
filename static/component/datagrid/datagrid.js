@@ -84,39 +84,19 @@ export class WCDataGrid extends LewElement {
       );
       this.dispatchEvent(customEvent);
 
-      // console.log(e.target);
-
-      for (let i = 0; i < e.target.children.length; i++) {
-        const el = e.target.children[i];
-        // console.log(el);
-        // console.log(el instanceof HTMLSelectElement);
-        // console.log(el instanceof HTMLImageElement);
-
-        if (el instanceof HTMLImageElement) {
-          toggle_carret(el);
+      Array.from(e.target.children).forEach(child => {
+        if (child instanceof HTMLImageElement) {
+          toggle_carret(child);
         }
-        // if (e.classList.contains('menu')) {
-        //   menu = e;
-        // }else if (e.classList.contains('button')) {
-        //   btn = e;
-        // }else if (e.classList.contains('menu-overflow')) {
-        //   overflow = e;
-        // }
-      }
+      })
     });
 
-    // this.checkEvent = new CustomEvent("checkup", {
-    //   bubbles: true,
-    //   cancelable: true,
-    //   composed: true,
 
-    // });
-
-    var toggle_carret = function (el) {
+    let toggle_carret = function (el) {
       LewElement.observers.forEach((value) => hide_carret(v));
 
       if (el.classList.contains("opacity-0")) {
-        hide_all_carret()
+        hide_all_carret(el)
         el.classList.remove("opacity-0");
       } else if (el.classList.contains("rotate-180")) {
         el.classList.remove("transform");
@@ -127,40 +107,25 @@ export class WCDataGrid extends LewElement {
         el.classList.add("transform");
         el.classList.add("rotate-180");
       }
-
-      // menu.classList.remove('ease-in');
-      // menu.classList.remove('duration-75');
-      // menu.classList.add('ease-out');
-      // menu.classList.add('duration-100');
-
-      // menu.classList.remove('opacity-0');
-      // menu.classList.remove('scale-95');
-      // menu.classList.add('opacity-100');
-      // menu.classList.add('scale-100');
-
-      // menu.classList.toggle("hidden");
     };
 
-    var hide_carret = function (el) {
+    let hide_carret = function (el) {
       el.classList.remove("transform");
       el.classList.remove("rotate-180");
       el.classList.remove("ease-in");
       el.classList.remove("duration-75");
+      el.classList.add("opacity-0");
     };
 
-    var hide_all_carret = function (el) {
-      // const images = el.parentNode.images;
-      console.log('-------console.log(images)--------')
-      console.log(el)
-      console.log(el.parentNode)
-      console.log(el.parentNode.images)
+    let hide_all_carret = function (el) {
+      let all_img = el.closest('tr').getElementsByTagName('img')
+      Array.from(all_img).forEach(img => {
+        hide_carret(img)
+      })
     };
-
-
-
   }
 
-  async connectedCallback() {
+  async connectedCallback(storage) {
     let payload = {
       uuid: "",
       criteria: {
@@ -168,6 +133,10 @@ export class WCDataGrid extends LewElement {
         name: "",
         email: "",
         phone: "",
+      },
+      order: {
+        by: storage.filter,
+        way: ""
       },
     };
 
