@@ -1,6 +1,5 @@
 export class WCGridButton extends HTMLElement {
-
-  constructor () {
+  constructor() {
     super()
     this.__initialized = false
     this.__template = ''
@@ -8,8 +7,7 @@ export class WCGridButton extends HTMLElement {
     this.__event = ''
   }
 
-  async connectedCallback () {
-
+  async connectedCallback() {
     this.__template = `<div class="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
     <div class="flex items-center">
         <a class="text-gray-600 dark:text-gray-400 p-2 border-transparent border bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray" href="javascript: void(0)">
@@ -51,17 +49,17 @@ export class WCGridButton extends HTMLElement {
           </svg>
         </a>
     </div>
-</div>`;
+</div>`
 
     this.render()
   }
-  
-  headerClicked (e) {
+
+  headerClicked(e) {
     console.log('clicked')
     this.render()
   }
 
-  render () {
+  render() {
     this.innerHTML = this.__template
     this.__initialized = true
 
@@ -72,11 +70,11 @@ export class WCGridButton extends HTMLElement {
         event.preventDefault()
         __doSomething(event)
         console.log('click action button')
-      }); 
-    },'biding');
+      })
+    }, 'biding')
   }
 
-  async connectadoptedCallbackedCallback () {
+  async connectadoptedCallbackedCallback() {
     console.log('adopted')
   }
 
@@ -88,7 +86,5 @@ export class WCGridButton extends HTMLElement {
     // body.classList.toggle('modal-active')
   }
 }
-
-
 
 customElements.define('wc-datagrid-button', WCGridButton)

@@ -1,13 +1,13 @@
-import AbstractView from "/js/AbstractView.js";
+import AbstractView from '/js/AbstractView.js'
 
 export default class extends AbstractView {
-    constructor(params) {
-        super(params);
-        this.setTitle("Dashboard");
-    }
+  constructor(params) {
+    super(params)
+    this.setTitle('Dashboard')
+  }
 
-    async getHtml() {
-        return `
+  async getHtml() {
+    return `
             <h1>Welcome back on AbstractView</h1>
             <p>
                 Fugiat voluptate et nisi Lorem cillum anim sit do eiusmod occaecat irure do. Reprehenderit anim fugiat sint exercitation consequat. Sit anim laborum sit amet Lorem adipisicing ullamco duis. Anim in do magna ea pariatur et.
@@ -15,6 +15,6 @@ export default class extends AbstractView {
             <p>
                 <a href="/posts" data-link>View recent posts</a>.
             </p>
-        `;
-    }
+        `
+  }
 }

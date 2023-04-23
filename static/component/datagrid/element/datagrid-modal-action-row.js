@@ -1,13 +1,12 @@
 export class DataGridModalActionRow extends HTMLElement {
-
-  constructor () {
+  constructor() {
     super()
     this.__initialized = false
     this.__template = ''
     this.__datasource = {}
   }
 
-  async connectedCallback () {
+  async connectedCallback() {
     this.__action = JSON.parse(this.getAttribute('action'))
     this.__template = `
     <div class="dropdown relative inline-block text-left">
@@ -22,58 +21,69 @@ export class DataGridModalActionRow extends HTMLElement {
     </button>
 
     <div class="menu transition ease-out duration-100 transform opacity-0 scale-95 origin-top-right absolute right-0 mt-2 w-36 z-10 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
-      <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">`;
+      <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">`
 
-      Object.keys(this.__action).forEach((k, i) => {
-        this.__template += `
-        <a  href="` + this.__action[k] + `"
+    Object.keys(this.__action).forEach((k, i) => {
+      this.__template +=
+        `
+        <a  href="` +
+        this.__action[k] +
+        `"
             class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900" role="menuitem">
           <i class="fad fa-eye text-xs mr-1"></i> 
-          ` + k + `  
+          ` +
+        k +
+        `  
         </a>`
-      });
+    })
 
-      this.__template += `
+    this.__template += `
       </div>
     </div>
-    </div>`;
+    </div>`
 
     this.render()
 
-    this.addEventListener("click", function(e) {
-      // this.notify('Notify')
-      let menu = this.querySelector('.menu')
+    this.addEventListener(
+      'click',
+      function (e) {
+        // this.notify('Notify')
+        let menu = this.querySelector('.menu')
 
-      if (menu.classList.contains('opacity-0')) {
-          menu.classList.remove('ease-in'); 
-          menu.classList.remove('duration-75'); 
-          menu.classList.add('ease-out');
-          menu.classList.add('duration-100');
+        if (menu.classList.contains('opacity-0')) {
+          menu.classList.remove('ease-in')
+          menu.classList.remove('duration-75')
+          menu.classList.add('ease-out')
+          menu.classList.add('duration-100')
 
-          menu.classList.remove('opacity-0');
-          menu.classList.remove('scale-95');  
-          menu.classList.add('opacity-100');   
-          menu.classList.add('scale-100');
-      
-          setTimeout(function(){ menu.classList.toggle("hidden"); }, 100);
-      }else{
-          menu.classList.remove('ease-in'); 
-          menu.classList.remove('duration-100');
-          menu.classList.add('ease-out');
-          menu.classList.add('duration-75');
+          menu.classList.remove('opacity-0')
+          menu.classList.remove('scale-95')
+          menu.classList.add('opacity-100')
+          menu.classList.add('scale-100')
 
-          menu.classList.remove('opacity-100'); 
-          menu.classList.remove('scale-100');
-          menu.classList.add('opacity-0');    
-          menu.classList.add('scale-95'); 
-          
-          setTimeout(function(){ menu.classList.toggle("hidden"); }, 75);
-      } 
+          setTimeout(function () {
+            menu.classList.toggle('hidden')
+          }, 100)
+        } else {
+          menu.classList.remove('ease-in')
+          menu.classList.remove('duration-100')
+          menu.classList.add('ease-out')
+          menu.classList.add('duration-75')
 
-    }.bind(this))
+          menu.classList.remove('opacity-100')
+          menu.classList.remove('scale-100')
+          menu.classList.add('opacity-0')
+          menu.classList.add('scale-95')
+
+          setTimeout(function () {
+            menu.classList.toggle('hidden')
+          }, 75)
+        }
+      }.bind(this)
+    )
   }
-  
-  render () {
+
+  render() {
     this.innerHTML = this.__template
     this.__initialized = true
   }

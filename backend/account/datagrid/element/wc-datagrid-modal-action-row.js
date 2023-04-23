@@ -1,16 +1,14 @@
 import { interpolate } from '/static/js/tools/interpolate.js'
 
 export class WCDataGridModalActionRow extends HTMLElement {
-
-  constructor () {
+  constructor() {
     super()
     this.__initialized = false
     this.__template = ''
     this.__datasource = {}
   }
 
-  async connectedCallback () {
-
+  async connectedCallback() {
     this.__template = `
     <div class="dropdown relative inline-block text-left">
 
@@ -39,12 +37,12 @@ export class WCDataGridModalActionRow extends HTMLElement {
         </a>
       </div>
     </div>
-  </div>`;
+  </div>`
 
     this.render()
   }
-  
-  render () {
+
+  render() {
     this.innerHTML = this.__template
     this.__initialized = true
   }

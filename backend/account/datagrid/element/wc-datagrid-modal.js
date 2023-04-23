@@ -1,16 +1,14 @@
 import { interpolate } from '/static/js/tools/interpolate.js'
 
 export class WCGridViewSwitcher extends HTMLElement {
-
-  constructor () {
+  constructor() {
     super()
     this.__initialized = false
     this.__template = ''
     this.__datasource = {}
   }
 
-  async connectedCallback () {
-
+  async connectedCallback() {
     this.__template = `
     <button
     class="modal-open bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full">Open
@@ -67,12 +65,12 @@ export class WCGridViewSwitcher extends HTMLElement {
 
       </div>
     </div>
-  </div>`;
+  </div>`
 
     this.render()
   }
-  
-  render () {
+
+  render() {
     this.innerHTML = this.__template
     this.__initialized = true
 
@@ -83,11 +81,11 @@ export class WCGridViewSwitcher extends HTMLElement {
         event.preventDefault()
         __doSomething(event)
         console.log('click action button')
-      }); 
-    },'biding');
+      })
+    }, 'biding')
   }
 
-  __doSomething (e) {
+  __doSomething(e) {
     const body = document.querySelector('body')
     const modal = document.querySelector('.modal')
     modal.classList.toggle('opacity-0')
@@ -95,8 +93,5 @@ export class WCGridViewSwitcher extends HTMLElement {
     body.classList.toggle('modal-active')
   }
 }
-
-
-
 
 customElements.define('wc-grid-view', WCGridViewSwitcher)

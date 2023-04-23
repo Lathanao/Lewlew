@@ -1,6 +1,5 @@
 export class GridButton extends HTMLElement {
-
-  constructor () {
+  constructor() {
     super()
     this.__name = 'GridButton'
     this.__initialized = false
@@ -8,22 +7,14 @@ export class GridButton extends HTMLElement {
     this.__datasource = {}
     this.__event = ''
 
-    parent.checkEvent = new CustomEvent("checkup", {
-        bubbles: true,
-        cancelable: true,
-        composed: true,
-    });
-
-    this.addEventListener('custom-event', function (e) {
-      console.log('get CustomEvent');
-      console.log(e); 
-      console.log(this); 
-    }, this)
-    
+    parent.checkEvent = new CustomEvent('checkup', {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+    })
   }
 
-  async connectedCallback () {
-
+  async connectedCallback() {
     this.__template = `<div class="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
     <div class="flex items-center">
         <a class="text-gray-600 dark:text-gray-400 p-2 border-transparent border bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray" href="javascript: void(0)">
@@ -66,12 +57,12 @@ export class GridButton extends HTMLElement {
           </svg>
         </a>
     </div>
-</div>`;
+</div>`
 
     this.render()
   }
-  
-  headerClicked (e) {
+
+  headerClicked(e) {
     console.log('clicked')
     this.render()
   }
@@ -79,38 +70,15 @@ export class GridButton extends HTMLElement {
   render() {
     this.innerHTML = this.__template
     this.__initialized = true
-
-    // console.log('Render button')
-    
-    // let buttonList = this.querySelectorAll('a')
-
-    // // buttonList.forEach((Value, index, obj) => {
-    // //   this.prototype = Object.create(new document.Observable());
-    // // });
-
-    // buttonList.forEach((Value, index, obj) => {
-    //   buttonList[index].addEventListener('click', function (event) {
-    //     event.preventDefault()
-    //     // this.__doSomething(event)
-    //     console.log('click action button' + document.testdata)
-    //   }); 
-    // });
   }
 
-  async connectadoptedCallbackedCallback () {
+  async connectadoptedCallbackedCallback() {
     console.log('adopted')
   }
 
   __doSomething() {
-    // const body = document.querySelector('body')
-    // const modal = document.querySelector('.modal')
-    // modal.classList.toggle('opacity-0')
-    // modal.classList.toggle('pointer-events-none')
-    // body.classList.toggle('modal-active')
     console.log('__doSomething')
   }
 }
-
-
 
 customElements.define('wc-datagrid-button', GridButton)

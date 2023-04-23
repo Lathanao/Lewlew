@@ -1,15 +1,17 @@
 /* eslint no-undef: 0 */
 import { interpolateTable } from '/js/tool/interpolateTable.js'
 
-import "/component/dropdown/dropdown.js"
+import '/component/dropdown/dropdown.js'
 
 export class WCToolbar extends HTMLElement {
-  static get observedAttributes () {
+  static get observedAttributes() {
     return ['src', 'context']
   }
-  
-  attributeChangedCallback (name, oldValue, newValue) {
-    if (!this.__initialized) { return }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (!this.__initialized) {
+      return
+    }
     if (oldValue !== newValue) {
       this[name] = newValue
     }
@@ -29,31 +31,30 @@ export class WCToolbar extends HTMLElement {
   //   this.render()
   // }
 
-  constructor () {
+  constructor() {
     super()
     this.__initialized = false
     this.__template = ''
     this.__datasource = {}
   }
 
-  async connectedCallback () {
-
+  async connectedCallback() {
     if (this.hasAttribute('source')) {
       await fetch(this.getAttribute('source'))
-      .then(res => res.json())
-      .then(res => this.__datasource = res);
+        .then((res) => res.json())
+        .then((res) => (this.__datasource = res))
     }
 
     if (this.hasAttribute('template')) {
       await fetch(this.getAttribute('template'))
-      .then(res => res.text() )
-      .then(res => this.__template = res)
+        .then((res) => res.text())
+        .then((res) => (this.__template = res))
     }
 
     this.render()
   }
 
-  render () {
+  render() {
     this.innerHTML = this.__template
     this.__initialized = true
   }
