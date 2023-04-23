@@ -1,47 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Single Page App</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Single Page App</title>
 
-    <link rel="stylesheet" href="/css/tailwind-output.css">
-    <link rel="stylesheet" href="/css/custom.css">
-    
+  <link rel="stylesheet" href="/css/tailwind-output.css">
+  <link rel="stylesheet" href="/css/custom.css">
+
 </head>
-<body>
-    <!-- <nav class="nav">
-        <a href="/" class="nav__link" data-link>Dashboard</a>
-        <a href="/posts" class="nav__link" data-link>Posts</a>
-        <a href="/settings" class="nav__link" data-link>Settings</a>
-        <a href="/orders" class="nav__link" data-link>Orders</a>
-    </nav> -->
 
-    <main class="bg-gray-100 dark:bg-gray-800 rounded-2xl relative"></main>
-      <div class="flex items-start justify-between">
-        <div class="h-screen hidden lg:block my-4 ml-4 shadow-lg relative w-80">
-          <wc-menu 
-            template="/component/menu/menu.html" 
-            source="/component/menu/menu.json"
-          ></wc-menu>
-        </div>
-      
-        <div class="flex flex-col w-full pl-0 md:p-4 md:space-y-4">
-          <wc-toolbar 
-            template="/component/toolbar/toolbar.html" 
-            source="/component/toolbar/toolbar.json"
-          ></wc-toolbar>
- 
-          <div class="overflow-auto h-screen pb-24 pt-2 pr-2 pl-2 md:pt-0 md:pr-0 md:pl-0">
-            <div id="app"></div>
-          </div>
-        </div>
+<body>
+  <main class="bg-gray-100 dark:bg-gray-800 rounded-2xl relative"></main>
+  <div class="flex items-start justify-between">
+    <div class="h-screen hidden lg:block my-4 ml-4 shadow-lg relative w-80">
+      <wc-menu template="/component/menu/menu.html" source="/component/menu/menu.json"></wc-menu>
+    </div>
+
+    <div class="flex flex-col w-full pl-0 md:p-4 md:space-y-4">
+      <wc-toolbar template="/component/toolbar/toolbar.html" source="/component/toolbar/toolbar.json"></wc-toolbar>
+
+      <div class="overflow-auto h-screen pb-24 pt-2 pr-2 pl-2 md:pt-0 md:pr-0 md:pl-0">
+        <div id="app"></div>
       </div>
-    </main>
-    
-    <script type="module" src="/js/app.js"></script>
-    <script type="module" src="/js/abstractview.js"></script>
-    <script type="module" src="/component/menu/menu.js"></script>
-    <script type="module" src="/component/toolbar/toolbar.js"></script>
+    </div>
+  </div>
+  </main>
+
+  <script type="module" src="/js/App.js"></script>
+  <script type="module" src="/js/AbstractView.js"></script>
+  <script type="module" src="/component/menu/menu.js"></script>
+  <script type="module" src="/component/toolbar/toolbar.js"></script>
 </body>
+
 </html>

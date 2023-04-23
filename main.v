@@ -222,9 +222,14 @@ pub fn (mut app App) api_post() ?vweb.Result {
 		// }
 		limit := app.form['limit']
 	  offset := app.form['offset']
+		payload := app.form['payload']
 
-		println('/api/order')
-		println(app.is_logged())
+		println('==========println(payload)==============')
+		println(app.form['json'])
+
+		out := json.decode(map[string]int, '{"one":1,"two":2,"three":3,"four":4}') ?
+		// println('/api/order')
+		// println(app.is_logged())
 		orders_result := app.db.query('SELECT *, (
                     SELECT osl.`name`
                     FROM `ps_order_state_lang` osl

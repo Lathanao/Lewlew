@@ -1,41 +1,48 @@
 const initialState = {};
 
-
 export class LewElement extends HTMLElement {
-
   constructor() {
     super(initialState);
-    // this.observers = [];
-    // this.storage = {};
   }
 
-  create(state, props, global, query) {
-    return '';
+  create(state, props, storage, query) {
+    return "";
   }
-  update(state, props, global, query) {
-    return false;
-  }
+  update(state, props, storage, query) {}
 
   static list = [];
 
   build() {
-      this.innerHTML = this.create(
-          this.state,
-          this.props,
-          LewElement.storage,
-          LewElement.query
-      );
+    this.innerHTML = this.create(
+      this.state,
+      this.props,
+      Storage.storage,
+      Storage.query
+    );
   }
 
   attach(observer) {
-    LewElement.observers.push(observer);
-  };
-  
-  dettach(observer) {
-    LewElement.observers.switch(LewElement.observers.indexOf(observer), 1);
-  };
+    Storage.observers.push(observer);
+  }
 
-  notify(v) {
-    LewElement.observers.forEach((value) => value.update(v));
+  dettach(observer) {
+    Storage.observers.switch(LewElement.observers.indexOf(observer), 1)
+  }
+
+  notify(data) {
+    Storage.observers.forEach((HTMLElement) => HTMLElement.update(data))
+  }
+
+  subscribe(event) {
+    if (typeof Storage.event[event]  === 'undefined') {
+      Storage.event[event] = []
+    }
+    Storage.event[event].push(this)
+  }
+
+  dispatch(event, data) {
+    Storage.event[event].forEach((HTMLElement) => {
+      HTMLElement.update(data)
+    })
   }
 }

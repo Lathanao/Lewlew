@@ -1,24 +1,22 @@
-<h1>Orders yo</h1>
-
 <div class="mx-auto container bg-white dark:bg-gray-800 dark:bg-gray-800 shadow rounded">
   <div class="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
 
     <wc-datagrid-button></wc-datagrid-button>
 
     <div class="w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
-      
       <div class="flex items-center lg:border-l lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
+
         <wc-datagrid-pageview></wc-datagrid-pageview>
-      </div>
 
+      </div>
       <div class="flex items-center lg:border-l lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
+
         <wc-datagrid-modal></wc-datagrid-modal>
-      </div>
 
-      <div class="flex items-center lg:border-l lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
-        <wc-grid-view></wc-grid-view>
       </div>
-      
+      <wc-grid-view></wc-grid-view>
+      <wc-blink>Blinky blink blink</wc-blink>
+
       <div class="lg:ml-6 flex items-center">
         <button
           class="bg-gray-200 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded text-indigo-700 px-5 h-8 flex items-center text-sm">Download
@@ -38,19 +36,6 @@
       </div>
     </div>
   </div>
-
-<!-- 	
-  ID id_order
-  Reference reference
-  New client	NO
-  Delivery delivery_number ? 
-  Customer email
-  Total total_paid
-  Payment module
-  Status valid
-  Date date_add
-  Actions -->
-
   <div class="">
     <table class="min-w-full bg-white dark:bg-gray-800">
       <thead>
@@ -59,17 +44,13 @@
             class="pl-8 text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
             <input type="checkbox"
               class="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-white dark:bg-gray-800 outline-none"
-            >
+              onclick="checkAll(this)">
           </th>
 
-    ${header.map(title => `
-          <th class="text-gray-600 dark:text-gray-400 text-left text-sm tracking-normal leading-4">
-            <div class="cursor-pointer items-center flex mr-10">
-              ${title}
-              <img class="mx-3 opacity-0" src="/image/simple_dropdown_with_icons-svg1.svg" alt="">
-            </div>
-          </th>
-    `).join('\n')}
+          ${header.map(title => `
+          <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
+            ${title}</th>
+          `).join('\n')}
 
           <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
             <div class="opacity-0 w-2 h-2 rounded-full bg-indigo-400"></div>
@@ -78,52 +59,9 @@
             More</td>
         </tr>
       </thead>
-      <tbody>
-    ${cells.map(cell => `
-        <tr class="h-16 border-gray-300 border-b">
-          <td class="pl-8 pr-6 whitespace-no-wrap text-sm  leading-4">
-            <input type="checkbox"
-              class="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-white dark:bg-gray-800 outline-none">
-          </td>
-          <td class="pr-6 whitespace-no-wrap text-sm  tracking-normal leading-4">
-            ${cell.id_order}
-          </td>
-          <td class="text-sm pr-6 whitespace-no-wrap tracking-normal leading-4">
-            ${cell.reference}
-          </td>
-          <td class="text-sm pr-6 whitespace-no-wrap tracking-normal leading-4">
-            ${cell.delivery_number}
-          </td>
-          <td class="pr-6 whitespace-no-wrap">
-            <div class="flex items-center">
-              <div class="h-8 w-8">
-                <img src="/image/man.png" alt=""
-                  class="h-full w-full rounded-full overflow-hidden shadow">
-              </div>
-              <p class="ml-2 tracking-normal leading-4 text-sm">
-                ${cell.email}
-              </p>
-            </div>
-          </td>
-          <td class="text-sm pr-6 whitespace-no-wrap tracking-normal leading-4">
-            ${cell.valid}
-          </td>
-          <td class="text-sm pr-6 whitespace-no-wrap tracking-normal leading-4">
-            ${cell.date_add}
-          </td>
-          <td class="pr-6">
-            <wc-datagrid-modal-action-row
-              id=${cell.id_order}
-              action='{
-                "Edit": "/edit/${cell.id_order}", 
-                "Preview":"/Preview/${cell.id_order}", 
-                "Delete": "/Delete/${cell.id_order}" 
-              }'
-            />
-          </td>
-        </tr>
-    `).join('\n')}
-      </tbody>
+
+      <wc-datagrid-tbody />
+
     </table>
   </div>
 </div>

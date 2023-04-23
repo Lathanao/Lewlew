@@ -6,15 +6,16 @@
  * @param {*} [tags] the tagged values in the template
  * @returns the template output with the tagged literals applied
  */
-export function interpolate(template, tags = {}) {
+export function interpolateRow(template, tags = {}) {
   const keys = Object.keys(tags);
   const values = Object.values(tags);
-
-  console.log(keys)
+  console.log('------------ interpolateRow ----------------')
   console.log(values)
+  console.log(template)
+  const tr = "cells";
 
   try {
-    return new Function(...keys, `return \`${template}\`;`)(...values);
+    return new Function(tr, `return \`${template}\`;`)(values);
   } catch (e) {
     throw new TemplateException(template, tags, e);
   }
