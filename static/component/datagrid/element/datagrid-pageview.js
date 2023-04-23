@@ -1,14 +1,12 @@
-import { LewElement } from "/js/LewElement.js";
+import { LewElement } from '/js/LewElement.js'
 
 export class PageView extends LewElement {
   constructor() {
-    super();
-    this.__initialized = false;
-    this.__template = "";
-    this.__datasource = {};
-    this.__event = "";
-    // this.attach('wc-datagrid');
-    // this.notify('1010');
+    super()
+    this.__initialized = false
+    this.__template = ''
+    this.__datasource = {}
+    this.__event = ''
   }
 
   async connectedCallback() {
@@ -29,32 +27,27 @@ export class PageView extends LewElement {
         <path stroke="none" d="M0 0h24v24H0z"></path>
         <polyline points="9 6 15 12 9 18"></polyline>
       </svg>
-    </a>`;
+    </a>`
 
-    this.render();
+    this.render()
   }
 
   render() {
-    this.innerHTML = this.__template;
-    this.__initialized = true;
+    this.innerHTML = this.__template
+    this.__initialized = true
 
-    let buttonPageView = this.querySelectorAll("a");
+    let buttonPageView = this.querySelectorAll('a')
 
     buttonPageView.forEach((Value, index, obj) => {
-      buttonPageView[index].addEventListener("click", function (event) {
-        event.preventDefault();
-
-        // this.dispatchEvent(new CustomEvent('kick', {detail: {kicked: true}}));
-        console.log("start notify");
-        console.log(this);
-        // this.notify('1010');
-      });
-    });
+      buttonPageView[index].addEventListener('click', function (event) {
+        event.preventDefault()
+      })
+    })
   }
 
   async connectadoptedCallbackedCallback() {
-    console.log("adopted");
+    console.log('adopted')
   }
 }
 
-customElements.define("wc-datagrid-pageview", PageView);
+customElements.define('wc-datagrid-pageview', PageView)

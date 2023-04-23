@@ -1,16 +1,16 @@
-const initialState = {};
+const initialState = {}
 
 export class LewElement extends HTMLElement {
   constructor() {
-    super(initialState);
+    super(initialState)
   }
 
   create(state, props, storage, query) {
-    return "";
+    return ''
   }
   update(state, props, storage, query) {}
 
-  static list = [];
+  static list = []
 
   build() {
     this.innerHTML = this.create(
@@ -18,11 +18,11 @@ export class LewElement extends HTMLElement {
       this.props,
       Storage.storage,
       Storage.query
-    );
+    )
   }
 
   attach(observer) {
-    Storage.observers.push(observer);
+    Storage.observers.push(observer)
   }
 
   dettach(observer) {
@@ -34,7 +34,7 @@ export class LewElement extends HTMLElement {
   }
 
   subscribe(event) {
-    if (typeof Storage.event[event]  === 'undefined') {
+    if (typeof Storage.event[event] === 'undefined') {
       Storage.event[event] = []
     }
     Storage.event[event].push(this)
