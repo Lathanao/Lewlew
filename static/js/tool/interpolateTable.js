@@ -32,7 +32,10 @@ export function interpolateTable(template, datas = {}, column) {
   //   console.log(key)
   //   headervalues.push(key.charAt(0).toUpperCase() + key.slice(1))
   // })
-
+  console.log(th)
+  console.log(tr)
+  console.log(headervalues)
+  console.log(rowvalues)
   try {
     return new Function(th, tr, `return \`${template}\`;`)(
       headervalues,

@@ -1,5 +1,7 @@
 /* eslint no-undef: 0 */
 import { interpolateTable } from "/js/tool/interpolateTable.js";
+import { interpolateRow } from "/js/tool/interpolateRow.js";
+import { interpolate } from "/js/tool/interpolate.js";
 import { LewElement } from "/js/LewElement.js";
 
 import "/component/datagrid/element/datagrid-view-switcher.js";
@@ -7,18 +9,11 @@ import "/component/datagrid/element/datagrid-button-delete.js";
 import "/component/datagrid/element/datagrid-button.js";
 import "/component/datagrid/element/datagrid-pageview.js";
 import "/component/datagrid/element/datagrid-modal-action-row.js";
-
-LewElement.observers = [];
-LewElement.storage = {};
-LewElement.storage.bank = "Bank works well";
-LewElement.storage.label = "Push the button";
-LewElement.storage.filter = [];
+import "/component/datagrid/element/datagrid-tbody.js";
 export class WCDataGrid extends LewElement {
   static get observedAttributes() {
     return ["src", "context"];
   }
-
-  static storage = {};
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (!this.__initialized) {
@@ -47,56 +42,29 @@ export class WCDataGrid extends LewElement {
     this.render();
   }
 
-  async update() {
-    console.log("updated");
-  }
-
   constructor() {
     super();
     this.__initialized = false;
     this.__template = this.getAttribute("template");
+    this.__templateTbody = '';
     this.__datasource = this.getAttribute("datasource");
     this.__column = this.getAttribute("column");
     this.__data = "";
+    this.build();
 
-    // this.addEventListener('event-datagrid-button', this.handleDone);
-    // this.addEventListener('done', this.handleDone);
-
-    // this.addEventListener('kick', function (e) {
-    //   console.log('get event');
-    //   console.log(e.detail.kicked); // true
-    // })
-
-    const customEvent = new MyEvent(
-      "custom-event",
-      {
-        bubbles: true,
-      },
-      "Something important"
-    );
-
-    this.addEventListener("click", (e) => {
-      console.log("Click on: ", e.target);
-      this.dispatchEvent(
-        new Event("checkup", {
-          bubbles: true,
-        })
-      );
-      this.dispatchEvent(customEvent);
-
-      Array.from(e.target.children).forEach(child => {
+    // this.onclick = (el) => {
+    this.addEventListener("click", (el) => {
+      Array.from(el.target.children).forEach((child) => {
         if (child instanceof HTMLImageElement) {
           toggle_carret(child);
         }
-      })
+      });
+      this.update(el);
     });
 
-
     let toggle_carret = function (el) {
-      LewElement.observers.forEach((value) => hide_carret(v));
-
       if (el.classList.contains("opacity-0")) {
-        hide_all_carret(el)
+        hide_all_carret(el);
         el.classList.remove("opacity-0");
       } else if (el.classList.contains("rotate-180")) {
         el.classList.remove("transform");
@@ -109,6 +77,13 @@ export class WCDataGrid extends LewElement {
       }
     };
 
+    let hide_all_carret = function (el) {
+      let all_img = el.closest("tr").getElementsByTagName("img");
+      Array.from(all_img).forEach((img) => {
+        hide_carret(img);
+      });
+    };
+
     let hide_carret = function (el) {
       el.classList.remove("transform");
       el.classList.remove("rotate-180");
@@ -116,16 +91,9 @@ export class WCDataGrid extends LewElement {
       el.classList.remove("duration-75");
       el.classList.add("opacity-0");
     };
-
-    let hide_all_carret = function (el) {
-      let all_img = el.closest('tr').getElementsByTagName('img')
-      Array.from(all_img).forEach(img => {
-        hide_carret(img)
-      })
-    };
   }
 
-  async connectedCallback(storage) {
+  async connectedCallback() {
     let payload = {
       uuid: "",
       criteria: {
@@ -135,13 +103,77 @@ export class WCDataGrid extends LewElement {
         phone: "",
       },
       order: {
-        by: storage.filter,
-        way: ""
+        by: "",
+        way: "",
       },
     };
 
     if (this.hasAttribute("datasource")) {
-  
+      await fetch(this.getAttribute("datasource"), {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        data: JSON.stringify(payload), // body data type must match "Content-Type" header
+      })
+        .then((res) => res.json())
+        .then((res) => (this.__data = res))
+    }
+
+    if (this.hasAttribute("template")) {
+      await fetch(this.getAttribute("template"))
+        .then((res) => res.text())
+        .then((res) => (this.__template = res))
+    }
+
+ 
+    await fetch('/backend/datagrid-tbody.html')
+      .then((res) => res.text())
+      .then((res) => (this.__templateTbody = res))
+
+
+    this.render();
+  }
+
+  async update() {
+    console.log("========== update WCDataGrid ============");
+    console.log(Storage.test);
+    Storage.yo = "yo";
+    console.log(Storage.yo);
+
+    Storage.filter = {};
+    Storage.filter.order = {};
+    Storage.filter.order.by = "Reference";
+    Storage.filter.order.way = "DESC";
+
+    console.log(Storage.filter.order.by);
+    console.log(Storage.filter.order.way);
+
+    let payload = {
+      uuid: "",
+      criteria: {
+        search: "",
+        name: "",
+        email: "",
+        phone: "",
+      },
+      order: {
+        by: Storage.filter.order.by,
+        way: Storage.filter.order.way,
+      },
+    };
+
+    var data = new FormData();
+    data.append("json", JSON.stringify(payload));
+    // console.log(data)
+
+    if (this.hasAttribute("datasource")) {
       await fetch(this.getAttribute("datasource"), {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, *cors, same-origin
@@ -159,23 +191,9 @@ export class WCDataGrid extends LewElement {
         .then((res) => (this.__data = res));
     }
 
-    // await fetch("https://jsonplaceholder.typicode.com/users")
-    // .then(res => res.json())
-    // .then(res => this.__datasource = res);
-
-    // if (this.hasAttribute('column')) {
-    //   await fetch(this.getAttribute('column'))
-    //   .then(res => res.text())
-    //   .then(res => this.column = res);
-    // }
-
-    if (this.hasAttribute("template")) {
-      await fetch(this.getAttribute("template"))
-        .then((res) => res.text())
-        .then((res) => (this.__template = res));
-    }
-
-    this.render();
+    let tbody = interpolateRow(this.__templateTbody, this.__data);
+    console.log(tbody);
+    this.innerHTML = interpolateRow(this.__templateTbody, this.__data);
   }
 
   render() {

@@ -1,24 +1,22 @@
-import { LewElement } from  "/js/LewElement.js";
-import { WCHello } from  "/component/wc-hello.js";
+import { LewElement } from "/js/LewElement.js";
+import { WCHello } from "/component/wc-hello.js";
 export class WCBlink extends LewElement {
-
-
   constructor() {
-      super()
-      this.build()     
+    super();
+    this.build();
+    
   }
 
   create(state, props, storage, query) {
- 
-    this.addEventListener("click", function(e) {
+    this.addEventListener(
+      "click",
+      function (e) {
+        console.log("Notify From blink");
+        this.notify("Notify");
 
-      console.log("Notify From blink")
-      this.notify('Notify')
-
-    }.bind(this))
-
-    console.log('Build blink')
-    console.log(storage.blink)
+        localStorage.setItem('test', test)
+      }.bind(this)
+    );
 
     const style = `<script>
                       console.log('Add js blink')
@@ -29,15 +27,10 @@ export class WCBlink extends LewElement {
                       }, 500);
                   </script>`;
 
-    const template = `<br><button id="blink">${storage.label}</button>`;
+    const template = `<br><button id="blink">Send Notif</button>`;
 
     return `${template} ${style}`;
   }
 }
 
-customElements.define('wc-blink', WCBlink)
-
-
-
-
-
+customElements.define("wc-blink", WCBlink);
