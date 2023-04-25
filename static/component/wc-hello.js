@@ -5,11 +5,6 @@ export class WCHello extends LewElement {
     super()
     this.build()
     this.attach(this)
-    // localStorage.setItem('test', 'one')
-
-    // console.log("========== LocalStorage ============")
-    // // console.log(localStorage)
-    // this.addEventListener('awesome', e => console.log("Get event from WCHello"))
   }
 
   create(state, props, storage, query) {

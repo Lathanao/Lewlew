@@ -109,7 +109,5 @@ class MyEvent extends Event {
     this.importantData = importantData
     this.dataReceived = false
   }
-  logImportantData() {
-    console.log(this.importantData)
-  }
+  logImportantData() {}
 }

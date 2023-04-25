@@ -10,7 +10,6 @@ export default class extends AbstractView {
     super(params)
     this.setTitle('Login')
     this.__template_path = '/backend/login.html'
-    console.log('Hello from lew/backend/login/login.js')
 
     const eventAwesome = new CustomEvent('awesome', {
       bubbles: true,

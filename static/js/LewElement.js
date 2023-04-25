@@ -50,8 +50,6 @@ export class LewElement extends HTMLElement {
   }
 
   dispatch(event, data) {
-    console.log('dispatch: ' + event)
-    console.log(Storage.event)
     Storage.event[event].forEach((HTMLElement) => {
       HTMLElement.update(data)
     })

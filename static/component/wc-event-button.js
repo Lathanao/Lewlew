@@ -8,7 +8,6 @@ export class WCEventButton extends LewElement {
     this.addEventListener(
       'click',
       function (e) {
-        console.log('Click on event button')
         this.dispatch('up-from-button', 'yoyo')
       }.bind(this)
     )

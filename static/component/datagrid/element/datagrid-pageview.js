@@ -45,9 +45,7 @@ export class PageView extends LewElement {
     })
   }
 
-  async connectadoptedCallbackedCallback() {
-    console.log('adopted')
-  }
+  async connectadoptedCallbackedCallback() {}
 }
 
 customElements.define('wc-datagrid-pageview', PageView)

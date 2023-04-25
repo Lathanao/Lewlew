@@ -45,7 +45,6 @@ export class WCDataGrid extends HTMLElement {
     this.__datasource = this.getAttribute('datasource')
     this.__column = this.getAttribute('column')
     this.__data = ''
-    console.log('start datagrid')
   }
 
   async connectedCallback() {
@@ -83,16 +82,10 @@ export class WCDataGrid extends HTMLElement {
         .then((res) => (this.__template = res))
     }
 
-    console.log(this.__datasource)
-    console.log(this.__template)
-    console.log(this.__column)
-    console.log(this.__data)
-
     this.render()
   }
 
   render() {
-    console.log('start render')
     this.innerHTML = interpolateTable(
       this.__template,
       this.__data,

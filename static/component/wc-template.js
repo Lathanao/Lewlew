@@ -34,30 +34,23 @@ export class WCTemplate extends HTMLElement {
   }
 
   constructor() {
-    console.log('constructor WCTemplate')
     super()
     this.__initialized = false
     this.__template = ''
     this.__context = {}
-    console.log('End constructor WCTemplate')
   }
 
   async connectedCallback() {
-    console.log('Start connectedCallback WCTemplate')
     if (this.hasAttribute('src')) {
       await this.setSrc()
     }
 
-    console.log('Mid connectedCallback WCTemplate')
     if (this.hasAttribute('context')) {
-      console.log('this.hasAttribute WCTemplate')
       await this.setContext()
     }
-    console.log('MidMid connectedCallback WCTemplate')
 
     this.render()
     this.__initialized = true
-    console.log('End connectedCallback WCTemplate')
   }
 
   async setSrc() {
@@ -73,7 +66,6 @@ export class WCTemplate extends HTMLElement {
   }
 
   async setContext() {
-    console.log(this.getAttribute('context'))
     const path = this.getAttribute('context')
     this.__context = await this.fetchContext(path)
   }

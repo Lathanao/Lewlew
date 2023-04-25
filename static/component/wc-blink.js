@@ -10,7 +10,6 @@ export class WCBlink extends LewElement {
     this.addEventListener(
       'click',
       function (e) {
-        console.log('Notify From blink')
         this.notify('Notify')
 
         localStorage.setItem('test', test)
@@ -18,11 +17,9 @@ export class WCBlink extends LewElement {
     )
 
     const style = `<script>
-                      console.log('Add js blink')
                       var blink = document.getElementById('blink')
                       setInterval(function() {
                           blink.style.opacity = (blink.style.opacity == 0 ? 1 : 0)
-                          console.log('Blink')
                       }, 500)
                   </script>`
 
