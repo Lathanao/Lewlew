@@ -79,9 +79,6 @@ class ChainElement extends HTMLElement {
     this.state = { ...this.state, ...newState }
     this.build()
   }
-  testt() {
-    console.log('test')
-  }
 
   attach(observer) {
     this.observers.push(observer)
@@ -90,11 +87,7 @@ class ChainElement extends HTMLElement {
     this.observers.switch(observers.indexOf(observer), 1)
   }
   notify(v) {
-    console.log('observerKey ======')
-    console.log(this.observers)
-
     for (observerKey in this.observers) {
-      console.log(observerKey)
       this.observers[observerKey].update(v)
     }
   }

@@ -80,7 +80,6 @@ export class WCGridViewSwitcher extends HTMLElement {
       openmodal[index].addEventListener('click', function (event) {
         event.preventDefault()
         __doSomething(event)
-        console.log('click action button')
       })
     }, 'biding')
   }

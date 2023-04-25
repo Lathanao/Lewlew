@@ -14,10 +14,6 @@ export class WCButton extends LewElement {
         })
       )
     })
-
-    this.addEventListener('awesome', (e) =>
-      console.log('Get event from WCButton')
-    )
   }
 
   create(state, props, storage, query) {

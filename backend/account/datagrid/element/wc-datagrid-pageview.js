@@ -33,7 +33,6 @@ export class WCPageView extends HTMLElement {
   }
 
   headerClicked(e) {
-    console.log('clicked')
     this.render()
   }
 
@@ -47,14 +46,11 @@ export class WCPageView extends HTMLElement {
       openmodal[index].addEventListener('click', function (event) {
         event.preventDefault()
         __doSomething(event)
-        console.log('click action button')
       })
     }, 'biding')
   }
 
-  async connectadoptedCallbackedCallback() {
-    console.log('adopted')
-  }
+  async connectadoptedCallbackedCallback() {}
 }
 
 customElements.define('wc-datagrid-pageview', WCPageView)

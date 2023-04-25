@@ -41,15 +41,11 @@ class DataGridTable extends LewElement {
         headervalues.push(row.charAt(0).toUpperCase() + row.slice(1))
       })
 
-    console.log('add_header')
-    console.log(headervalues)
-
     thead.innerHTML = interpolate(localStorage.getItem('template_thead'), {
       header: headervalues,
     })
 
     thead.onclick = (el) => {
-      console.log('thead.onclick')
       Array.from(el.target.children).forEach((child) => {
         if (child instanceof HTMLImageElement) {
           toggle_carret(child)
@@ -90,8 +86,6 @@ class DataGridTable extends LewElement {
   }
 
   async update() {
-    console.log('=========== Update DataGridTable ==============')
-
     let payload = {
       uuid: '',
       criteria: {

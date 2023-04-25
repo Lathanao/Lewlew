@@ -6,7 +6,6 @@ export class GridViewSwitcher extends HTMLElement {
     this.__initialized = false
     this.__template = ''
     this.__datasource = {}
-    console.log('------  End constructor WCGridView  ------')
   }
 
   async connectedCallback() {

@@ -63,7 +63,6 @@ export class GridButton extends HTMLElement {
   }
 
   headerClicked(e) {
-    console.log('clicked')
     this.render()
   }
 
@@ -72,13 +71,9 @@ export class GridButton extends HTMLElement {
     this.__initialized = true
   }
 
-  async connectadoptedCallbackedCallback() {
-    console.log('adopted')
-  }
+  async connectadoptedCallbackedCallback() {}
 
-  __doSomething() {
-    console.log('__doSomething')
-  }
+  __doSomething() {}
 }
 
 customElements.define('wc-datagrid-button', GridButton)

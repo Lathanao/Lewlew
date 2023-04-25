@@ -72,9 +72,7 @@ export class WCGridButton extends HTMLElement {
     }, 'biding')
   }
 
-  async connectadoptedCallbackedCallback() {
-    console.log('adopted')
-  }
+  async connectadoptedCallbackedCallback() {}
 
   __doSomething() {
     // const body = document.querySelector('body')
