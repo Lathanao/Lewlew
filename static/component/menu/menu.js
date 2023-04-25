@@ -1,6 +1,3 @@
-/* eslint no-undef: 0 */
-import { interpolateTable } from '/js/tool/interpolateTable.js'
-
 export class WCMenu extends HTMLElement {
   static get observedAttributes() {
     return ['src', 'context']

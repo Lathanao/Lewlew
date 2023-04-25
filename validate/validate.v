@@ -16,7 +16,6 @@ pub fn is_url(s string) bool {
     } else {
         return false
     }
-
 }
 
 pub fn is_email(s string) bool {

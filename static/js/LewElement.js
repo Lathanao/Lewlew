@@ -21,6 +21,15 @@ export class LewElement extends HTMLElement {
     )
   }
 
+  render() {
+    this.innerHTML = interpolateTable(
+      this.__template,
+      this.__data,
+      this.__column
+    )
+    this.__initialized = true
+  }
+
   attach(observer) {
     Storage.observers.push(observer)
   }
@@ -41,6 +50,8 @@ export class LewElement extends HTMLElement {
   }
 
   dispatch(event, data) {
+    console.log('dispatch: ' + event)
+    console.log(Storage.event)
     Storage.event[event].forEach((HTMLElement) => {
       HTMLElement.update(data)
     })
