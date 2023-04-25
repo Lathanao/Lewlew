@@ -6,17 +6,14 @@
  * @param {*} [tags] the tagged values in the template
  * @returns the template output with the tagged literals applied
  */
-export function interpolate(template, tags = {}) {
-  const keys = Object.keys(tags)
-  const values = Object.values(tags)
-
-  console.log(keys)
-  console.log(values)
+export function interpolate(template, data = {}) {
+  const keys = Object.keys(data)
+  // const values = Object.values(data)
 
   try {
-    return new Function(...keys, `return \`${template}\`;`)(...values)
+    return new Function(keys, `return \`${template}\`;`)(data[keys])
   } catch (e) {
-    throw new TemplateException(template, tags, e)
+    throw new TemplateException(template, values, e)
   }
 }
 
@@ -24,13 +21,13 @@ export function interpolate(template, tags = {}) {
  * @private
  */
 class TemplateException extends Error {
-  constructor(template, tags, message) {
+  constructor(template, data, message) {
     super()
     this.name = 'TemplateError'
     let msg = '\n------------------\n'
     msg += `Template: \`${template}\``
     msg += '\n------------------\n'
-    msg += `Tags: ${JSON.stringify(tags, null, 2)}`
+    msg += `Data: ${JSON.stringify(data, null, 2)}`
     msg += '\n------------------\n'
     msg += message
     this.message = msg

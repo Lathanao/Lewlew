@@ -55,7 +55,6 @@ export class WCGridButton extends HTMLElement {
   }
 
   headerClicked(e) {
-    console.log('clicked')
     this.render()
   }
 
@@ -69,7 +68,6 @@ export class WCGridButton extends HTMLElement {
       openmodal[index].addEventListener('click', function (event) {
         event.preventDefault()
         __doSomething(event)
-        console.log('click action button')
       })
     }, 'biding')
   }

@@ -1,0 +1,27 @@
+<thead>
+  <tr class="w-full h-16 border-gray-300 border-b py-8">
+    <th class="pl-8 text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
+      <input type="checkbox"
+        class="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-white dark:bg-gray-800 outline-none">
+    </th>
+
+    ${header
+    .map(
+    (title) => `
+    <th class="text-gray-600 dark:text-gray-400 text-left text-sm tracking-normal leading-4">
+      <div class="cursor-pointer items-center flex mr-10">
+        ${title}
+        <img class="mx-3 opacity-0" src="/image/simple_dropdown_with_icons-svg1.svg" alt="">
+      </div>
+    </th>
+    `
+    )
+    .join('\n')}
+
+    <th class="text-gray-600 dark:text-gray-400 font-normal pr-6 text-left text-sm tracking-normal leading-4">
+      <div class="opacity-0 w-2 h-2 rounded-full bg-indigo-400"></div>
+    </th>
+    <td class="text-gray-600 dark:text-gray-400 font-normal pr-8 text-left text-sm tracking-normal leading-4">
+      More</td>
+  </tr>
+</thead>
