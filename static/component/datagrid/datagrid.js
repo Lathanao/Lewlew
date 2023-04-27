@@ -42,7 +42,7 @@ export class WCDataGrid extends LewElement {
   }
 
   async connectedCallback() {
-    let payload = {
+    let criteria = {
       uuid: '',
       criteria: {
         search: '',
@@ -68,7 +68,7 @@ export class WCDataGrid extends LewElement {
         },
         redirect: 'follow', // manual, *follow, error
         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        data: JSON.stringify(payload), // body data type must match "Content-Type" header
+        data: JSON.stringify(criteria), // body data type must match "Content-Type" header
       })
         .then((res) => res.json())
         .then((res) => (this.__data = res))

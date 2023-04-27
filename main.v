@@ -36,6 +36,31 @@ pub mut:
 	cm 					vcache.CacheManager
 }
 
+struct Criteria {
+pub mut:
+    where []Where
+		orderby Orderby
+		pagelimit PageLimit
+}
+
+struct Where {
+pub mut:
+    attr string
+		value string
+}
+
+struct Orderby {
+pub mut:
+    attr string
+		way string
+}
+
+struct PageLimit {
+pub mut:
+    page string
+		number string
+}
+
 // struct ApiResponse {
 // 	token 			fn () gen_uuid_v4ish()
 // 	content 		int
@@ -213,22 +238,42 @@ pub fn (mut app App) is_logged() bool {
 	return saved.len > 0
 }
 
-
 [post]
 ['/api/order']
 pub fn (mut app App) api_post() ?vweb.Result {
 		// if app.is_logged() {
 		// 	return app.json('Resource not found')
 		// }
-		limit := app.form['limit']
-	  offset := app.form['offset']
-		payload := app.form['payload']
+		// limit := app.form['limit']
+	  // offset := app.form['offset']
+		// payload := app.form['payload']
 
-		println('==========println(payload)==============')
-		println(app.form['json'])
+		// println('========== println(payload) ==============')
+		// println(app.form['json'])
 
-		out := json.decode(map[string]int, '{"one":1,"two":2,"three":3,"four":4}') ?
-		// println('/api/order')
+		// out := json.decode(map[string]string, app.form['json']) ?
+		// println('========== out ==============')
+		// println(out)
+		mut query := ''
+		if app.form['json'] != '' {
+			out := json.decode(map[string]string, app.form['json']) ?
+
+			crit := json.decode(Criteria, app.form['json']) or { Criteria{where: [Where{'failled', 'failled'},],} }
+
+			println(crit)
+			query = make_query(crit, 'o')
+			println(query)
+		}
+
+		// if (order != '' || order != 'NONE') {
+		// 		if $order.order_attribute != '' {
+		// 				$no_hidden = true;
+		// 		}
+		// 		if $order.order_way != '' {
+		// 				$no_hidden = true;
+		// 		}
+		// }
+
 		// println(app.is_logged())
 		orders_result := app.db.query('SELECT *, (
                     SELECT osl.`name`
@@ -239,12 +284,42 @@ pub fn (mut app App) api_post() ?vweb.Result {
                 ) AS `state_name`, o.`date_add` AS `date_add`, o.`date_upd` AS `date_upd`
                 FROM `ps_orders` o
                 LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
-                WHERE 1
-                ORDER BY o.`date_add` DESC
+                ' + query + '
 								LIMIT 10;') ?
 		map_result := orders_result.maps()
 		return app.json(map_result)
 }
+
+pub fn make_query(criteria Criteria, schema_name string) string {
+
+	nb_page := 10
+	mut conjonction := ' WHERE'
+	mut condition := ''
+
+	if criteria.where.len > 0 {
+		for crit in criteria.where {
+			if crit.attr.len > 0 {
+				condition += conjonction + " $schema_name" + ".$crit.attr = $crit.value"
+				conjonction = ' AND'
+			}
+		}
+	}
+
+	if criteria.orderby.attr.len > 0 {
+		condition += ' ORDER BY $criteria.orderby.attr $criteria.orderby.way'
+	}
+
+	if criteria.pagelimit.page.len > 0 {
+		page := criteria.pagelimit.page.int()
+		number := criteria.pagelimit.number.int()
+		min := page + ( number - 1 ) * ( page - 1 ) - 1
+		max := page + ( number - 1 ) * ( page )
+		condition += ' LIMIT $max OFFSET $min'
+	}
+
+	return condition
+}
+
 
 ['/api/employee']
 pub fn (mut app App) api_employee() ?vweb.Result {
