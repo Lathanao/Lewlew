@@ -100,7 +100,6 @@ class DataGridTable extends LewElement {
 
     let set_filter_by_element = function (el) {
       console.log('======' + el.getAttribute('attr_order'))
-      console.log('======' + el.getAttribute('attr_order'))
       localStorage.setItem(
         'datagrid_order_filter_attribute',
         el.parentNode.getAttribute('filter')

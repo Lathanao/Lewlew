@@ -113,11 +113,13 @@ fn main() {
 }
 
 pub fn (mut app App) index() vweb.Result {
-	if app.is_logged() {
-		return app.file(os.join_path(os.resource_abs_path('/templates/index.html')))
-	}
+	return app.file(os.join_path(os.resource_abs_path('/templates/index.html')))
 
-	return app.redirect('/logout')
+	// if app.is_logged() {
+	// 	return app.file(os.join_path(os.resource_abs_path('/templates/index.html')))
+	// }
+
+	// return app.redirect('/logout')
 }
 
 [post]
@@ -240,12 +242,12 @@ pub fn (mut app App) is_logged() bool {
 
 ['/api/order/setup']
 pub fn (mut app App) api_order_setup() ?vweb.Result {
-	// println("============= api_order_setup =============")
+	println("============= api_order_setup =============")
 	count := app.db.query('SELECT COUNT(*) as count
 							FROM `ps_orders` o
 							LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
-							;') ?
-	
+							;') or {panic("should not get here I guess. Error is empty anyhow '$err'")}
+	println(count)
 	// fullcolumns := app.db.query('SHOW FULL COLUMNS FROM `ps_orders`;') ?
 	// map_result := orders_result.maps()
 
@@ -257,23 +259,23 @@ pub fn (mut app App) api_order_setup() ?vweb.Result {
 }
 
 
-['/api/order/:order_id']
-pub fn (mut app App) api_order_by_id(order_id string) ?vweb.Result {
-	println("============= api_order_by_id =============")
-	// println('id: $order_id')
-	orders_result := app.db.query('SELECT *, (
-									SELECT osl.`name`
-									FROM `ps_order_state_lang` osl
-									WHERE osl.`id_order_state` = o.`current_state`
-									AND osl.`id_lang` = 2
-									LIMIT 1
-							) AS `state_name`, o.`date_add` AS `date_add`, o.`date_upd` AS `date_upd`
-							FROM `ps_orders` o
-							LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
-							LIMIT 10;') ?
-	map_result := orders_result.maps()
-	return app.json(map_result)
-}
+// ['/api/order/:order_id']
+// pub fn (mut app App) api_order_by_id(order_id string) ?vweb.Result {
+// 	println("============= api_order_by_id =============")
+// 	// println('id: $order_id')
+// 	orders_result := app.db.query('SELECT *, (
+// 									SELECT osl.`name`
+// 									FROM `ps_order_state_lang` osl
+// 									WHERE osl.`id_order_state` = o.`current_state`
+// 									AND osl.`id_lang` = 2
+// 									LIMIT 1
+// 							) AS `state_name`, o.`date_add` AS `date_add`, o.`date_upd` AS `date_upd`
+// 							FROM `ps_orders` o
+// 							LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
+// 							LIMIT 10;') or {panic("should not get here I guess. Error is empty anyhow '$err'")}
+// 	map_result := orders_result.maps()
+// 	return app.json(map_result)
+// }
 
 
 
@@ -283,7 +285,7 @@ pub fn (mut app App) api_order() ?vweb.Result {
 		// if app.is_logged() {
 		// 	return app.json('Resource not found')
 		// }
-
+		println("============= api_order =============")
 		mut query := ''
 		if app.form['json'] != '' {
 			out := json.decode(map[string]string, app.form['json']) ?
@@ -295,7 +297,8 @@ pub fn (mut app App) api_order() ?vweb.Result {
 			// println(query)
 		}
 
-		orders_result := app.db.query('SELECT *, (
+		query = ''
+		sql := 'SELECT *, (
                     SELECT osl.`name`
                     FROM `ps_order_state_lang` osl
                     WHERE osl.`id_order_state` = o.`current_state`
@@ -305,8 +308,13 @@ pub fn (mut app App) api_order() ?vweb.Result {
                 FROM `ps_orders` o
                 LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
                 ' + query + '
-								LIMIT 10;') ?
+								LIMIT 10;'
+		println(sql)			
+		orders_result := app.db.query(sql) ?
+
+		println(orders_result)						
 		map_result := orders_result.maps()
+
 		return app.json(map_result)
 }
 

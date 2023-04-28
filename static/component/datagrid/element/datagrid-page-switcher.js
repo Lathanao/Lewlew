@@ -8,10 +8,10 @@ export class DatagridPageSwitcher extends LewElement {
     this.__template = ''
     this.__datasource = localStorage.getItem('datagrid_datasource')
     this.__event = ''
-    this.__count = ''
+    this.__count = this.connectedCallback()
 
-    this.__startpage = 1
-    this.__rowsbypage = 1
+    this.__currentpage = 1
+    this.__rowsbypage = 10
 
     this.__defaulttext = 'Viewing 1 - 20 of 60'
     this.__template = `
@@ -59,53 +59,87 @@ export class DatagridPageSwitcher extends LewElement {
     </div>
   </div></div>
   `
-    this.innerHTML = this.__template
-    let set_text = function (el) {
-      el.classList.remove('transform')
-      el.classList.remove('rotate-180')
-      el.classList.remove('ease-in')
-      el.classList.remove('duration-75')
-      el.classList.add('opacity-0')
-    }
+  }
+
+  update_text() {
+    // 'Viewing 1 - 20 of 60'
+
+    // page := criteria.pagelimit.page.int()
+    // number := criteria.pagelimit.number.int()
+    // min := page + ( number - 1 ) * ( page - 1 ) - 1
+    // max := page + ( number - 1 ) * ( page )
+    // condition += ' LIMIT $max OFFSET $min'
+
+    let page = this.__currentpage
+    let number = this.__rowsbypage
+    let count = this.__count
+
+    let min = page + (number - 1) * (page - 1) - 1
+    let max = page + (number - 1) * page
+
+    this.__defaulttext = 'Viewing ' + min + ' - ' + max + ' of ' + count
+    console.log('Text updated with : ' + this.__defaulttext)
   }
 
   async connectedCallback() {
+    // console.log('connectedCallback DatagridPageSwitcher')
+
+    // let res = await this.get_count().then(console.log('finish'))
+
+    // console.log('result: ' + this.__count)
+
+    this.update_text()
+    await this.get_count().then((this.innerHTML = this.__template))
+
     let buttonPageView = this.querySelectorAll('a')
 
     buttonPageView.forEach((Value, index, obj) => {
-      buttonPageView[index].addEventListener('click', function (event) {
-        event.preventDefault()
+      buttonPageView[index].addEventListener(
+        'click',
+        function (event) {
+          //event.preventDefault()
 
-        if (event.target.getAttribute('type') == 'plus') {
-          this.__startpage = this.__startpage + 1
-        } else if (
-          event.target.getAttribute('type') == 'minnus' &&
-          this.__startpage > 1
-        ) {
-          this.__startpage = this.__startpage - 1
-        }
-      })
+          console.log('buttonPageView ' + event)
+
+          if (event.target.getAttribute('type') == 'plus') {
+            this.__startpage = this.__startpage + 1
+          } else if (
+            event.target.getAttribute('type') == 'minnus' &&
+            this.__startpage > 1
+          ) {
+            this.__startpage = this.__startpage - 1
+          }
+          this.update()
+        }.bind(this)
+      )
     })
+  }
+
+  async update(data) {
+    console.log('update DatagridPageSwitcher')
+    this.update_text()
+    this.innerHTML = this.__template
   }
 
   async connectadoptedCallbackedCallback() {}
 
-  // async get_count() {
-  //   await fetch(this.__datasource + '/setup', {
-  //     method: 'GET', // *GET, POST, PUT, DELETE, etc.
-  //     mode: 'cors', // no-cors, *cors, same-origin
-  //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-  //     credentials: 'same-origin', // include, *same-origin, omit
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       // 'Content-Type': 'application/x-www-form-urlencoded',
-  //     },
-  //     redirect: 'follow', // manual, *follow, error
-  //     referrerPolicy: 'no-referrer', // body data type must match "Content-Type" header
-  //   })
-  //     .then((res) => res.json())
-  //     .then((res) => (this.__count = res))
-  // }
+  async get_count() {
+    await fetch(this.__datasource + '/setup', {
+      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // body data type must match "Content-Type" header
+    })
+      .then((res) => res.json())
+      .then((res) => (this.__count = res[0].count))
+      .then((res) => console.log(res[0].count))
+  }
 }
 
 customElements.define('wc-datagrid-page-switcher', DatagridPageSwitcher)
