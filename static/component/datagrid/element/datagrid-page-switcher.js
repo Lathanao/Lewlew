@@ -3,32 +3,33 @@ import { LewElement } from '/js/LewElement.js'
 export class DatagridPageSwitcher extends LewElement {
   constructor() {
     super()
-    console.log('DatagridPageSwitcher constructor')
-    this.__initialized = false
-    this.__template = ''
     this.__datasource = localStorage.getItem('datagrid_datasource')
+    this.__template = ''
+
     this.__event = ''
     this.__count = ''
+    this.__defaulttext = ''
 
-    this.__startpage = 1
-    this.__rowsbypage = 1
+    this.__currentpage = 1
+    this.__rowsbypage = 10
+  }
 
-    this.__defaulttext = 'Viewing 1 - 20 of 60'
-    this.__template = `
+  get_template() {
+    return `
   <div class="w-full flex flex-col lg:flex-row items-start lg:items-center justify-end">
   <div class="flex items-center lg:border-l lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
     <div class="w-full flex flex-col lg:flex-row items-start lg:items-center">
       <div class="flex items-center">
-        <p class="text-base text-gray-600 dark:text-gray-400" id="page-view">${this.__defaulttext}</p>
+        <p id="page-switcher-text" class="text-base text-gray-600 dark:text-gray-400">${this.__defaulttext}</p>
         
-        <a class="text-gray-600 dark:text-gray-400 mx-4 p-2 border-transparent border bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray">
+        <a type="minus" class="text-gray-600 dark:text-gray-400 mx-4 p-2 border-transparent border bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z"></path>
             <polyline points="15 6 9 12 15 18"></polyline>
           </svg>
         </a>
         
-        <a class="text-red-500 p-2 border-transparent border bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray">
+        <a type="plus" class="text-red-500 p-2 border-transparent border bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z"></path>
             <polyline points="9 6 15 12 9 18"></polyline>
@@ -59,53 +60,74 @@ export class DatagridPageSwitcher extends LewElement {
     </div>
   </div></div>
   `
-    this.innerHTML = this.__template
-    let set_text = function (el) {
-      el.classList.remove('transform')
-      el.classList.remove('rotate-180')
-      el.classList.remove('ease-in')
-      el.classList.remove('duration-75')
-      el.classList.add('opacity-0')
+  }
+
+  update_text() {
+    let page = this.__currentpage
+    let number = this.__rowsbypage
+    let count = this.__count
+
+    let min = page + (number - 1) * (page - 1) - 1
+    let max = page + (number - 1) * page
+
+    if (max > this.__count) {
+      max = this.__count
     }
+    return 'Viewing ' + min + ' - ' + max + ' of ' + count
   }
 
   async connectedCallback() {
+    await this.get_count().then((this.innerHTML = this.get_template()))
+
     let buttonPageView = this.querySelectorAll('a')
 
-    buttonPageView.forEach((Value, index, obj) => {
-      buttonPageView[index].addEventListener('click', function (event) {
-        event.preventDefault()
-
-        if (event.target.getAttribute('type') == 'plus') {
-          this.__startpage = this.__startpage + 1
-        } else if (
-          event.target.getAttribute('type') == 'minnus' &&
-          this.__startpage > 1
-        ) {
-          this.__startpage = this.__startpage - 1
+    buttonPageView.forEach((el) => {
+      el.onclick = (ev) => {
+        if (el.getAttribute('type') == 'plus') {
+          let max = Math.trunc(this.__count / this.__rowsbypage)
+          if (this.__count % this.__rowsbypage > 0) {
+            max = max + 1
+          }
+          if (this.__currentpage < max) {
+            this.__currentpage = this.__currentpage + 1
+          }
         }
-      })
+        if (el.getAttribute('type') == 'minus' && this.__currentpage > 1) {
+          this.__currentpage = this.__currentpage - 1
+        }
+        this.update()
+      }
     })
+
+    let select = this.querySelectorAll('select')[0]
+    select.onclick = (ev) => {
+      this.__rowsbypage = select.options[select.selectedIndex].value
+      this.update()
+    }
+  }
+
+  async update(data) {
+    this.getElementsByTagName('p')[0].textContent = this.update_text()
   }
 
   async connectadoptedCallbackedCallback() {}
 
-  // async get_count() {
-  //   await fetch(this.__datasource + '/setup', {
-  //     method: 'GET', // *GET, POST, PUT, DELETE, etc.
-  //     mode: 'cors', // no-cors, *cors, same-origin
-  //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-  //     credentials: 'same-origin', // include, *same-origin, omit
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       // 'Content-Type': 'application/x-www-form-urlencoded',
-  //     },
-  //     redirect: 'follow', // manual, *follow, error
-  //     referrerPolicy: 'no-referrer', // body data type must match "Content-Type" header
-  //   })
-  //     .then((res) => res.json())
-  //     .then((res) => (this.__count = res))
-  // }
+  async get_count() {
+    await fetch(this.__datasource + '/setup', {
+      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // body data type must match "Content-Type" header
+    })
+      .then((res) => res.json())
+      .then((res) => (this.__count = res[0].count))
+  }
 }
 
 customElements.define('wc-datagrid-page-switcher', DatagridPageSwitcher)
