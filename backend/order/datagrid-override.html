@@ -1,20 +1,8 @@
-<div class="mx-auto container bg-white dark:bg-gray-800 dark:bg-gray-800 shadow rounded">
-  <div class="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
-
-    <wc-datagrid-button></wc-datagrid-button>
-
-    <div class="w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
-
-      <wc-datagrid-page-switcher></wc-datagrid-page-switcher>
-
-      <wc-datagrid-export></wc-datagrid-export>
-
-      <wc-datagrid-option></wc-datagrid-option>
-
-      <wc-datagrid-view></wc-datagrid-view>
-
-    </div>
-  </div>
-
-  <wc-datagrid-table></wc-datagrid-table>
+<div class="grid grid-cols-2 lg:pt-8 gap-4">
+  <wc-datagrid-search></wc-datagrid-search>
+  <wc-datagrid-button></wc-datagrid-button>
+  <wc-datagrid-action></wc-datagrid-action>
+  <wc-datagrid-switcher></wc-datagrid-switcher>
 </div>
+
+<wc-datagrid-table></wc-datagrid-table>

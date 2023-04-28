@@ -1,5 +1,8 @@
-<wc-datagrid template="/backend/datagrid-override.html" template_tbody="/backend/datagrid-tbody.html"
-  template_thead="/backend/datagrid-thead.html" datasource="/api/order" column="[
+<wc-datagrid datasource="/api/order" template="/backend/datagrid-override.html"
+  template_tbody="/backend/datagrid-tbody.html" template_thead="/backend/datagrid-thead.html" searched_tables="[
+      ps_orders, 
+      ps_customer
+    ]" column="[
       id_order, 
       reference, 
       delivery_number,

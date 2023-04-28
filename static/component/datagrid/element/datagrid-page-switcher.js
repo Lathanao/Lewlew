@@ -17,7 +17,7 @@ export class DatagridPageSwitcher extends LewElement {
   get_template() {
     return `
   <div class="w-full flex flex-col lg:flex-row items-start lg:items-center justify-end">
-  <div class="flex items-center lg:border-l lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
+  <div class="flex items-center lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
     <div class="w-full flex flex-col lg:flex-row items-start lg:items-center">
       <div class="flex items-center">
         <p id="page-switcher-text" class="text-base text-gray-600 dark:text-gray-400">${this.__defaulttext}</p>
@@ -58,7 +58,8 @@ export class DatagridPageSwitcher extends LewElement {
         <option>1000</option>
       </select>
     </div>
-  </div></div>
+  </div>
+  </div>
   `
   }
 
@@ -133,4 +134,4 @@ export class DatagridPageSwitcher extends LewElement {
   }
 }
 
-customElements.define('wc-datagrid-page-switcher', DatagridPageSwitcher)
+customElements.define('wc-datagrid-switcher', DatagridPageSwitcher)
