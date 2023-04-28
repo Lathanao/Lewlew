@@ -133,7 +133,7 @@ pub fn (mut app App) index_post() ?vweb.Result {
 	// if !validate.is_password_admin(password) {
 	// 		app.error << 'Invalid password.'
 	// }
-	println('app.error.len' + app.error.len.str())
+	// println('app.error.len' + app.error.len.str())
 	if app.error.len == 0 {
 			app.factory = classe.Factory{	
 				adminfactory: classe.AdminFactory{db: app.db}
@@ -238,43 +238,63 @@ pub fn (mut app App) is_logged() bool {
 	return saved.len > 0
 }
 
+['/api/order/setup']
+pub fn (mut app App) api_order_setup() ?vweb.Result {
+	// println("============= api_order_setup =============")
+	count := app.db.query('SELECT COUNT(*) as count
+							FROM `ps_orders` o
+							LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
+							;') ?
+	
+	// fullcolumns := app.db.query('SHOW FULL COLUMNS FROM `ps_orders`;') ?
+	// map_result := orders_result.maps()
+
+	// println("============= api_order_setup =============")
+	// println(map_result[0])
+	// println(typeof(map_result[0]))
+
+	return app.json(count.maps())
+}
+
+
+['/api/order/:order_id']
+pub fn (mut app App) api_order_by_id(order_id string) ?vweb.Result {
+	println("============= api_order_by_id =============")
+	// println('id: $order_id')
+	orders_result := app.db.query('SELECT *, (
+									SELECT osl.`name`
+									FROM `ps_order_state_lang` osl
+									WHERE osl.`id_order_state` = o.`current_state`
+									AND osl.`id_lang` = 2
+									LIMIT 1
+							) AS `state_name`, o.`date_add` AS `date_add`, o.`date_upd` AS `date_upd`
+							FROM `ps_orders` o
+							LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
+							LIMIT 10;') ?
+	map_result := orders_result.maps()
+	return app.json(map_result)
+}
+
+
+
 [post]
 ['/api/order']
-pub fn (mut app App) api_post() ?vweb.Result {
+pub fn (mut app App) api_order() ?vweb.Result {
 		// if app.is_logged() {
 		// 	return app.json('Resource not found')
 		// }
-		// limit := app.form['limit']
-	  // offset := app.form['offset']
-		// payload := app.form['payload']
 
-		// println('========== println(payload) ==============')
-		// println(app.form['json'])
-
-		// out := json.decode(map[string]string, app.form['json']) ?
-		// println('========== out ==============')
-		// println(out)
 		mut query := ''
 		if app.form['json'] != '' {
 			out := json.decode(map[string]string, app.form['json']) ?
 
 			crit := json.decode(Criteria, app.form['json']) or { Criteria{where: [Where{'failled', 'failled'},],} }
 
-			println(crit)
+			// println(crit)
 			query = make_query(crit, 'o')
-			println(query)
+			// println(query)
 		}
 
-		// if (order != '' || order != 'NONE') {
-		// 		if $order.order_attribute != '' {
-		// 				$no_hidden = true;
-		// 		}
-		// 		if $order.order_way != '' {
-		// 				$no_hidden = true;
-		// 		}
-		// }
-
-		// println(app.is_logged())
 		orders_result := app.db.query('SELECT *, (
                     SELECT osl.`name`
                     FROM `ps_order_state_lang` osl

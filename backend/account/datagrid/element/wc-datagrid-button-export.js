@@ -1,6 +1,6 @@
 import { interpolate } from '/static/js/tools/interpolate.js'
 
-export class WCGridViewSwitcher extends HTMLElement {
+export class DatagridButtonExport extends HTMLElement {
   constructor() {
     super()
     this.__initialized = false
@@ -35,4 +35,4 @@ export class WCGridViewSwitcher extends HTMLElement {
   }
 }
 
-customElements.define('wc-grid-view', WCGridViewSwitcher)
+customElements.define('wc-datagrid-button-export', DatagridButtonExport)

@@ -1,38 +1,31 @@
-import { interpolate } from '/static/js/tools/interpolate.js'
-
-export class GridViewSwitcher extends HTMLElement {
+export class DataGridButtonOption extends HTMLElement {
   constructor() {
     super()
-    this.__initialized = false
     this.__template = ''
-    this.__datasource = {}
   }
 
   async connectedCallback() {
     this.__template = `
-    <div class="flex items-center lg:border-r border-gray-300 pb-3 lg:pb-0 lg:px-6">
-      <div class="relative w-32 z-10">
-        <div class="pointer-events-none text-gray-600 dark:text-gray-400 absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-chevron-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z"></path>
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
+      <div class="lg:ml-6 flex items-center">
+        <button
+          class="bg-gray-200 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded text-indigo-700 px-5 h-8 flex items-center text-sm">Download
+          All</button>
+        <div
+          class="text-white ml-4 cursor-pointer focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 w-8 h-8 rounded flex items-center justify-center">
+          <a href="/catalog/product/0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="28" height="28"
+              viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z"></path>
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </a>
         </div>
+      </div>`
 
-        <select aria-label="Selected tab" class="focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray text-base form-select block w-full py-2 px-2 xl:px-3 rounded text-gray-600 dark:text-gray-400 appearance-none bg-transparent">
-          <option>List View</option>
-          <option>Grid View</option>
-        </select>
-      </div>
-    </div>`
-
-    this.render()
-  }
-
-  render() {
     this.innerHTML = this.__template
-    this.__initialized = true
   }
 }
 
-customElements.define('wc-grid-view', GridViewSwitcher)
+customElements.define('wc-datagrid-option', DataGridButtonOption)

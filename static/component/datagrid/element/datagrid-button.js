@@ -1,17 +1,8 @@
-export class GridButton extends HTMLElement {
+export class DataGridButton extends HTMLElement {
   constructor() {
     super()
     this.__name = 'GridButton'
-    this.__initialized = false
     this.__template = ''
-    this.__datasource = {}
-    this.__event = ''
-
-    parent.checkEvent = new CustomEvent('checkup', {
-      bubbles: true,
-      cancelable: true,
-      composed: true,
-    })
   }
 
   async connectedCallback() {
@@ -25,7 +16,6 @@ export class GridButton extends HTMLElement {
             <line x1="16" y1="5" x2="19" y2="8"></line>
           </svg>
         </a>
-        yo
         <a class="text-gray-600 dark:text-gray-400 mx-2 p-2 border-transparent border bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray" href="javascript: void(0)">
           <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-settings" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z"></path>
@@ -59,16 +49,7 @@ export class GridButton extends HTMLElement {
     </div>
 </div>`
 
-    this.render()
-  }
-
-  headerClicked(e) {
-    this.render()
-  }
-
-  render() {
     this.innerHTML = this.__template
-    this.__initialized = true
   }
 
   async connectadoptedCallbackedCallback() {}
@@ -76,4 +57,4 @@ export class GridButton extends HTMLElement {
   __doSomething() {}
 }
 
-customElements.define('wc-datagrid-button', GridButton)
+customElements.define('wc-datagrid-button', DataGridButton)

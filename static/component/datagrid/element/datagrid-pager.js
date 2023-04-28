@@ -1,6 +1,4 @@
-import { interpolate } from '/static/js/tools/interpolate.js'
-
-export class GridViewSwitcher extends HTMLElement {
+export class DatagridPager extends HTMLElement {
   constructor() {
     super()
     this.__initialized = false
@@ -35,4 +33,4 @@ export class GridViewSwitcher extends HTMLElement {
   }
 }
 
-customElements.define('wc-grid-view', GridViewSwitcher)
+customElements.define('wc-datagrid-pager', DatagridPager)
