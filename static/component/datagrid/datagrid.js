@@ -1,15 +1,13 @@
-/* eslint no-undef: 0 */
-import { interpolateTable } from '/js/tool/interpolateTable.js'
-import { interpolateRow } from '/js/tool/interpolateRow.js'
-import { interpolate } from '/js/tool/interpolate.js'
 import { LewElement } from '/js/LewElement.js'
 
+import '/component/datagrid/element/datagrid-page-switcher.js'
 import '/component/datagrid/element/datagrid-view-switcher.js'
 import '/component/datagrid/element/datagrid-button-delete.js'
+import '/component/datagrid/element/datagrid-button-export.js'
 import '/component/datagrid/element/datagrid-button.js'
-import '/component/datagrid/element/datagrid-pageview.js'
-import '/component/datagrid/element/datagrid-modal-action-row.js'
+import '/component/datagrid/element/datagrid-modal.js'
 import '/component/datagrid/element/datagrid-table.js'
+
 export class WCDataGrid extends LewElement {
   static get observedAttributes() {
     return ['src', 'context']
@@ -32,10 +30,10 @@ export class WCDataGrid extends LewElement {
     this.__datasource = this.getAttribute('datasource')
     this.__column = this.getAttribute('column')
     this.__data = ''
+    this.__setup = ''
     this.build()
 
     localStorage.setItem('datagrid_template', this.__template)
-
     localStorage.setItem('datagrid_datasource', this.__datasource)
     localStorage.setItem('datagrid_column', this.__column)
     localStorage.setItem('datagrid_data', this.__data)

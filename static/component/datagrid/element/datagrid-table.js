@@ -1,4 +1,3 @@
-import { interpolateRow } from '/js/tool/interpolateRow.js'
 import { interpolate } from '/js/tool/interpolate.js'
 import { LewElement } from '/js/LewElement.js'
 
@@ -48,8 +47,8 @@ class DataGridTable extends LewElement {
       header: headervalues,
     })
 
-    thead.onclick = (el) => {
-      Array.from(el.target.children).forEach((child) => {
+    thead.onclick = (ev) => {
+      Array.from(ev.target.children).forEach((child) => {
         if (child instanceof HTMLImageElement) {
           console.log(child)
           toggle_carret(child)
