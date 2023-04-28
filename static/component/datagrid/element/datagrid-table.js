@@ -136,11 +136,13 @@ class DataGridTable extends LewElement {
         attr: localStorage.getItem('datagrid_order_filter_attribute'),
         way: localStorage.getItem('datagrid_order_filter_way'),
       },
-      pagelimit: {
-        page: 10,
-        number: 20,
+      limit: {
+        currentpage: localStorage.getItem('datagrid_order_limit_currentpage'),
+        rowsbypage: localStorage.getItem('datagrid_order_limit_rowsbypage'),
       },
     }
+
+    console.log(criteria)
 
     if (this.__datasource !== 'undefined') {
       await fetch(this.__datasource, {

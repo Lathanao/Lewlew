@@ -40,7 +40,7 @@ struct Criteria {
 pub mut:
     where []Where
 		orderby Orderby
-		pagelimit PageLimit
+		limit Limit
 }
 
 struct Where {
@@ -55,10 +55,10 @@ pub mut:
 		way string
 }
 
-struct PageLimit {
+struct Limit {
 pub mut:
-    page string
-		number string
+    currentpage string
+		rowsbypage string
 }
 
 // struct ApiResponse {
@@ -176,10 +176,6 @@ pub fn (mut app App) index_post() ?vweb.Result {
 	return app.redirect('/logout')
 }
 
-
-
-
-
 ['/login']
 pub fn (mut app App) login() vweb.Result {
 	app.clean_session()
@@ -256,7 +252,6 @@ pub fn (mut app App) api_order_setup() ?vweb.Result {
 	return app.json(count.maps())
 }
 
-
 ['/api/order/:order_id']
 pub fn (mut app App) api_order_by_id(order_id string) ?vweb.Result {
 	println("============= api_order_by_id =============")
@@ -275,8 +270,6 @@ pub fn (mut app App) api_order_by_id(order_id string) ?vweb.Result {
 	return app.json(map_result)
 }
 
-
-
 [post]
 ['/api/order']
 pub fn (mut app App) api_order() ?vweb.Result {
@@ -289,10 +282,7 @@ pub fn (mut app App) api_order() ?vweb.Result {
 			out := json.decode(map[string]string, app.form['json']) ?
 
 			crit := json.decode(Criteria, app.form['json']) or { Criteria{where: [Where{'failled', 'failled'},],} }
-
-			// println(crit)
 			query = make_query(crit, 'o')
-			// println(query)
 		}
 
 		orders_result := app.db.query('SELECT *, (
@@ -304,12 +294,17 @@ pub fn (mut app App) api_order() ?vweb.Result {
                 ) AS `state_name`, o.`date_add` AS `date_add`, o.`date_upd` AS `date_upd`
                 FROM `ps_orders` o
                 LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
-                ' + query + '
-								LIMIT 10;') ?
+                ' + query + ';') ?
 		map_result := orders_result.maps()
 		return app.json(map_result)
 }
 
+
+// struct Limit {
+// pub mut:
+//     currentpage string
+// 		rowsbypage string
+// }
 pub fn make_query(criteria Criteria, schema_name string) string {
 
 	nb_page := 10
@@ -329,14 +324,14 @@ pub fn make_query(criteria Criteria, schema_name string) string {
 		condition += ' ORDER BY $criteria.orderby.attr $criteria.orderby.way'
 	}
 
-	if criteria.pagelimit.page.len > 0 {
-		page := criteria.pagelimit.page.int()
-		number := criteria.pagelimit.number.int()
+	if criteria.limit.currentpage.len > 0 {
+		page := criteria.limit.currentpage.int()
+		number := criteria.limit.rowsbypage.int()
 		min := page + ( number - 1 ) * ( page - 1 ) - 1
 		max := page + ( number - 1 ) * ( page )
 		condition += ' LIMIT $max OFFSET $min'
 	}
-
+	println(condition)
 	return condition
 }
 

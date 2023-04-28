@@ -108,6 +108,9 @@ export class DatagridPageSwitcher extends LewElement {
 
   async update(data) {
     this.getElementsByTagName('p')[0].textContent = this.update_text()
+    localStorage.setItem('datagrid_order_limit_rowsbypage', this.__rowsbypage)
+    localStorage.setItem('datagrid_order_limit_currentpage', this.__currentpage)
+    this.dispatch('datagrid-table-update-grid', {})
   }
 
   async connectadoptedCallbackedCallback() {}
