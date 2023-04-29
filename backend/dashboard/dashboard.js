@@ -1,20 +1,18 @@
 import AbstractView from '/js/AbstractView.js'
+import '/component/dashboard/graph-line.js'
+import '/component/dashboard/graph-bar.js'
+import '/component/dashboard/dashboard-todo.js'
+import '/component/dashboard/task-google.js'
+import '/component/dashboard/task-slack.js'
+import '/component/dashboard/dashboard-message.js'
+import '/component/dashboard/dashboard-voicemail.js'
+import '/component/dashboard/dashboard-calendar.js'
 
+import 'https://cdn.jsdelivr.net/npm/chart.js'
 export default class extends AbstractView {
   constructor(params) {
     super(params)
     this.setTitle('Dashboard')
-  }
-
-  async getHtml() {
-    return `
-            <h1>Welcome back on AbstractView</h1>
-            <p>
-                Fugiat voluptate et nisi Lorem cillum anim sit do eiusmod occaecat irure do. Reprehenderit anim fugiat sint exercitation consequat. Sit anim laborum sit amet Lorem adipisicing ullamco duis. Anim in do magna ea pariatur et.
-            </p>
-            <p>
-                <a href="/posts" data-link>View recent posts</a>.
-            </p>
-        `
+    this.__template_path = '/backend/dashboard.html'
   }
 }
