@@ -1,27 +1,28 @@
-<div class="mx-auto flex justify-center lg:items-center h-full">
-  <form id="login" class="bg-white shadow-lg rounded px-12 pt-6 pb-8">
-    <div class="pt-0 px-2 flex flex-col items-center justify-center">
-      <img src="/image/lewlew.png" alt="uploaded cover image" class="object-cover h-full w-full rounded-lg rounded-b-none">
-      
-    </div>
-    <div class="pt-16 px-2 flex flex-col items-center justify-center">
-      <h3 class="text-2xl sm:text-3xl xl:text-2xl leading-tight">Retrieve your password</h3>
-    </div>
-    <div class="mt-12 w-full px-2 sm:px-6">
-      <div class="flex flex-col">
-        
-         
-<input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="email" v-model="form.email" type="email" required="" autofocus="" placeholder="Email">
-
+<div class="flex items-center justify-center h-screen">
+  <form id="forget" class="bg-white shadow-lg px-12 py-8 mb-8 max-w-md">
+    <fieldset>
+      <legend>
+        <img src="/image/lewlew.png" alt="uploaded cover image"
+          class="object-cover h-full w-full rounded-lg rounded-b-none">
+      </legend>
+      <div class="my-8">
+        <label class="block text-gray-700 text-sm font-normal mb-2" for="username">Retrieve your password</label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          name="email" v-model="form.email" type="email" required="" autofocus="" placeholder="Email">
       </div>
-    </div>
-    <div class="px-2 sm:px-6 mt-5">
-      
-        <button class="px-4 py-2 rounded text-white inline-block shadow-lg bg-indigo-500 hover:bg-indigo-600 focus:bg-indigo-700" type="submit">Send Link</button>
-      <p class="mt-16 text-xs text-center">Try to login? <a class="underline" href="/login">
-          Sign Up
-        </a>
-      </p>
-    </div>
+
+      <div class="flex items-center justify-between">
+        <button
+          class="px-4 py-2 rounded text-white inline-block shadow-lg bg-indigo-500 hover:bg-indigo-600 focus:bg-indigo-700"
+          type="submit">Send Link</button>
+
+        <p class="font-normal text-sm text-center">Try to login? <a
+            class="inline-block align-baseline  text-blue-500 hover:text-blue-800" href="/login" data-link="">
+            Sign Up
+          </a>
+        </p>
+      </div>
+    </fieldset>
   </form>
 </div>

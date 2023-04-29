@@ -12,12 +12,22 @@ export class DatagridPageSwitcher extends LewElement {
 
     this.__currentpage = 1
     this.__rowsbypage = 10
+
+    // const GreetingPage = () => {
+    //   const { who = 'nobody' } = useParams()
+    //   return (
+    //     <div>
+    //       <h1 style={hi}>Hello, {who}!</h1>
+    //       <h1 style={wave}>{'\uD83D\uDC4B'}</h1>
+    //     </div>
+    //   )
+    // }
   }
 
   get_template() {
     return `
   <div class="w-full flex flex-col lg:flex-row items-start lg:items-center justify-end">
-  <div class="flex items-center lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
+  <div class="flex items-center lg:border-l lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
     <div class="w-full flex flex-col lg:flex-row items-start lg:items-center">
       <div class="flex items-center">
         <p id="page-switcher-text" class="text-base text-gray-600 dark:text-gray-400">${this.__defaulttext}</p>
@@ -58,8 +68,7 @@ export class DatagridPageSwitcher extends LewElement {
         <option>1000</option>
       </select>
     </div>
-  </div>
-  </div>
+  </div></div>
   `
   }
 
@@ -134,4 +143,4 @@ export class DatagridPageSwitcher extends LewElement {
   }
 }
 
-customElements.define('wc-datagrid-switcher', DatagridPageSwitcher)
+customElements.define('wc-datagrid-page-switcher', DatagridPageSwitcher)
