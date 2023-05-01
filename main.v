@@ -120,6 +120,11 @@ pub fn (mut app App) index() vweb.Result {
 	return app.redirect('/logout')
 }
 
+['/intercome']
+pub fn (mut app App) intercom() vweb.Result {
+	return app.file(os.join_path(os.resource_abs_path('/templates/intercome.html')))
+}
+
 [post]
 ['/']
 pub fn (mut app App) index_post() ?vweb.Result {

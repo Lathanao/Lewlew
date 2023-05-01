@@ -4,8 +4,7 @@ import Account from '/backend/account.js'
 import Login from '/backend/login.js'
 import Forget from '/backend/forget.js'
 
-// https://stackoverflow.com/a/2010994
-Storage = {}
+Storage = {} // https://stackoverflow.com/a/2010994
 Storage.observers = []
 Storage.event = []
 Storage.test = 'test'
@@ -77,6 +76,10 @@ window.addEventListener('popstate', router)
 document.addEventListener('DOMContentLoaded', () => {
   document.body.addEventListener('click', (e) => {
     if (e.target.matches('[data-link]')) {
+      e.preventDefault()
+      navigateTo(e.target.href)
+    }
+    if (e.target.matches('[lew-link]')) {
       e.preventDefault()
       navigateTo(e.target.href)
     }

@@ -1,4 +1,4 @@
-export class DataGridModalActionRow extends HTMLElement {
+export class DataGridDropdownActionRow extends HTMLElement {
   constructor() {
     super()
     this.__initialized = false
@@ -89,4 +89,7 @@ export class DataGridModalActionRow extends HTMLElement {
   }
 }
 
-customElements.define('wc-datagrid-modal-action-row', DataGridModalActionRow)
+customElements.define(
+  'lew-datagrid-dropdown-action-row',
+  DataGridDropdownActionRow
+)

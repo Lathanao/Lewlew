@@ -1,0 +1,357 @@
+<div class="p-3">
+  <section class="p-6">
+    <form novalidate="" action="@link_form_save" method="POST" class="container flex flex-col mx-auto space-y-12">
+      
+      <input type="hidden" name="id" id="id" value="@product.id" />
+      
+      <fieldset id="information" class="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm bg-white">
+        <div class="relative px-4 py-5 space-y-2 col-span-full lg:col-span-1">
+          <p class="font-medium">Product Information</p>
+          <p class="text-xs">Intrasect inforamtiom relative to your produc</p>
+          <p class="absolute top-3 right-4 col-span-full">
+            Id: @product.id
+          </p>
+        </div>
+
+        <div class="grid grid-cols-6 gap-4 px-4 py-5 space-y-2 sm:p-6 col-span-full lg:col-span-3">
+          <div class="col-span-full">
+            <style>
+              [type='checkbox'].toggle-checkbox:checked {
+                transform: translateX(20px);
+                border-color: #68D391;
+              }
+            </style>
+            <div class="flex items-start">
+              <label class="block text-sm font-medium text-gray-700">
+                Enable product
+              </label>
+              <div class="relative w-10 ml-9">
+                <input type="checkbox" name="available" id="available"
+                  class="toggle-checkbox duration-200 ease-in absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" />
+                <label for="available" class="block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer">
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-full">
+            <label for="title" class="block text-sm font-medium text-gray-700">Title of your product</label>
+            <input type="text" name="title" id="title" autocomplete="name"
+              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              placeholder="Title of your product" value="
+              @if product.title.len > 0
+              @product.title 
+              @end
+            ">
+          </div>
+          <div class="col-span-full sm:col-span-3">
+            <label for="sku" class="block text-sm font-medium text-gray-700">Sku</label>
+            <input type="text" name="sku" id="sku" autocomplete="name"
+              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              placeholder="Sku" value="
+              @if product.sku.len > 0
+                @product.sku 
+              @end
+            ">
+          </div>
+          <div class="col-span-full sm:col-span-3">
+            <label for="ean13" class="block text-sm font-medium text-gray-700">ean13</label>
+            <input type="text" name="ean13" id="sku" autocomplete="name"
+              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              placeholder="Ean13" value="
+              @if product.ean13.len > 0
+              @product.ean13 
+              @end
+            ">
+          </div>
+          <div class="col-span-full sm:col-span-3">
+            <div class="col-span-3 sm:col-span-2">
+              <label for="url" class="block text-sm font-medium text-gray-700">
+                Url for your product
+              </label>
+              <div class="mt-1 flex rounded-md shadow-sm">
+                <span
+                  class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                  http://yourshop.com/
+                </span>
+                <input type="text" name="url" id="url"
+                  class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                  placeholder="www.example.com" value="
+                    @if product.url.len > 0
+                      @product.url 
+                    @end
+                  ">
+              </div>
+            </div>
+          </div>
+          <div class="col-span-full">
+            <label for="description" class="block text-sm font-medium text-gray-700">
+              Description
+            </label>
+            <div class="mt-1">
+              <textarea id="description" name="description" rows="3"
+                class="shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
+                placeholder="Description of your product">@product.description</textarea>
+            </div>
+            <p class="mt-2 text-sm text-gray-500">
+              Brief description of your product.
+            </p>
+          </div>
+          <div class="col-span-full">
+            <label for="country" class="block text-sm font-medium text-gray-700">Category</label>
+            <select id="country" name="country" autocomplete="country"
+              class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <option>Cat 1</option>
+              <option>Cat 2</option>
+              <option>Cat 3</option>
+            </select>
+          </div>
+          <div class="col-span-full">
+            <label for="country" class="block text-sm font-medium text-gray-700">Visibility</label>
+            <select id="country" name="country" autocomplete="country"
+              class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <option data-title="Not Visible Individually" value="1">Not Visible Individually</option>
+              <option data-title="Catalog" value="2">Catalog</option>
+              <option data-title="Search" value="3">Search</option>
+              <option data-title="Catalog, Search" value="4">Catalog, Search</option>
+            </select>
+          </div>
+          <div class="col-span-full">
+            <label class="block text-sm font-medium text-gray-700">
+              Photo
+            </label>
+            <div class="relative overflow-hidden mb-8">
+              <div
+                class="rounded-lg shadow-inner shadow-xl overflow-hidden bg-gradient-to-r from-gray-50 to-gray-100 p-10">
+                <div id="image-upload-wrap" class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-3">
+                  <div class="shadow h-32 w-32 font-medium bg-white rounded-md flex items-center justify-center">
+                    <img src="/img/product-placeholder.jpg">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-full">
+            <div class="space-y-1 text-center">
+              <div class="relative border-2 border-gray-300 border-dashed rounded-md text-sm text-gray-600 cursor">
+                <input id="file-upload" name="file-upload" type="file"
+                  class="absolute bottom-0 top-0 right-0 left-0 opacity-0 w-full h-full cursor-pointer">
+                <svg stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true"
+                  class="mx-auto  pt-4 h-24 w-24 text-gray-400">
+                  <path
+                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <p class=" text-xs text-gray-500">
+                  PNG, JPG, GIF up to 10MB
+                </p>
+                <p class="pb-4 text-xs text-gray-500">or drag and drop</p>
+              </div>
+            </div>
+          </div>
+          <div class="px-4 py-3 bg-gray-50 text-right col-span-full">
+            <button type="submit"
+              class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Save
+            </button>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset id="price" class="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm bg-white">
+        <div class="px-4 py-5 space-y-2 col-span-full lg:col-span-1">
+          <p class="font-medium">Product price</p>
+          <p class="text-xs">Intrasect inforamtiom relative to your product. This information will be readed by your
+            customer. </p>
+        </div>
+        <div>
+          <div class="col-span-full sm:col-span-3">
+            <label for="price" class="block text-sm font-medium text-gray-700">
+              Price
+            </label>
+            <div class="mt-1 flex rounded-md shadow-sm">
+              <span
+                class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                $
+              </span>
+              <input type="text" name="price" id="price"
+                class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                placeholder="www.example.com" value="
+                  @if product.price.str().len > 0
+                    @product.price 
+                  @end
+                ">
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset id="Seo" class="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm bg-white">
+        <div class="space-y-2 col-span-full lg:col-span-1">
+          <p class="font-medium">Seo Information</p>
+          <p class="text-xs">eCommerce stores have two basic strategies to get products found online — purchase ads or
+            improve search rankings. The most cost-effective option is search engine optimization (SEO). While it
+            takes time and effort to make organic search work for your business, it costs a lot less long-term than a
+            paid ad strategy.
+          </p>
+        </div>
+        <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
+          <div class="col-span-6">
+            <label for="street_address" class="block text-sm font-medium text-gray-700">Meta Title</label>
+            <input type="text" name="meta_title" id="meta_title" autocomplete="street-address"
+              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              value="
+                @if product.meta_title.len > 0
+                  @product.  meta_title 
+                @end
+              ">
+          </div>
+          <div class="col-span-6">
+            <label for="street_address" class="block text-sm font-medium text-gray-700">Meta Keywords</label>
+            <input type="text" name="meta_keywords" id="meta_keywords" autocomplete="street-address"
+              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              value="
+              @if product.meta_keywords.len > 0
+                @product.meta_keywords 
+              @end
+              ">
+          </div>
+          <div class="col-span-6">
+            <label for="country" class="block text-sm font-medium text-gray-700">Meta Description</label>
+            <textarea id="description" name="description" rows="3"
+              class="shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
+              placeholder="Description of your product">
+              @if product.description.len > 0
+                @product.description 
+              @end
+            </textarea>
+          </div>
+          <div class="col-span-6">
+            <fieldset>
+              <legend class="text-base font-medium text-gray-900">Set for SEO automation</legend>
+              <div class="mt-4 space-y-4">
+                <div class="flex items-start">
+                  <div class="flex items-center h-5">
+                    <input id="comments" name="comments" type="checkbox"
+                      class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label for="comments" class="font-medium text-gray-700">Add to Sitemap</label>
+                    <p class="text-gray-500">Choose to add or not this product to your SiteMap.</p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div class="flex items-center h-5">
+                    <input id="robot_follow" name="robot_follow" type="checkbox"
+                      class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label for="robot_follow" class="font-medium text-gray-700">Robot follow</label>
+                    <p class="text-gray-500">Choose what setting to apply for crawlers.</p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div class="flex items-center h-5">
+                    <input id="fuck" name="fuck" type="checkbox"
+                      class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label for="fuck" class="font-medium text-gray-700">Fuck</label>
+                    <p class="text-gray-500">Get notified when a candidate accepts or rejects an offer.</p>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </fieldset>
+
+      <pre style='background:#EEEEEE; color:#000000; padding:10px 20px; border:2px inset #000000'>
+        <table>
+          <tr><td>id:</td><td>@product.id<td><tr>
+          <tr><td>sku:</td><td>@product.sku<td><tr>
+          <tr><td>ean13:</td><td>@product.ean13<td><tr>
+          <tr><td>collections:</td><td>@product.collections<td><tr>
+          <tr><td>ptype:</td><td>@product.ptype<td><tr>
+          <tr><td>images:</td><td>@product.images<td><tr>
+          <tr><td>featured_image:</td><td>@product.featured_image<td><tr>
+          <tr><td>featured_media:</td><td>@product.featured_media<td><tr>
+          <tr><td>handle:</td><td>@product.handle<td><tr>
+          <tr><td>variants:</td><td>@product.variants<td><tr>
+          <tr><td>selected_variant:</td><td>@product.selected_variant<td><tr>
+          <tr><td>selected_or_first_available_variant:</td><td>@product.selected_or_first_available_variant<td><tr>
+          <tr><td>first_available_variant:</td><td>@product.first_available_variant<td><tr>
+          <tr><td>has_only_default_variant:</td><td>@product.has_only_default_variant<td><tr>
+          <tr><td>options:</td><td>@product.options<td><tr>
+          <tr><td>options_with_values:</td><td>@product.options_with_values<td><tr>
+          <tr><td>price:</td><td>@product.price<td><tr>
+          <tr><td>price_max:</td><td>@product.price_max<td><tr>
+          <tr><td>price_min:</td><td>@product.price_min<td><tr>
+          <tr><td>price_varies:</td><td>@product.price_varies<td><tr>
+          <tr><td>compare_at_price_max:</td><td>@product.compare_at_price_max<td><tr>
+          <tr><td>compare_at_price_min:</td><td>@product.compare_at_price_min<td><tr>
+          <tr><td>compare_at_price_varies:</td><td>@product.compare_at_price_varies<td><tr>
+          <tr><td>brand:</td><td>@product.brand<td><tr>
+          <tr><td>vendor:</td><td>@product.vendor<td><tr>
+          <tr><td>template_suffix:</td><td>@product.template_suffix<td><tr>
+          <tr><td>id_lang:</td><td>@product.id_lang<td><tr>
+          <tr><td>title:</td><td>@product.title</td></tr>
+          <tr><td>description:</td><td>@product.description<td><tr>
+          <tr><td>content:</td><td>@product.content<td><tr>
+          <tr><td>link_rewrite:</td><td>@product.link_rewrite<td><tr>
+          <tr><td>meta_description:</td><td>@product.meta_description<td><tr>
+          <tr><td>meta_keywords:</td><td>@product.meta_keywords<td><tr>
+          <tr><td>meta_title:</td><td>@product.meta_title<td><tr>
+          <tr><td>url:</td><td>@product.url<td><tr>
+          <tr><td>tags:</td><td>@product.tags<td><tr>
+          <tr><td>available:</td><td>@product.available<td><tr>
+          <tr><td>published_at:</td><td>@product.published_at<td><tr>
+          <tr><td>created_at:</td><td>@product.created_at<td><tr>
+          <tr><td>modified_at:</td><td>@product.modified_at<td><tr>
+        </table>
+      </pre>
+  
+      <style>
+        /* Styling pre tag */
+        pre {
+            padding:10px 20px;
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* ===========================
+        == To use with XDEBUG 
+        =========================== */
+        /* Source file */
+        pre small:nth-child(1) {
+            font-weight: bold;
+            font-size: 14px;
+            color: #CC0000;
+        }
+        pre small:nth-child(1)::after {
+            content: '';
+            position: relative;
+            width: 100%;
+            height: 20px;
+            left: 0;
+            display: block;
+            clear: both;
+        }
+
+        /* Separator */
+        pre i::after{
+            content: '';
+            position: relative;
+            width: 100%;
+            height: 15px;
+            left: 0;
+            display: block;
+            clear: both;
+            border-bottom: 1px solid grey;
+        }  
+      </style>
+    </form>
+  </section>
+</div>

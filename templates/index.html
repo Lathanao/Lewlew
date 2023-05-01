@@ -4,27 +4,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Single Page App</title>
+  <link rel="shortcut icon" href="/image/lewlew-96.png" type="image/x-icon">
 
   <link rel="stylesheet" href="/css/tailwind-output.css">
   <link rel="stylesheet" href="/css/custom.css">
 
+  <title>LewLew App</title>
 </head>
 
 <body>
-  <main class="bg-gray-100 dark:bg-gray-800 rounded-2xl relative"></main>
-  <div class="flex items-start justify-between">
-    <div class="h-screen hidden lg:block my-4 ml-4 shadow-lg relative w-80">
-      <wc-menu template="/component/menu/menu.html" source="/component/menu/menu.json"></wc-menu>
-    </div>
-
-    <div class="flex flex-col w-full pl-0 md:p-4 md:space-y-4">
+  <div class="flex items-start justify-between relative">
+    <wc-menu template="/component/menu/menu2.html" source="/component/menu/menu.json"></wc-menu>
+    <div class="flex flex-col text-gray-600 dark:text-gray-400 md:space-y-4 sm:ml-40 lg:ml-60 xl:ml-80 w-full">
       <wc-toolbar template="/component/toolbar/toolbar.html" source="/component/toolbar/toolbar.json"></wc-toolbar>
-      <div id="app"></div>
-
-      <div class="overflow-auto h-screen pb-24 pt-2 pr-2 pl-2 md:pt-0 md:pr-0 md:pl-0">
-
-      </div>
+      <main id="app" class="p-4"></main>
     </div>
   </div>
   </main>

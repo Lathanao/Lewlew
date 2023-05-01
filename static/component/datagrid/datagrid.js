@@ -11,6 +11,9 @@ import '/component/datagrid/element/datagrid-search.js'
 import '/component/datagrid/element/datagrid-modal.js'
 import '/component/datagrid/element/datagrid-table.js'
 
+import '/component/datagrid/element/datagrid-dropdown-action-row.js'
+import '/component/datagrid/element/datagrid-dropdown-setting.js'
+
 export class WCDataGrid extends LewElement {
   static get observedAttributes() {
     return ['src', 'context']

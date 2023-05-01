@@ -45,6 +45,8 @@ export class LewDashboardTaskGoogle extends LewElement {
                   </path>
                 </svg>
               </button>
+
+              <lew-dropdown-option></lew-dropdown-option>
             </div>
           </div>
           <div class="flex items-center justify-between mb-4 space-x-12">

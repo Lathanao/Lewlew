@@ -27,7 +27,7 @@ export class DatagridPageSwitcher extends LewElement {
   get_template() {
     return `
   <div class="w-full flex flex-col lg:flex-row items-start lg:items-center justify-end">
-  <div class="flex items-center lg:border-l lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
+  <div class="flex items-center lg:border-r border-gray-300 py-3 lg:py-0 lg:px-6">
     <div class="w-full flex flex-col lg:flex-row items-start lg:items-center">
       <div class="flex items-center">
         <p id="page-switcher-text" class="text-base text-gray-600 dark:text-gray-400">${this.__defaulttext}</p>
@@ -49,7 +49,7 @@ export class DatagridPageSwitcher extends LewElement {
     </div>
   </div>
   
-  <div class="flex items-center lg:border-r border-gray-300 pb-3 lg:pb-0 lg:px-6">
+  <div class="flex items-center border-gray-300 pb-3 lg:pb-0 lg:pl-6">
     <div class="relative w-20 z-10">
       <div class="pointer-events-none text-gray-600 dark:text-gray-400 absolute inset-0 m-auto mr-2 xl:mr-4 z-0 w-5 h-5">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-chevron-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

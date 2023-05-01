@@ -7,7 +7,13 @@ export class DataGridButton extends HTMLElement {
 
   async connectedCallback() {
     this.__template = `
-    <div class="w-full flex flex-col lg:flex-row items-start lg:items-center justify-end">
+
+    
+
+    <div class="flex flex-row-reverse items-center gap-2">
+    
+      <lew-datagrid-dropdown-setting></lew-datagrid-dropdown-setting>
+    
       <a class="text-gray-600 dark:text-gray-400 p-2 border-transparent border bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700 hover:bg-gray-200 cursor-pointer rounded focus:outline-none focus:border-gray-800 focus:shadow-outline-gray" href="javascript: void(0)">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-edit" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z"></path>
@@ -60,6 +66,7 @@ export class DataGridButton extends HTMLElement {
             <line x1="5" y1="12" x2="19" y2="12"></line>
           </svg>
         </a>
+      </div>
     </div>`
 
     this.innerHTML = this.__template
