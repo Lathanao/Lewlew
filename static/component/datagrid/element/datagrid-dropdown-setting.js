@@ -92,9 +92,6 @@ export class LewDatagridDropdownSetting extends LewElement {
         }
       }.bind(this)
     )
-
-    this.getElem
-    button
   }
 }
 

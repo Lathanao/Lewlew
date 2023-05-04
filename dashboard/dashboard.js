@@ -9,10 +9,11 @@ import '/component/dashboard/dashboard-voicemail.js'
 import '/component/dashboard/dashboard-calendar.js'
 
 import 'https://cdn.jsdelivr.net/npm/chart.js'
+
 export default class extends AbstractView {
   constructor(params) {
     super(params)
     this.setTitle('Dashboard')
-    this.__template_path = '/backend/dashboard.html'
+    this.__template_path = '/dashboard/dashboard.html'
   }
 }

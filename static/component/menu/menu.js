@@ -60,6 +60,27 @@ export class WCMenu extends HTMLElement {
     }
 
     this.render()
+
+    let lewLinkList = this.querySelectorAll('a')
+
+    // lewLinkList.forEach((Value, index, obj) => {
+    //   this.onclick = (ev) => {
+    //     ev.preventDefault()
+    //     console.log(ev.target)
+    //   }
+    // })
+
+    // this.addEventListener('click', (e) => {
+    //   if (e.target.matches('[data-link]')) {
+    //     e.preventDefault()
+    //     // navigateTo(e.target.href)
+    //   }
+    //   if (e.target.matches('[lew-link]')) {
+    //     e.preventDefault()
+    //     console.log(e.target)
+    //     // navigateTo(e.target.href)
+    //   }
+    // })
   }
 
   render() {

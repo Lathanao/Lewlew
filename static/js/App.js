@@ -1,8 +1,9 @@
-import Dashboard from '/backend/dashboard.js'
+import Dashboard from '/dashboard/dashboard.js'
 import Orders from '/backend/order.js'
 import Account from '/backend/account.js'
 import Login from '/backend/login.js'
 import Forget from '/backend/forget.js'
+import Log from '/backend/log.js'
 
 Storage = {} // https://stackoverflow.com/a/2010994
 Storage.observers = []
@@ -42,7 +43,7 @@ const router = async () => {
     { path: '/login', view: Login },
     { path: '/logout', view: Login },
     { path: '/forget', view: Forget },
-
+    { path: '/log', view: Log },
     { path: '/account', view: Account },
     { path: '/account/:id', view: Account },
   ]
@@ -75,13 +76,10 @@ window.addEventListener('popstate', router)
 
 document.addEventListener('DOMContentLoaded', () => {
   document.body.addEventListener('click', (e) => {
-    if (e.target.matches('[data-link]')) {
+    let lewlink = e.target.closest('a')
+    if (lewlink && lewlink.matches('[lew-link]')) {
       e.preventDefault()
-      navigateTo(e.target.href)
-    }
-    if (e.target.matches('[lew-link]')) {
-      e.preventDefault()
-      navigateTo(e.target.href)
+      navigateTo(e.target.closest('a').href)
     }
   })
   router()
