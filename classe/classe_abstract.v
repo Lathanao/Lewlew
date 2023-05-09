@@ -99,7 +99,7 @@ pub fn (p Product) hydrate_form_post (data map[string]string) Product {
 
 	println("-----hydrate_form_post------")
 	println(data)
-    mut result := p
+  mut result := p
 	for iii, name_field in data {
 		$for field in Product.fields {
 			// println(iii)

@@ -9,11 +9,14 @@
 export function interpolate(template, data = {}) {
   const keys = Object.keys(data)
   // const values = Object.values(data)
-
+  // console.log("============= interpolate keys ==============")
+  // console.log(keys)
+  // console.log("============= interpolate data[keys] ==============")
+  // console.log(data[keys])
   try {
     return new Function(keys, `return \`${template}\`;`)(data[keys])
   } catch (e) {
-    throw new TemplateException(template, values, e)
+    throw new TemplateException(template, data[keys], e)
   }
 }
 

@@ -6,6 +6,7 @@ vweb method cathing all url
 adding route dynamicly
 Limit cookie size
 
+https://html-document.github.io/
 
 set component instead of HTMLelements
 
@@ -27,3 +28,20 @@ htmlElement.dispatchEvent(new CustomEvent("stringEvent", {detail: payload}));
 // Generate a custom event with a complex payload
 const payload = { property:"value", property2: 1234 };
 htmlElement.dispatchEvent(new CustomEvent("complexEvent", {detail: payload}));
+
+
+
+Every thing names in single form, no plural
+Any props get a resources -> All data fetch by API -> No data in template
+Every JS import in the main page
+All API request in POST, even witout payload or whatever
+Let V make all the work -> Don't validate anything in JS -> Don't make any buissness logic in JS
+In Prod, stay behind Nginx
+Don't think about GraphQL
+
+
+
+What is the goal:
+To be in the average in difficulties
+Getting the best datagrid
+Getting easy some hard stats 

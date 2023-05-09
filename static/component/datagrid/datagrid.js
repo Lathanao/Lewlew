@@ -37,6 +37,7 @@ export class WCDataGrid extends LewElement {
     this.__column = this.getAttribute('column')
     this.__data = ''
     this.__setup = ''
+    this.__datasetup = ''
     this.build()
 
     localStorage.setItem('datagrid_template', this.__template)

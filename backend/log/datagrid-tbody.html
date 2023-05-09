@@ -1,42 +1,16 @@
 <tbody>
-  ${cells.map(cell => `
-  <tr class="h-16 border-gray-300 border-b">
-    <td class="pl-8 pr-6 leading-4">
-      <input type="checkbox"
-        class="cursor-pointer relative w-5 h-5 border rounded border-gray-400 bg-white dark:bg-gray-800 outline-none">
-    </td>
-    <td class="pr-6 whitespace-no-wrap text-sm tracking-normal leading-4">
-      ${cell.id_order}
-    </td>
-    <td class="text-sm pr-6 whitespace-no-wrap tracking-normal leading-4">
-      ${cell.reference}
-    </td>
-    <td class="text-sm pr-6 whitespace-no-wrap tracking-normal leading-4">
-      ${cell.delivery_number}
-    </td>
-    <td class="pr-6 whitespace-no-wrap">
-      <div class="flex items-center">
-        <div class="h-8 w-8">
-          <img src="/image/man.png" alt="" class="h-full w-full rounded-full overflow-hidden shadow">
-        </div>
-        <p class="ml-2 tracking-normal leading-4 text-sm">
-          ${cell.email}
-        </p>
-      </div>
-    </td>
-    <td class="text-sm pr-6 whitespace-no-wrap tracking-normal leading-4">
-      ${cell.valid}
-    </td>
-    <td class="text-sm pr-6 whitespace-no-wrap tracking-normal leading-4">
-      ${cell.date_add}
-    </td>
-    <td class="pr-6">
-      <lew-datagrid-dropdown-action-row id=${cell.id_order} action='{
-                "Edit": "/edit/${cell.id_order}", 
-                "Preview":"/Preview/${cell.id_order}", 
-                "Delete": "/Delete/${cell.id_order}" 
-              }' />
-    </td>
-  </tr>
-  `).join('\n')}
+  ${cells.map( cell => {
+
+    let tr = '<tr>';
+
+    Object.values(cell).forEach(element => {
+      tr += `
+        <td class="pl-4 whitespace-pre">${element}</td>
+     `
+    }) 
+    tr += '</tr>';
+    return tr
+  }
+      
+    ).join('\n')}
 </tbody>

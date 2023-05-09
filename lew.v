@@ -17,7 +17,7 @@ import v.vcache
 import x.json2
 
 const (
-	port = 8882
+	port           = 8882
 	BO_hash_key    = 'set_your_secret_key_for_hashing'
 	FO_hash_key    = 'set_your_secret_key_for_hashing'
 	vcache_folder  = os.join_path(os.temp_dir(), 'vcache_folder')
@@ -60,8 +60,26 @@ pub mut:
 
 struct Limit {
 pub mut:
-	currentpage string
-	rowsbypage  string
+	currentpage string = '1'
+	rowsbypage  string = '10'
+}
+
+pub struct Row {
+pub mut:
+	date         time.Time
+	host_name    string
+	state        string
+	in_          string
+	out_         string
+	mac_         string
+	src_         string
+	dst_         string
+	len_         string
+	tos_         string
+	prec_        string
+	ttl_         string
+	id_          string
+	proto_       string
 }
 
 fn main() {
@@ -90,7 +108,7 @@ fn main() {
 	app.mount_static_folder_at(os.resource_abs_path('backend/login'), '/backend')
 	app.mount_static_folder_at(os.resource_abs_path('backend/forget'), '/backend')
 	app.mount_static_folder_at(os.resource_abs_path('backend/order'), '/backend')
-	app.mount_static_folder_at(os.resource_abs_path('backend/log'), '/backend')
+	app.mount_static_folder_at(os.resource_abs_path('backend/log'), '/log')
 
 	app.mount_static_folder_at(os.resource_abs_path('static/component'), '/component')
 	app.mount_static_folder_at(os.resource_abs_path('static/js'), '/js')
@@ -190,19 +208,19 @@ pub fn (mut app App) logout() vweb.Result {
 }
 
 pub fn (mut app App) clean_session() bool {
-	time_now := time.Time{
-		unix: time.utc().unix_time()
-	}
-	app.set_cookie(
-		name: 'uuid'
-		value: ''
-		expires: time_now.add(-1 * time.second)
-	)
+	// time_now := time.Time{
+	// 	unix: time.utc().unix_time()
+	// }
+	// app.set_cookie(
+	// 	name: 'uuid'
+	// 	value: ''
+	// 	expires: time_now.add(-1 * time.second)
+	// )
 
-	uuid := app.get_cookie('uuid') or { return false }
-	mut cm := vcache.new_cache_manager([])
-	session_to_delete := cm.exists('.session', 'admin/session') or { return false }
-	os.rm(session_to_delete) or { return false }
+	// uuid := app.get_cookie('uuid') or { return false }
+	// mut cm := vcache.new_cache_manager([])
+	// session_to_delete := cm.exists('.session', 'admin/session') or { return false }
+	// os.rm(session_to_delete) or { return false }
 	return true
 }
 
@@ -236,13 +254,37 @@ pub fn (mut app App) is_logged() bool {
 	return saved.len > 0
 }
 
+['/api/order/count'; post]
+pub fn (mut app App) api_order_count() vweb.Result {
+	mut count := map[string]int{}
+	count['count'] = 1999
+
+	return app.json(count)
+}
+
+['/api/order/column'; post]
+pub fn (mut app App) api_order_column() vweb.Result {
+	mut col := map[string]string{}
+	col['id_order'] = 'Id Order'
+	col['reference'] = 'Reference'
+	col['delivery_number'] = 'Delivery Number'
+	col['email'] = 'Email'
+	col['valid'] = 'Valid'
+	col['date_add'] = 'Date Add'
+	col['Sup'] = 'Sup'
+
+	return app.json(col)
+}
+
 ['/api/order/setup']
 pub fn (mut app App) api_order_setup() ?vweb.Result {
-	app.db.connect() or {panic(err)}
+	app.db.connect() or { panic(err) }
 	count := app.db.query('SELECT COUNT(*) as count
 							FROM `ps_orders` o
 							LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
-							;') or {panic(err)}
+							;') or {
+		panic(err)
+	}
 	app.db.close()
 	// fullcolumns := app.db.query('SHOW FULL COLUMNS FROM `ps_orders`;') ?
 	// map_result := orders_result.maps()
@@ -256,7 +298,7 @@ pub fn (mut app App) api_order_setup() ?vweb.Result {
 
 ['/api/order/:order_id']
 pub fn (mut app App) api_order_by_id(order_id string) ?vweb.Result {
-	app.db.connect() or {panic(err)}
+	app.db.connect() or { panic(err) }
 	orders_result := app.db.query('SELECT *, (
 									SELECT osl.`name`
 									FROM `ps_order_state_lang` osl
@@ -266,7 +308,9 @@ pub fn (mut app App) api_order_by_id(order_id string) ?vweb.Result {
 							) AS `state_name`, o.`date_add` AS `date_add`, o.`date_upd` AS `date_upd`
 							FROM `ps_orders` o
 							LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
-							LIMIT 10;') or {panic(err)}
+							LIMIT 10;') or {
+		panic(err)
+	}
 	app.db.close()
 	map_result := orders_result.maps()
 	return app.json(map_result)
@@ -288,8 +332,8 @@ pub fn (mut app App) api_order() ?vweb.Result {
 		}
 		query = make_query(crit, 'o')
 	}
-		
-	app.db.connect() or {panic(err)}
+
+	app.db.connect() or { panic(err) }
 	orders_result := app.db.query(
 		'SELECT *, (
                     SELECT osl.`name`
@@ -301,7 +345,7 @@ pub fn (mut app App) api_order() ?vweb.Result {
                 FROM `ps_orders` o
                 LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
                 ' +
-		query + ';') or {panic(err)}
+		query + ';') or { panic(err) }
 	app.db.close()
 	map_result := orders_result.maps()
 	return app.json(map_result)
@@ -336,9 +380,117 @@ pub fn make_query(criteria Criteria, schema_name string) string {
 		min := page + (number - 1) * (page - 1) - 1
 		max := page + (number - 1) * page
 		condition += ' LIMIT $max OFFSET $min'
+	} else {
+		condition += ' LIMIT 10 OFFSET 0'
 	}
-	println(condition)
+
 	return condition
+}
+
+['/api/log/count'; post]
+pub fn (mut app App) api_log_count() vweb.Result {
+	mut count := map[string]int{}
+	count['count'] = 42
+	return app.json(count)
+}
+
+['/api/log/column'; post]
+pub fn (mut app App) api_log_column() vweb.Result {
+	mut ufw_log := map[string]string{}
+	ufw_log['date'] = 'Date'
+	ufw_log['host_name'] = 'Host Name'
+	ufw_log['state'] = 'State'
+	ufw_log['in_'] = 'In'
+	ufw_log['out_'] = 'Out'
+	ufw_log['mac_'] = 'Mac'
+	ufw_log['src_'] = 'Src'
+	ufw_log['dst_'] = 'Dst'
+	ufw_log['len_'] = 'Len'
+	ufw_log['tos_'] = 'Tos'
+	ufw_log['prec_'] = 'Prec'
+	ufw_log['ttl_'] = 'Ttl'
+	ufw_log['id_'] = 'Id'
+	ufw_log['proto_'] = 'Proto'
+
+	// ya = ya.replace_each([' ','','\n','','\t','','\v','','\f','','\r',''])
+	// println(ya)
+	return app.json(ufw_log)
+}
+
+['/api/log'; post]
+pub fn (mut app App) api_log() vweb.Result {
+	println('============== api log ===============')
+
+	raw_list := os.execute_or_panic('cat ' + '/home/tanguy/logs/ufw.light.log')
+	mut list := []Row{}
+
+	for line in raw_list.output.split_into_lines() {
+		slitted := line.split(' ')
+
+		year := time.utc().year
+		month := line[0..3]
+		day := line[4..6]
+		oclock := line[7..15]
+
+		host_name := slitted[4]
+		state := slitted[7] + ' ' + slitted[8]
+
+		month_names := ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+			'Dec']
+		mut month_nb := 0
+		for i, name in month_names {
+			if month == name {
+				month_nb = i + 1
+				break
+			}
+		}
+
+		date := time.Time{
+			year: year
+			month: month_nb
+			day: day.trim_space().int()
+			hour: oclock[..2].int()
+			minute: oclock[3..5].int()
+			second: oclock[6..8].int()
+		}
+
+		param := line.split('] ')
+
+		mut mapp := map[string]string{}
+
+		mut result := Row{
+			date: date
+			host_name: host_name
+			state: state
+		}
+
+		for attr in line.split(' ') {
+			if !attr.contains('=') {
+				continue
+			}
+
+			val := attr.split('=')
+			mapp[val[0]] = val[1]
+
+			$for field in Row.fields {
+				$if field.typ is string {
+					if field.name == val[0].to_lower() + '_' {
+						result.$(field.name) = val[1]
+						continue
+					}
+				}
+			}
+		}
+		list << result
+	}
+
+	println(list.len)
+
+	// yo := list.filter(it.src_.contains('192.168.1.34'))
+
+	// println(yo.len)
+
+	return app.json(list)
 }
 
 ['/api/employee']

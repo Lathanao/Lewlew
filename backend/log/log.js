@@ -5,6 +5,6 @@ export default class extends AbstractView {
   constructor(params) {
     super(params)
     this.setTitle('Order')
-    this.__template_path = '/backend/log.html'
+    this.__template_path = '/log/log.html'
   }
 }

@@ -3,7 +3,7 @@ import Orders from '/backend/order.js'
 import Account from '/backend/account.js'
 import Login from '/backend/login.js'
 import Forget from '/backend/forget.js'
-import Log from '/backend/log.js'
+import Log from '/log/log.js'
 
 Storage = {} // https://stackoverflow.com/a/2010994
 Storage.observers = []
@@ -12,6 +12,7 @@ Storage.test = 'test'
 Storage.bank = 'Bank works well'
 Storage.blink = 'blink'
 Storage.label = 'Push the button'
+Storage.label = 'Lew App'
 Storage.filter = {}
 Storage.filter.order = {}
 

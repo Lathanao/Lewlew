@@ -50,8 +50,9 @@ export class WCToolbar extends HTMLElement {
         .then((res) => res.text())
         .then((res) => (this.__template = res))
     }
-
+    this.__title = Storage.title
     this.render()
+    this.getElementsByTagName('h1')[0].textContent = this.__title
   }
 
   render() {

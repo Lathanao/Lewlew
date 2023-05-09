@@ -1,5 +1,5 @@
-<wc-datagrid datasource="/api/order" template="/backend/datagrid-override.html"
-  template_tbody="/backend/datagrid-tbody.html" template_thead="/backend/datagrid-thead.html" searched_tables="[
+<wc-datagrid datasource="/api/log" template="/log/datagrid-override.html" template_tbody="/log/datagrid-tbody.html"
+  template_thead="/log/datagrid-thead.html" searched_tables="[
       ps_orders, 
       ps_customer
     ]" column="[
@@ -11,42 +11,37 @@
       date_add
     ]"></wc-datagrid>
 
+<wc-menu-wrapper position='right'>
+  <style>
+    .item,
+    .heading {
+      background-color: lightblue;
+      display: none;
+      width: 150px;
+      height: 60px;
+      align-items: center;
+      justify-content: center;
+    }
 
-word-count
-<p is="word-count">
+    .item:hover {
+      background-color: white;
+      cursor: default;
+    }
 
-
-  <wc-menu-wrapper position='right'>
-    <style>
-      .item,
-      .heading {
-        background-color: lightblue;
-        display: none;
-        width: 150px;
-        height: 60px;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .item:hover {
-        background-color: white;
-        cursor: default;
-      }
-
-      .heading {
-        background-color: #63b4cf;
-      }
-    </style>
-    <div class='heading'>
-      Menu
-    </div>
-    <div class='item'>
-      1st item
-    </div>
-    <div class='item'>
-      2nd item
-    </div>
-    <div class='item'>
-      3rd item
-    </div>
-  </wc-menu-wrapper>
+    .heading {
+      background-color: #63b4cf;
+    }
+  </style>
+  <div class='heading'>
+    Menu
+  </div>
+  <div class='item'>
+    1st item
+  </div>
+  <div class='item'>
+    2nd item
+  </div>
+  <div class='item'>
+    3rd item
+  </div>
+</wc-menu-wrapper>

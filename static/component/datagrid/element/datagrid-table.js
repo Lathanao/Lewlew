@@ -43,74 +43,93 @@ class DataGridTable extends LewElement {
         headervalues.push(row)
       })
 
-    thead.innerHTML = interpolate(localStorage.getItem('template_thead'), {
-      header: headervalues,
+    await fetch(this.__datasource + '/column', {
+      method: 'POST', // *GET, POST, PUT, DELETE
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json', // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: '', // body data type must match "Content-Type" header
     })
+      .then((res) => res.json())
+      .then((res) => {
+        // console.log(res)
+        thead.innerHTML = interpolate(localStorage.getItem('template_thead'), {
+          header: Object.values(res),
+        })
 
-    thead.onclick = (ev) => {
-      Array.from(ev.target.children).forEach((child) => {
-        if (child instanceof HTMLImageElement) {
-          console.log(child)
-          toggle_carret(child)
-          set_filter_by_element(child)
-          this.dispatch('datagrid-table-update-grid', {})
+        thead.onclick = (ev) => {
+          Array.from(ev.target.children).forEach((child) => {
+            if (child instanceof HTMLImageElement) {
+              console.log(child)
+              toggle_carret(child)
+              set_filter_by_element(child)
+              this.dispatch('datagrid-table-update-grid', {})
+            }
+          })
+        }
+
+        let toggle_carret = function (el) {
+          if (el.classList.contains('opacity-0')) {
+            reset_filters()
+            hide_all_carret(el)
+            el.setAttribute('way', 'DESC')
+            el.classList.remove('opacity-0')
+          } else if (el.classList.contains('rotate-180')) {
+            el.setAttribute('way', 'DESC')
+            el.classList.remove('transform')
+            el.classList.remove('rotate-180')
+          } else {
+            el.setAttribute('way', 'ASC')
+            el.classList.add('ease-in')
+            el.classList.add('duration-100')
+            el.classList.add('transform')
+            el.classList.add('rotate-180')
+          }
+        }
+
+        let hide_all_carret = function (el) {
+          let all_img = el.closest('tr').getElementsByTagName('img')
+          Array.from(all_img).forEach((img) => {
+            hide_carret(img)
+          })
+        }
+
+        let hide_carret = function (el) {
+          el.classList.remove('transform')
+          el.classList.remove('rotate-180')
+          el.classList.remove('ease-in')
+          el.classList.remove('duration-75')
+          el.classList.add('opacity-0')
+        }
+
+        let reset_filters = function (el) {
+          localStorage.setItem('datagrid_order_filter_attribute', '')
+          localStorage.setItem('datagrid_order_filter_way', '')
+          localStorage.setItem('datagrid_order_criteria', '')
+        }
+
+        let set_filter_by_element = function (el) {
+          console.log('======' + el.getAttribute('attr_order'))
+          console.log('======' + el.getAttribute('attr_order'))
+          localStorage.setItem(
+            'datagrid_order_filter_attribute',
+            el.parentNode.getAttribute('filter')
+          )
+          localStorage.setItem(
+            'datagrid_order_filter_way',
+            el.getAttribute('way')
+          )
         }
       })
-    }
-
-    let toggle_carret = function (el) {
-      if (el.classList.contains('opacity-0')) {
-        reset_filters()
-        hide_all_carret(el)
-        el.setAttribute('way', 'DESC')
-        el.classList.remove('opacity-0')
-      } else if (el.classList.contains('rotate-180')) {
-        el.setAttribute('way', 'DESC')
-        el.classList.remove('transform')
-        el.classList.remove('rotate-180')
-      } else {
-        el.setAttribute('way', 'ASC')
-        el.classList.add('ease-in')
-        el.classList.add('duration-100')
-        el.classList.add('transform')
-        el.classList.add('rotate-180')
-      }
-    }
-
-    let hide_all_carret = function (el) {
-      let all_img = el.closest('tr').getElementsByTagName('img')
-      Array.from(all_img).forEach((img) => {
-        hide_carret(img)
-      })
-    }
-
-    let hide_carret = function (el) {
-      el.classList.remove('transform')
-      el.classList.remove('rotate-180')
-      el.classList.remove('ease-in')
-      el.classList.remove('duration-75')
-      el.classList.add('opacity-0')
-    }
-
-    let reset_filters = function (el) {
-      localStorage.setItem('datagrid_order_filter_attribute', '')
-      localStorage.setItem('datagrid_order_filter_way', '')
-      localStorage.setItem('datagrid_order_criteria', '')
-    }
-
-    let set_filter_by_element = function (el) {
-      console.log('======' + el.getAttribute('attr_order'))
-      console.log('======' + el.getAttribute('attr_order'))
-      localStorage.setItem(
-        'datagrid_order_filter_attribute',
-        el.parentNode.getAttribute('filter')
-      )
-      localStorage.setItem('datagrid_order_filter_way', el.getAttribute('way'))
-    }
   }
 
   async update(data) {
-    console.log('========== Update DataGridTable with: ' + data + ' ==========')
+    // console.log('========== Update DataGridTable with: ' + data + ' ==========')
     // let payload = {
     //   uuid: '',
     //   criteria_search: '',
@@ -142,7 +161,7 @@ class DataGridTable extends LewElement {
       },
     }
 
-    console.log(criteria)
+    // console.log(criteria)
 
     if (this.__datasource !== 'undefined') {
       await fetch(this.__datasource, {
@@ -160,7 +179,7 @@ class DataGridTable extends LewElement {
         .then((res) => res.json())
         .then((res) => (this.__data = res))
     }
-
+    // console.log(this.__data)
     let tbody = this.getElementsByTagName('tbody')[0]
     tbody.innerHTML = interpolate(localStorage.getItem('template_tbody'), {
       cells: this.__data,

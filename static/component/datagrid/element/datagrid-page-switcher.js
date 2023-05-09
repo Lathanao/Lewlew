@@ -126,8 +126,8 @@ export class DatagridPageSwitcher extends LewElement {
   async connectadoptedCallbackedCallback() {}
 
   async get_count() {
-    await fetch(this.__datasource + '/setup', {
-      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    await fetch(this.__datasource + '/count', {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
       mode: 'cors', // no-cors, *cors, same-origin
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       credentials: 'same-origin', // include, *same-origin, omit
@@ -139,7 +139,7 @@ export class DatagridPageSwitcher extends LewElement {
       referrerPolicy: 'no-referrer', // body data type must match "Content-Type" header
     })
       .then((res) => res.json())
-      .then((res) => (this.__count = res[0].count))
+      // .then((res) => (this.__count = res[0].count))
   }
 }
 
