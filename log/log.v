@@ -6,18 +6,18 @@ import os
 pub struct Ufwrow {
 pub mut:
 	date      time.Time
-	host_name string = '1'
-	state     string = '1'
-	out       string = '1'
-	mac       string = '1'
-	src       string = '1'
-	dst       string = '1'
-	// len       int
-	// tos       string
-	// prec      string
-	// ttl       int
-	// id        int
-	// proto     int
+	host_name string
+	state     string
+	out       string
+	mac       string
+	src       string
+	dst       string
+	len       int
+	tos       string
+	prec      string
+	ttl       int
+	id        int
+	proto     int
 }
 
 pub fn api_log_count() map[string]int {
@@ -62,35 +62,35 @@ pub fn api_log() []Ufwrow {
 		mut result := Ufwrow{
 			date: parse_date(line)
 			host_name: splitted[4]
-			// state: splitted[7] + ' ' + splitted[8]
+			state: splitted[7] + ' ' + splitted[8]
 		}
 
-		// for attr in line.split(' ') {
-		// 	if !attr.contains('=') {
-		// 		continue
-		// 	}
+		for attr in line.split(' ') {
+			if !attr.contains('=') {
+				continue
+			}
 
-		// 	val := attr.split('=')
-		// 	vall := val[0].to_lower()
-		// 	$for field in Ufwrow.fields {
-		// 		$if field.typ is string {
-		// 			if field.name == vall {
-		// 				result.$(field.name) = val[1]
-		// 				continue
-		// 			}
-		// 		}
-		// 		$if field.typ is int {
-		// 			if field.name == vall {
-		// 				result.$(field.name) = val[1].int()
-		// 				continue
-		// 			}
-		// 		}
-		// 	}
-		// }
+			val := attr.split('=')
+			vall := val[0].to_lower()
+			$for field in Ufwrow.fields {
+				$if field.typ is string {
+					if field.name == vall {
+						result.$(field.name) = val[1]
+						continue
+					}
+				}
+				$if field.typ is int {
+					if field.name == vall {
+						result.$(field.name) = val[1].int()
+						continue
+					}
+				}
+			}
+		}
 		list << result
 	}
 
-	return list
+	return list.filter(it.src.contains('192.168.1.34'))
 }
 
 pub fn parse_date(line string) time.Time {

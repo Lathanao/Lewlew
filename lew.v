@@ -382,78 +382,7 @@ pub fn (mut app App) api_log_column() vweb.Result {
 
 ['/api/log'; post]
 pub fn (mut app App) api_log() ?vweb.Result {
-	println('============== api_log() ===============')
-
-	raw_list := os.execute_or_panic('cat ' + '/home/tanguy/logs/ufw.light.log')
-	mut list := []Row{}
-
-	for line in raw_list.output.split_into_lines() {
-		slitted := line.split(' ')
-
-		year := time.utc().year
-		month := line[0..3]
-		day := line[4..6]
-		oclock := line[7..15]
-
-		host_name := slitted[4]
-		state := slitted[7] + ' ' + slitted[8]
-
-		month_names := ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
-			'Dec']
-		mut month_nb := 0
-		for i, name in month_names {
-			if month == name {
-				month_nb = i + 1
-				break
-			}
-		}
-
-		date := time.Time{
-			year: year
-			month: month_nb
-			day: day.trim_space().int()
-			hour: oclock[..2].int()
-			minute: oclock[3..5].int()
-			second: oclock[6..8].int()
-		}
-
-		param := line.split('] ')
-
-		mut mapp := map[string]string{}
-
-		mut result := Row{
-			date: date
-			host_name: host_name
-			state: state
-		}
-
-		for attr in line.split(' ') {
-			if !attr.contains('=') {
-				continue
-			}
-
-			val := attr.split('=')
-			mapp[val[0]] = val[1]
-
-			$for field in Row.fields {
-				$if field.typ is string {
-					if field.name == val[0].to_lower() + '_' {
-						result.$(field.name) = val[1]
-						continue
-					}
-				}
-			}
-		}
-		list << result
-	}
-
-	println(list.len)
-
-	yo := list.filter(it.src_.contains('192.168.1.34'))
-
-	println(yo.len)
-
-	return app.json(yo)
+	return app.json(log.api_log())
 }
 
 ['/api/ufw-log'; post]
