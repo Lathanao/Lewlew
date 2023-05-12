@@ -1,20 +1,22 @@
 module classe
+
 import mysql
-/* import sqlite */
+// import sqlite
 
 pub struct Factory {
-	db    	mysql.Connection
-	
+	db mysql.Connection
 mut:
-	adminfactory   AdminFactory
-	id    	int
-	title 	string
-	text  	string
+	adminfactory     AdminFactory
+	id               int
+	title            string
+	text             string
 	cache_pragma_def map[string][]string
 }
 
 pub fn (f Factory) create_product() Product {
-	mut p := (Product{db: &f.db})
+	mut p := (Product{
+		db: &f.db
+	})
 
 	// // Add Generic field to easy iterate in hydrate(), etc...
 	// mut res,_ := p.db.query( 'pragma table_info("product");' )
@@ -24,7 +26,7 @@ pub fn (f Factory) create_product() Product {
 	// // Add Generic Lang field to easy iterate in hydrate(), etc...
 	// res,_ = p.db.query( 'pragma table_info("product_lang");' )
 	// for line in res {
-	// 	if line.vals[1] == 'id' { continue } // if not remove, will trouble hydrate() 
+	// 	if line.vals[1] == 'id' { continue } // if not remove, will trouble hydrate()
 	// 	p.schema_lang << line.vals[1]
 	// }
 	// // Add schema name to know the table base quikly

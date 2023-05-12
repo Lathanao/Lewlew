@@ -1,21 +1,20 @@
 module classes
 
-//import crypto.sha256
-//import rand
-//import os
-//import time
+// import crypto.sha256
+// import rand
+// import os
+// import time
 import mysql
 
 pub struct AdminFactory {
-
-mut: 
-	db    			mysql.Connection
-	filter			Filter
+mut:
+	db          mysql.Connection
+	filter      Filter
 	pragma      []string
 	schema      []string
 	schema_lang []string
 	schema_name string
-	cache				map[string]string [skip]
+	cache       map[string]string [skip]
 }
 
 pub fn (a AdminFactory) init() {
@@ -27,20 +26,18 @@ pub fn (a AdminFactory) init() {
 	// mut p := (Product{db: &f.db})
 	// // Add Generic field to easy iterate in hydrate(), etc...
 
-
 	// mut res := connection.real_query(query_main)?
-	
+
 	// // Add Generic Lang field to easy iterate in hydrate(), etc...
 	// res,_ = p.db.exec( 'pragma table_info("product_lang");' )
 	// for line in res {
-	// 	if line.vals[1] == 'id' { continue } // if not remove, will trouble hydrate() 
+	// 	if line.vals[1] == 'id' { continue } // if not remove, will trouble hydrate()
 	// 	p.schema_lang << line.vals[1]
 	// }
 }
 
 pub fn (mut a AdminFactory) fetch_admin(criteria map[string]string) ?Admin {
-
-	println("============== fetch_admin ===============")
+	println('============== fetch_admin ===============')
 	filter := make_query_condition(criteria, 'ps_employee')
 	query := 'SELECT * FROM `ps_employee` $filter;'
 	// println(query)
@@ -55,24 +52,19 @@ pub fn (mut a AdminFactory) fetch_admin(criteria map[string]string) ?Admin {
 	// }
 	// a.db.close()
 
-
-
 	if result_maps.len > 0 {
-
 		// println(result_maps)
 		// println(typeof(result_maps[0]))
 		// println(result_maps[0]['id'])
 
-
 		return a.hydrate(result_maps[0])
-	}	else {
+	} else {
 		return Admin{}
 	}
-
 }
 
-fn (a AdminFactory) hydrate (data map[string]string) Admin {
-  mut result := AdminEntity{}
+fn (a AdminFactory) hydrate(data map[string]string) Admin {
+	mut result := AdminEntity{}
 	$for field in AdminEntity.fields {
 		$if field.typ is int {
 			result.$(field.name) = data[field.name].int()
@@ -87,5 +79,5 @@ fn (a AdminFactory) hydrate (data map[string]string) Admin {
 			result.$(field.name) = data[field.name].f32()
 		}
 	}
-	return (Admin{AdminAbstract{}, result})
+	return Admin{AdminAbstract{}, result}
 }

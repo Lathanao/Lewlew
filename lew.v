@@ -1,25 +1,21 @@
 module main
 
 import rand
-import sqlite
 import vweb
 import classe
 import time
 import os
-import flag
-import encoding.base64
+// import flag
 import crypto.sha256
 import json
-import math
 import mysql
-import validate
 import v.vcache
 import x.json2
+import log
 
 const (
 	port           = 8882
-	BO_hash_key    = 'set_your_secret_key_for_hashing'
-	FO_hash_key    = 'set_your_secret_key_for_hashing'
+	hash_key       = 'set_secret_key'
 	vcache_folder  = os.join_path(os.temp_dir(), 'vcache_folder')
 	session_expire = 1 * 24 * 3600
 )
@@ -41,8 +37,8 @@ pub mut:
 
 struct Criteria {
 pub mut:
-	where   []Where
-	orderby Orderby
+	where   []Where [json: where]
+	orderby Orderby [json: orderby]
 	limit   Limit
 }
 
@@ -98,24 +94,19 @@ fn main() {
 		}
 	}
 
-	// app.factory = classe.Factory{	
-	// 	db: app.db,
-	// 	adminfactory: classe.AdminFactory{db: &app.db}
-	// }
-
 	app.mount_static_folder_at(os.resource_abs_path('/dashboard'), '/dashboard')
 	app.mount_static_folder_at(os.resource_abs_path('backend/account'), '/backend')
 	app.mount_static_folder_at(os.resource_abs_path('backend/login'), '/backend')
 	app.mount_static_folder_at(os.resource_abs_path('backend/forget'), '/backend')
 	app.mount_static_folder_at(os.resource_abs_path('backend/order'), '/backend')
-	app.mount_static_folder_at(os.resource_abs_path('backend/log'), '/log')
 
 	app.mount_static_folder_at(os.resource_abs_path('static/component'), '/component')
 	app.mount_static_folder_at(os.resource_abs_path('static/js'), '/js')
 	app.mount_static_folder_at(os.resource_abs_path('static/css'), '/css')
 	app.mount_static_folder_at(os.resource_abs_path('static/image'), '/image')
 	app.mount_static_folder_at(os.resource_abs_path('static/'), '/')
-	app.mount_static_folder_at(os.resource_abs_path('templates'), '/templates')
+
+	app.mount_static_folder_at(os.resource_abs_path('log'), '/log')
 
 	os.setenv('VCACHE', vcache_folder, true)
 	eprintln('testsuite_begin, vcache_folder = $vcache_folder')
@@ -126,11 +117,11 @@ fn main() {
 }
 
 pub fn (mut app App) index() vweb.Result {
-	if app.is_logged() {
-		return app.file(os.join_path(os.resource_abs_path('/templates/index.html')))
-	}
+	// if app.is_logged() {
+	return app.file(os.join_path(os.resource_abs_path('/templates/index.html')))
+	// }
 
-	return app.redirect('/logout')
+	// return app.redirect('/logout')
 }
 
 ['/intercome']
@@ -156,7 +147,7 @@ pub fn (mut app App) index_post() ?vweb.Result {
 				db: app.db
 			}
 		}
-		passhash := sha256.sum('$password$BO_hash_key'.bytes()).hex().str()
+		passhash := sha256.sum('$password$hash_key'.bytes()).hex().str()
 		admin := app.factory.fetch_admin({
 			'password': passhash
 		}) ?
@@ -239,7 +230,7 @@ pub fn (mut app App) clean_session() bool {
 // }
 
 pub fn (mut app App) is_logged() bool {
-	uuid := app.get_cookie('uuid') or { return false }
+	// uuid := app.get_cookie('uuid') or { return false }
 
 	mut cm := vcache.new_cache_manager([])
 	session := cm.load('.session', 'admin/session/test') or { return false }
@@ -322,19 +313,13 @@ pub fn (mut app App) api_order() ?vweb.Result {
 	// 	return app.json('Resource not found')
 	// }
 	mut query := ''
-	if app.form['json'] != '' {
-		out := json.decode(map[string]string, app.form['json']) ?
 
-		crit := json.decode(Criteria, app.form['json']) or {
-			Criteria{
-				where: [Where{'failled', 'failled'}]
-			}
-		}
-		query = make_query(crit, 'o')
-	}
+	// out := json.decode(map[string]string, app.form['json']) ?
 
-	app.db.connect() or { panic(err) }
-	orders_result := app.db.query(
+	criteria := json.decode(Criteria, app.form['json']) or { Criteria{} }
+	query = make_query(criteria, 'o')
+
+	sql :=
 		'SELECT *, (
                     SELECT osl.`name`
                     FROM `ps_order_state_lang` osl
@@ -345,19 +330,16 @@ pub fn (mut app App) api_order() ?vweb.Result {
                 FROM `ps_orders` o
                 LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
                 ' +
-		query + ';') or { panic(err) }
+		' LIMIT 10 OFFSET 0' + ';'
+	println(sql)
+	app.db.connect() or { panic(err) }
+	orders_result := app.db.query(sql) or { panic(err) }
 	app.db.close()
 	map_result := orders_result.maps()
 	return app.json(map_result)
 }
 
-// struct Limit {
-// pub mut:
-//     currentpage string
-// 		rowsbypage string
-// }
 pub fn make_query(criteria Criteria, schema_name string) string {
-	nb_page := 10
 	mut conjonction := ' WHERE'
 	mut condition := ''
 
@@ -389,37 +371,17 @@ pub fn make_query(criteria Criteria, schema_name string) string {
 
 ['/api/log/count'; post]
 pub fn (mut app App) api_log_count() vweb.Result {
-	mut count := map[string]int{}
-	count['count'] = 42
-	return app.json(count)
+	return app.json(log.api_log_count())
 }
 
 ['/api/log/column'; post]
 pub fn (mut app App) api_log_column() vweb.Result {
-	mut ufw_log := map[string]string{}
-	ufw_log['date'] = 'Date'
-	ufw_log['host_name'] = 'Host Name'
-	ufw_log['state'] = 'State'
-	ufw_log['in_'] = 'In'
-	ufw_log['out_'] = 'Out'
-	ufw_log['mac_'] = 'Mac'
-	ufw_log['src_'] = 'Src'
-	ufw_log['dst_'] = 'Dst'
-	ufw_log['len_'] = 'Len'
-	ufw_log['tos_'] = 'Tos'
-	ufw_log['prec_'] = 'Prec'
-	ufw_log['ttl_'] = 'Ttl'
-	ufw_log['id_'] = 'Id'
-	ufw_log['proto_'] = 'Proto'
-
-	// ya = ya.replace_each([' ','','\n','','\t','','\v','','\f','','\r',''])
-	// println(ya)
-	return app.json(ufw_log)
+	return app.json(log.api_log_column())
 }
 
 ['/api/log'; post]
-pub fn (mut app App) api_log() vweb.Result {
-	println('============== api log ===============')
+pub fn (mut app App) api_log() ?vweb.Result {
+	println('============== api_log() ===============')
 
 	raw_list := os.execute_or_panic('cat ' + '/home/tanguy/logs/ufw.light.log')
 	mut list := []Row{}
@@ -486,17 +448,16 @@ pub fn (mut app App) api_log() vweb.Result {
 
 	println(list.len)
 
-	// yo := list.filter(it.src_.contains('192.168.1.34'))
+	yo := list.filter(it.src_.contains('192.168.1.34'))
 
-	// println(yo.len)
+	println(yo.len)
 
-	return app.json(list)
+	return app.json(yo)
 }
 
-['/api/employee']
-pub fn (mut app App) api_employee() ?vweb.Result {
-	get_users_query_result := app.db.query('SELECT * FROM ps_employee LIMIT 10') ?
-	return app.json(get_users_query_result.maps())
+['/api/ufw-log'; post]
+pub fn (mut app App) api_log_ufw() vweb.Result {
+	return app.json(log.api_log_ufw())
 }
 
 pub fn (mut app App) account() vweb.Result {
@@ -512,6 +473,11 @@ pub fn (mut app App) order() vweb.Result {
 }
 
 pub fn (mut app App) log() vweb.Result {
+	return app.index()
+}
+
+['/dictionary']
+pub fn (mut app App) dictionary() vweb.Result {
 	return app.index()
 }
 

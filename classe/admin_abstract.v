@@ -1,19 +1,17 @@
 module classes
 
-
-
 struct AdminAbstract {
 mut:
-    pragma      []string [skip]
-    schema      []string [skip]
-    schema_lang []string [skip]
-    cache		map[string]string [skip]
+	pragma      []string          [skip]
+	schema      []string          [skip]
+	schema_lang []string          [skip]
+	cache       map[string]string [skip]
 }
 
 fn (mut a Admin) init() {
-	//println('---AdminUser-----init-------')
+	// println('---AdminUser-----init-------')
 	// res,_ := a.db.query( 'pragma table_info("admin_user");' )
-	//println(res)
+	// println(res)
 	// for line in res {
 	// 	a.schema << line.vals[1]
 	// }

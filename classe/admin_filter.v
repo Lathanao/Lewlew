@@ -1,13 +1,13 @@
 module classes
 
-//import crypto.sha256
-//import rand
-//import os
-//import time
+// import crypto.sha256
+// import rand
+// import os
+// import time
 import mysql
 
 struct AdminFilter {
-mut: 
+mut:
 	filter Filter
 }
 
@@ -37,13 +37,12 @@ mut:
 // 	code          string
 // }
 
-
-pub fn (a AdminFilter) filter_by_email (criteria map[string]string) Admin {
+pub fn (a AdminFilter) filter_by_email(criteria map[string]string) Admin {
 	// println('--- Admin ---filter_by_query------')
 	// filter := make_query_condition(criteria, 'employee')
 
 	// query := 'SELECT * FROM `admin_user` $filter;'
-	
+
 	// //println(query)
 	// //println(a.db)
 
@@ -71,4 +70,3 @@ pub fn (a AdminFilter) filter_by_email (criteria map[string]string) Admin {
 
 	return result
 }
-

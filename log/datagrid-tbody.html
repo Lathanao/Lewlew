@@ -1,0 +1,16 @@
+<tbody>
+  ${cells.map( cell => {
+
+    let tr = '<tr>';
+
+    Object.values(cell).forEach(element => {
+      tr += `
+        <td class="pl-4 whitespace-pre">${element}</td>
+     `
+    }) 
+    tr += '</tr>';
+    return tr
+  }
+      
+    ).join('\n')}
+</tbody>

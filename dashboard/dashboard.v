@@ -1,8 +1,8 @@
 module dashboard
+
 import os
 
 pub fn ls_var_log(s string) bool {
-
 	if x := os.ls('') {
 		assert false
 	} else {

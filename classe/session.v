@@ -5,23 +5,21 @@ import rand
 import math
 import x.json2
 import crypto.sha256
-//import net
+// import net
 
 pub const (
-	version = 0xBA //Magic byte, BrancA.
-	private = "sdfdsfsfqwewq"
-	nonce = ""
+	version = 0xBA // Magic byte, BrancA.
+	private = 'sdfdsfsfqwewq'
+	nonce   = ''
 )
 
 pub struct Session {
 pub mut:
-	uuid       		string
-	ip       			string
-	created_at    i64
-	updated_at    i64
+	uuid       string
+	ip         string
+	created_at i64
+	updated_at i64
 }
-
-
 
 pub fn (s Session) to_json() string {
 	mut mp := map[string]json2.Any{}
@@ -96,9 +94,9 @@ pub fn (mut s Session) from_json(any json2.Any) {
 // fn encode_cookie() Session {
 // 	ticknow := time.ticks()
 // 	ses := Session{
-// 		user_id: 1010, 
-// 		user_ip: '127.0.0.1', 
-// 		timestamp: ticknow  + i64(3600 * 1000), 
+// 		user_id: 1010,
+// 		user_ip: '127.0.0.1',
+// 		timestamp: ticknow  + i64(3600 * 1000),
 // 		token: gen_uuid_v4ish()
 // 	}
 // 	return ses
@@ -111,4 +109,3 @@ pub fn (mut s Session) from_json(any json2.Any) {
 // 	// }
 // 	return Session{}
 // }
-

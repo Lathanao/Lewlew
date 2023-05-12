@@ -1,4 +1,4 @@
-module main
+module log
 
 import sqlite
 import os
@@ -22,7 +22,7 @@ mut:
 	files []File
 }
 
-fn main() {
+fn get_all_logs() ?bool {
 	start1 := time.ticks()
 	mut raw_list := os.ls('/home/tanguy/logs') ?
 	mut logs_list := []string{}
@@ -69,6 +69,8 @@ fn main() {
 	}
 	finish1 := time.ticks()
 	println('process_thesaurus_light      time ${finish1 - start1} ms')
+
+	return true
 }
 
 // pub fn calculate_score(a Song, b Song) int {

@@ -8,7 +8,7 @@ import '/component/dashboard/dashboard-message.js'
 import '/component/dashboard/dashboard-voicemail.js'
 import '/component/dashboard/dashboard-calendar.js'
 
-// import 'https://cdn.jsdelivr.net/npm/chart.js'
+import 'https://cdn.jsdelivr.net/npm/chart.js'
 
 export default class extends AbstractView {
   constructor(params) {

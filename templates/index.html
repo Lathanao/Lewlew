@@ -13,9 +13,9 @@
 </head>
 
 <body>
-  <div class="flex items-start justify-between relative">
-    <wc-menu template="/component/menu/menu2.html" source="/component/menu/menu.json"></wc-menu>
-    <div class="flex flex-col text-gray-600 dark:text-gray-400 md:space-y-4 sm:ml-40 lg:ml-60 xl:ml-80 w-full">
+  <div class="relative flex items-start justify-between min-h-screen">
+    <lew-menu template="/component/menu/menu.html" source="/api/menu.json"></lew-menu>
+    <div class="flex flex-col text-gray-600 md:space-y-4 sm:ml-40 lg:ml-60 xl:ml-80 w-full">
       <wc-toolbar template="/component/toolbar/toolbar.html" source="/component/toolbar/toolbar.json"></wc-toolbar>
       <main id="app" class="p-4"></main>
     </div>

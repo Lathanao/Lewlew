@@ -1,4 +1,4 @@
-export class WCMenu extends HTMLElement {
+export class LewMenu extends HTMLElement {
   static get observedAttributes() {
     return ['src', 'context']
   }
@@ -34,24 +34,14 @@ export class WCMenu extends HTMLElement {
     super()
     this.__initialized = false
     this.__template = ''
-    this.__datasource = {}
-    // this.__column = ['id', 'name', 'username', 'email', 'phone', 'website']
-    this.__column = [
-      'id_customer',
-      'firstname',
-      'lastname',
-      'email',
-      'passwd',
-      'birthday',
-    ]
   }
 
   async connectedCallback() {
-    if (this.hasAttribute('source')) {
-      await fetch(this.getAttribute('source'))
-        .then((res) => res.json())
-        .then((res) => (this.__datasource = res))
-    }
+    // if (this.hasAttribute('source')) {
+    //   await fetch(this.getAttribute('source'))
+    //     .then((res) => res.json())
+    //     .then((res) => (this.__datasource = res))
+    // }
 
     if (this.hasAttribute('template')) {
       await fetch(this.getAttribute('template'))
@@ -62,25 +52,6 @@ export class WCMenu extends HTMLElement {
     this.render()
 
     let lewLinkList = this.querySelectorAll('a')
-
-    // lewLinkList.forEach((Value, index, obj) => {
-    //   this.onclick = (ev) => {
-    //     ev.preventDefault()
-    //     console.log(ev.target)
-    //   }
-    // })
-
-    // this.addEventListener('click', (e) => {
-    //   if (e.target.matches('[data-link]')) {
-    //     e.preventDefault()
-    //     // navigateTo(e.target.href)
-    //   }
-    //   if (e.target.matches('[lew-link]')) {
-    //     e.preventDefault()
-    //     console.log(e.target)
-    //     // navigateTo(e.target.href)
-    //   }
-    // })
   }
 
   render() {
@@ -89,4 +60,4 @@ export class WCMenu extends HTMLElement {
   }
 }
 
-customElements.define('wc-menu', WCMenu)
+customElements.define('lew-menu', LewMenu)
