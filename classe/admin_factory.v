@@ -1,9 +1,5 @@
 module classes
 
-// import crypto.sha256
-// import rand
-// import os
-// import time
 import mysql
 
 pub struct AdminFactory {
@@ -37,13 +33,14 @@ pub fn (a AdminFactory) init() {
 }
 
 pub fn (mut a AdminFactory) fetch_admin(criteria map[string]string) ?Admin {
-	println('============== fetch_admin ===============')
+	println('============== admin_factory.fetch_admin() ===============')
 	filter := make_query_condition(criteria, 'ps_employee')
 	query := 'SELECT * FROM `ps_employee` $filter;'
-	// println(query)
+
 	a.db.connect() ?
 	results := a.db.query(query) ?
-	// println(query)
+	a.db.close()
+
 	result_maps := results.maps().clone()
 
 	// unsafe {
@@ -53,10 +50,6 @@ pub fn (mut a AdminFactory) fetch_admin(criteria map[string]string) ?Admin {
 	// a.db.close()
 
 	if result_maps.len > 0 {
-		// println(result_maps)
-		// println(typeof(result_maps[0]))
-		// println(result_maps[0]['id'])
-
 		return a.hydrate(result_maps[0])
 	} else {
 		return Admin{}

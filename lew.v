@@ -15,7 +15,7 @@ import log
 
 const (
 	port           = 8882
-	hash_key       = 'set_secret_key'
+	hash_key       = 'set_your_secret_key_for_hashing'
 	vcache_folder  = os.join_path(os.temp_dir(), 'vcache_folder')
 	session_expire = 1 * 24 * 3600
 )
