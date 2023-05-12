@@ -62,20 +62,20 @@ pub mut:
 
 pub struct Row {
 pub mut:
-	date         time.Time
-	host_name    string
-	state        string
-	in_          string
-	out_         string
-	mac_         string
-	src_         string
-	dst_         string
-	len_         string
-	tos_         string
-	prec_        string
-	ttl_         string
-	id_          string
-	proto_       string
+	date      time.Time
+	host_name string
+	state     string
+	in_       string
+	out_      string
+	mac_      string
+	src_      string
+	dst_      string
+	len_      string
+	tos_      string
+	prec_     string
+	ttl_      string
+	id_       string
+	proto_    string
 }
 
 fn main() {
@@ -117,11 +117,12 @@ fn main() {
 }
 
 pub fn (mut app App) index() vweb.Result {
-	// if app.is_logged() {
+	$if prod {
+		if !app.is_logged() {
+			return app.redirect('/logout')
+		}
+	}
 	return app.file(os.join_path(os.resource_abs_path('/templates/index.html')))
-	// }
-
-	// return app.redirect('/logout')
 }
 
 ['/intercome']
