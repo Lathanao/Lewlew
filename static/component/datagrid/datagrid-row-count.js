@@ -23,7 +23,7 @@ export class LewDatagridRowCount extends HTMLElement {
 
     let count = 111
     this.innerHTML = `
-    <p class="block w-full py-2 px-2 xl:px-3 text-gray-600 dark:text-gray-400 appearance-none leading-normal">
+    <p class="block w-full py-2 px-2 xl:px-3 text-gray-600 appearance-none leading-normal">
        $(count) records found
     </p>`
   }

@@ -20,7 +20,7 @@ class DataGridTable extends LewElement {
 
   async connectedCallback() {
     let table = `
-    <table id='datagrid-table' class="min-w-full bg-white dark:bg-gray-800">
+    <table id='datagrid-table' class="min-w-full">
       <thead class="sticky bg-gray-100 top-0 z-100"></thead>
       <tbody></tbody>
     </table>`

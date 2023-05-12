@@ -9,16 +9,16 @@ export class LewDashboardTodo extends LewElement {
 
   create(state, props, storage, query) {
     const template = `
-<div class="shadow-lg rounded-2xl bg-white dark:bg-gray-700 w-full">
-  <p class="font-bold text-md p-4 text-black dark:text-white">
+<div class="shadow-lg rounded-2xl bg-white w-full">
+  <p class="font-bold text-md p-4 text-black ">
     My Tasks
-    <span class="text-sm text-gray-500 dark:text-gray-300 dark:text-white ml-2">
+    <span class="text-sm text-gray-500 ml-2">
       (05)
     </span>
   </p>
   <ul>
     <li
-      class="flex items-center text-gray-600 dark:text-gray-200 justify-between py-3 border-b-2 border-gray-100 dark:border-gray-800">
+      class="flex items-center text-gray-600 justify-between py-3 border-b-2 border-gray-100">
       <div class="flex items-center justify-start text-sm">
         <span class="mx-4">
           01
@@ -27,7 +27,7 @@ export class LewDashboardTodo extends LewElement {
           Create wireframe
         </span>
       </div>
-      <svg width="20" height="20" fill="currentColor" class="mx-4 text-gray-400 dark:text-gray-300"
+      <svg width="20" height="20" fill="currentColor" class="mx-4 text-gray-400"
         viewBox="0 0 1024 1024">
         <path
           d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0 0 51.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7z"
@@ -40,7 +40,7 @@ export class LewDashboardTodo extends LewElement {
       </svg>
     </li>
     <li
-      class="flex items-center text-gray-600 dark:text-gray-200 justify-between py-3 border-b-2 border-gray-100 dark:border-gray-800">
+      class="flex items-center text-gray-600 justify-between py-3 border-b-2 border-gray-100">
       <div class="flex items-center justify-start text-sm">
         <span class="mx-4">
           02
@@ -48,7 +48,7 @@ export class LewDashboardTodo extends LewElement {
         <span>
           Dashboard design
         </span>
-        <span class="lg:ml-6 ml-2 flex items-center text-gray-400 dark:text-gray-300">
+        <span class="lg:ml-6 ml-2 flex items-center text-gray-400">
           3
           <svg width="15" height="15" fill="currentColor" class="ml-1" viewBox="0 0 512 512">
             <path
@@ -57,7 +57,7 @@ export class LewDashboardTodo extends LewElement {
             </path>
           </svg>
         </span>
-        <span class="mx-4 flex items-center text-gray-400 dark:text-gray-300">
+        <span class="mx-4 flex items-center text-gray-400">
           3
           <svg width="15" height="15" class="ml-1" fill="currentColor" viewBox="0 0 384 512">
             <path
@@ -67,7 +67,7 @@ export class LewDashboardTodo extends LewElement {
           </svg>
         </span>
       </div>
-      <svg width="20" height="20" fill="currentColor" class="mx-4 text-gray-400 dark:text-gray-300"
+      <svg width="20" height="20" fill="currentColor" class="mx-4 text-gray-400"
         viewBox="0 0 1024 1024">
         <path
           d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0 0 51.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7z"
@@ -80,7 +80,7 @@ export class LewDashboardTodo extends LewElement {
       </svg>
     </li>
     <li
-      class="flex items-center text-gray-600 dark:text-gray-200 justify-between py-3 border-b-2 border-gray-100 dark:border-gray-800">
+      class="flex items-center text-gray-600 justify-between py-3 border-b-2 border-gray-100">
       <div class="flex items-center justify-start text-sm">
         <span class="mx-4">
           03
@@ -88,7 +88,7 @@ export class LewDashboardTodo extends LewElement {
         <span>
           Components card
         </span>
-        <span class="lg:ml-6 ml-2 flex items-center text-gray-400 dark:text-gray-300">
+        <span class="lg:ml-6 ml-2 flex items-center text-gray-400">
           3
           <svg width="15" height="15" fill="currentColor" class="ml-1" viewBox="0 0 512 512">
             <path
@@ -98,7 +98,7 @@ export class LewDashboardTodo extends LewElement {
           </svg>
         </span>
       </div>
-      <svg width="20" height="20" fill="currentColor" class="mx-4 text-gray-400 dark:text-gray-300"
+      <svg width="20" height="20" fill="currentColor" class="mx-4 text-gray-400"
         viewBox="0 0 1024 1024">
         <path
           d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0 0 51.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7z"
@@ -110,7 +110,7 @@ export class LewDashboardTodo extends LewElement {
         </path>
       </svg>
     </li>
-    <li class="flex items-center text-gray-400 justify-between py-3 border-b-2 border-gray-100 dark:border-gray-800">
+    <li class="flex items-center text-gray-400 justify-between py-3 border-b-2 border-gray-100">
       <div class="flex items-center justify-start text-sm">
         <span class="mx-4">
           04
@@ -126,7 +126,7 @@ export class LewDashboardTodo extends LewElement {
         </path>
       </svg>
     </li>
-    <li class="flex items-center text-gray-400  justify-between py-3 border-b-2 border-gray-100 dark:border-gray-800">
+    <li class="flex items-center text-gray-400  justify-between py-3 border-b-2 border-gray-100">
       <div class="flex items-center justify-start text-sm">
         <span class="mx-4">
           05
@@ -143,7 +143,7 @@ export class LewDashboardTodo extends LewElement {
       </svg>
     </li>
     <li
-      class="flex items-center text-gray-600 dark:text-gray-200 justify-between py-3 border-b-2 border-gray-100 dark:border-gray-800">
+      class="flex items-center text-gray-600 justify-between py-3 border-b-2 border-gray-100">
       <div class="flex items-center justify-start text-sm">
         <span class="mx-4">
           06
@@ -151,7 +151,7 @@ export class LewDashboardTodo extends LewElement {
         <span>
           International
         </span>
-        <span class="lg:ml-6 ml-2 flex items-center text-gray-400 dark:text-gray-300">
+        <span class="lg:ml-6 ml-2 flex items-center text-gray-400">
           3
           <svg width="15" height="15" fill="currentColor" class="ml-1" viewBox="0 0 512 512">
             <path
@@ -160,7 +160,7 @@ export class LewDashboardTodo extends LewElement {
             </path>
           </svg>
         </span>
-        <span class="mx-4 flex items-center text-gray-400 dark:text-gray-300">
+        <span class="mx-4 flex items-center text-gray-400">
           3
           <svg width="15" height="15" class="ml-1" fill="currentColor" viewBox="0 0 384 512">
             <path
@@ -170,7 +170,7 @@ export class LewDashboardTodo extends LewElement {
           </svg>
         </span>
       </div>
-      <svg width="20" height="20" fill="currentColor" class="mx-4 text-gray-400 dark:text-gray-300"
+      <svg width="20" height="20" fill="currentColor" class="mx-4 text-gray-400"
         viewBox="0 0 1024 1024">
         <path
           d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0 0 51.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7z"
@@ -182,7 +182,7 @@ export class LewDashboardTodo extends LewElement {
         </path>
       </svg>
     </li>
-    <li class="flex items-center text-gray-600 dark:text-gray-200 justify-between py-3">
+    <li class="flex items-center text-gray-600 justify-between py-3">
       <div class="flex items-center justify-start text-sm">
         <span class="mx-4">
           07
@@ -191,7 +191,7 @@ export class LewDashboardTodo extends LewElement {
           Production data
         </span>
       </div>
-      <svg width="20" height="20" fill="currentColor" class="mx-4 text-gray-400 dark:text-gray-300"
+      <svg width="20" height="20" fill="currentColor" class="mx-4 text-gray-400"
         viewBox="0 0 1024 1024">
         <path
           d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0 0 51.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7z"

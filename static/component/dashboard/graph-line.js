@@ -9,7 +9,7 @@ export class LewDashboardGraphLine extends LewElement {
 
   create(state, props, storage, query) {
     const template = `
-    <div class="shadow-lg rounded-2xl p-4 bg-white dark:bg-gray-700 w-full">
+    <div class="shadow-lg rounded-2xl p-4 bg-white w-full">
           <div class="flex items-center justify-between mb-6">
             <div class="flex items-center">
               <span class="rounded-xl relative p-2 bg-blue-100">
@@ -25,10 +25,10 @@ export class LewDashboardGraphLine extends LewElement {
                 </svg>
               </span>
               <div class="flex flex-col">
-                <span class="font-bold text-md text-black dark:text-white ml-2">
+                <span class="font-bold text-md ml-2">
                   Google
                 </span>
-                <span class="text-sm text-gray-500 dark:text-white ml-2">
+                <span class="text-sm text-gray-500 ml-2">
                   Google Inc.
                 </span>
               </div>

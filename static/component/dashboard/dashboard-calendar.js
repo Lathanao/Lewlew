@@ -8,11 +8,11 @@ export class LewDashboardCalendar extends LewElement {
 
   create(state, props, storage, query) {
     const template = `
-<div class="shadow-lg rounded-2xl p-4 bg-white dark:bg-gray-700">
+<div class="shadow-lg rounded-2xl p-4 bg-white">
   <div class="flex flex-wrap overflow-hidden">
     <div class="w-full rounded shadow-sm">
       <div class="flex items-center justify-between mb-4">
-        <div class="text-left font-bold text-xl text-black dark:text-white">
+        <div class="text-left font-bold text-xl text-black">
           Dec 2021
         </div>
         <div class="flex space-x-4">
@@ -33,7 +33,7 @@ export class LewDashboardCalendar extends LewElement {
         </div>
       </div>
       <div class="-mx-2">
-        <table class="w-full dark:text-white">
+        <table class="w-ful">
           <tbody>
             <tr>
               <th class="py-3 px-2 md:px-3 ">
@@ -58,23 +58,23 @@ export class LewDashboardCalendar extends LewElement {
                 S
               </th>
             </tr>
-            <tr class="text-gray-400 dark:text-gray-500">
-              <td class="py-3 px-2 md:px-3  text-center text-gray-300 dark:text-gray-500">
+            <tr class="text-gray-400">
+              <td class="py-3 px-2 md:px-3  text-center text-gray-300">
                 25
               </td>
-              <td class="py-3 px-2 md:px-3  text-center text-gray-300 dark:text-gray-500">
+              <td class="py-3 px-2 md:px-3  text-center text-gray-300">
                 26
               </td>
-              <td class="py-3 px-2 md:px-3  text-center text-gray-300 dark:text-gray-500">
+              <td class="py-3 px-2 md:px-3  text-center text-gray-300">
                 27
               </td>
-              <td class="py-3 px-2 md:px-3  text-center text-gray-300 dark:text-gray-500">
+              <td class="py-3 px-2 md:px-3  text-center text-gray-300">
                 28
               </td>
-              <td class="py-3 px-2 md:px-3  text-center text-gray-300 dark:text-gray-500">
+              <td class="py-3 px-2 md:px-3  text-center text-gray-300">
                 29
               </td>
-              <td class="py-3 px-2 md:px-3  text-center text-gray-300 dark:text-gray-500">
+              <td class="py-3 px-2 md:px-3  text-center text-gray-300">
                 30
               </td>
               <td class="py-3 px-2 md:px-3  hover:text-blue-500 text-center text-gray-800 cursor-pointer">

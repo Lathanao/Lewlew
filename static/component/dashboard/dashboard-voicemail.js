@@ -9,9 +9,9 @@ export class LewDashboardVoicemail extends LewElement {
 
   create(state, props, storage, query) {
     const template = `
-<div class="shadow-lg rounded-2xl bg-white dark:bg-gray-700 w-full">
+<div class="shadow-lg rounded-2xl bg-white w-full">
   <div class="flex items-center p-4 justify-between">
-    <p class="font-bold text-md text-black dark:text-white">
+    <p class="font-bold text-md text-black">
       Google
     </p>
     <button class="text-sm p-1 text-gray-400 border rounded border-gray-400 mr-4">
@@ -26,8 +26,8 @@ export class LewDashboardVoicemail extends LewElement {
     </button>
   </div>
   <div
-    class="py-2 px-4 bg-blue-100 dark:bg-gray-800 text-gray-600 border-l-4 border-blue-500 flex items-center justify-between">
-    <p class="text-xs flex items-center dark:text-white">
+    class="py-2 px-4 bg-blue-100 text-gray-600 border-l-4 border-blue-500 flex items-center justify-between">
+    <p class="text-xs flex items-center">
       <svg width="20" height="20" fill="currentColor" class="text-blue-500 mr-2" viewBox="0 0 24 24">
         <g fill="none">
           <path
@@ -39,7 +39,7 @@ export class LewDashboardVoicemail extends LewElement {
       Create wireframe
     </p>
     <div class="flex items-center">
-      <span class="font-bold text-xs dark:text-gray-200 mr-2 ml-2 md:ml-4">
+      <span class="font-bold text-xs mr-2 ml-2 md:ml-4">
         25 min 20s
       </span>
       <button class="text-sm p-1 text-gray-400 border rounded bg-blue-500 mr-4">
@@ -55,7 +55,7 @@ export class LewDashboardVoicemail extends LewElement {
     </div>
   </div>
   <div class="flex items-center p-4 justify-between border-b-2 border-gray-100">
-    <p class="font-bold text-md text-black dark:text-white">
+    <p class="font-bold text-md text-black">
       Slack
     </p>
     <button class="text-sm p-1 text-gray-400 border rounded border-gray-400 mr-4">
@@ -70,7 +70,7 @@ export class LewDashboardVoicemail extends LewElement {
     </button>
   </div>
   <div class="py-2 px-4 text-gray-600 flex items-center justify-between border-b-2 border-gray-100">
-    <p class="text-xs flex items-center dark:text-white">
+    <p class="text-xs flex items-center">
       <svg width="20" height="20" fill="currentColor" class="mr-2" viewBox="0 0 24 24">
         <g fill="none">
           <path
@@ -98,7 +98,7 @@ export class LewDashboardVoicemail extends LewElement {
     </div>
   </div>
   <div class="py-2 px-4 text-gray-600 flex items-center justify-between border-b-2 border-gray-100">
-    <p class="text-xs flex items-center dark:text-white">
+    <p class="text-xs flex items-center">
       <svg width="20" height="20" fill="currentColor" class="mr-2" viewBox="0 0 24 24">
         <g fill="none">
           <path
@@ -126,7 +126,7 @@ export class LewDashboardVoicemail extends LewElement {
     </div>
   </div>
   <div class="py-2 px-4 text-gray-600 flex items-center justify-between">
-    <p class="text-xs flex items-center dark:text-white">
+    <p class="text-xs flex items-center">
       <svg width="20" height="20" fill="currentColor" class="mr-2" viewBox="0 0 24 24">
         <g fill="none">
           <path
