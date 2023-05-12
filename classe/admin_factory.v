@@ -33,7 +33,6 @@ pub fn (a AdminFactory) init() {
 }
 
 pub fn (mut a AdminFactory) fetch_admin(criteria map[string]string) ?Admin {
-	println('============== admin_factory.fetch_admin() ===============')
 	filter := make_query_condition(criteria, 'ps_employee')
 	query := 'SELECT * FROM `ps_employee` $filter;'
 

@@ -1,4 +1,4 @@
-export class DatagridRowTools extends HTMLElement {
+export class LewDatagridRowTools extends HTMLElement {
   constructor() {
     super()
     this.__initialized = false
@@ -33,4 +33,4 @@ export class DatagridRowTools extends HTMLElement {
   }
 }
 
-customElements.define('wc-datagrid-row-tools', DatagridRowTools)
+customElements.define('lew-datagrid-row-tools', LewDatagridRowTools)

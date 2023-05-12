@@ -8,6 +8,7 @@ pub mut:
 	date      time.Time
 	host_name string
 	state     string
+	@in       string
 	out       string
 	mac       string
 	src       string

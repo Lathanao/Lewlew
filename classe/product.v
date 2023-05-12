@@ -3,10 +3,6 @@ module classes
 import mysql
 import time
 import strings
-// import v.ast
-// import strings
-// import v.table
-// import v.util
 
 pub struct Product {
 pub mut:
@@ -74,8 +70,6 @@ pub const (
 pub fn (mut p Product) save() ?Product {
 	today := time.now()
 
-	// println("------save-----")
-	// println(p)
 	mut condition_where := ';'
 	mut condition_where_lang := ';'
 	mut type_query := 'INSERT INTO '
@@ -88,37 +82,19 @@ pub fn (mut p Product) save() ?Product {
 
 		// query := "INSERT INTO `product` ($fields)  VALUES ($values)"
 		// sig, code := p.db.exec(query)
-		// // println(query)
-		// // println(sig)
-		// // println(code)
 
 		// queryl := "INSERT INTO `product_lang` ($fieldsl)  VALUES ($valuesl)"
 		// sigl, codel := p.db.exec(queryl)
-		// println(queryl)
-		// println(sigl)
-		// println(codel)
 	} else {
 		condition_where = 'id = $p.id; '
 		condition_where_lang = 'id_product = $p.id; '
-
 		// mut data := unify_data_for_update(fields, values)
-
-		println('--------- UPDATE --------')
-		println(update)
-		println('--------- UPDATE l --------')
-		println(updatel)
 
 		query := 'UPDATE `product` SET $update WHERE $condition_where;'
 		sig := p.db.query(query) ?
-		// println(query)
-		// println(sig)
-		// println(code)
 
 		queryl := 'UPDATE `product_lang` SET $updatel WHERE $condition_where_lang;'
 		sigl := p.db.query(queryl) ?
-		// println(queryl)
-		// println(sigl)
-		// println(codel)
 	}
 
 	return p

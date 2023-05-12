@@ -45,3 +45,5 @@ What is the goal:
 To be in the average in difficulties
 Getting the best datagrid
 Getting easy some hard stats 
+
+https://www.flaticon.com/free-icon/brazil_330430#

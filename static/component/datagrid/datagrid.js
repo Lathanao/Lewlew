@@ -1,18 +1,18 @@
 import { LewElement } from '/js/LewElement.js'
 
-import '/component/datagrid/element/datagrid-page-switcher.js'
-import '/component/datagrid/element/datagrid-view-switcher.js'
-import '/component/datagrid/element/datagrid-button-delete.js'
-import '/component/datagrid/element/datagrid-button-export.js'
-import '/component/datagrid/element/datagrid-row-count.js'
-import '/component/datagrid/element/datagrid-button.js'
-import '/component/datagrid/element/datagrid-action.js'
-import '/component/datagrid/element/datagrid-search.js'
-import '/component/datagrid/element/datagrid-modal.js'
-import '/component/datagrid/element/datagrid-table.js'
+import '/component/datagrid/datagrid-page-switcher.js'
+import '/component/datagrid/datagrid-view-switcher.js'
+import '/component/datagrid/datagrid-button-delete.js'
+import '/component/datagrid/datagrid-button-export.js'
+import '/component/datagrid/datagrid-row-count.js'
+import '/component/datagrid/datagrid-button.js'
+import '/component/datagrid/datagrid-action.js'
+import '/component/datagrid/datagrid-search.js'
+import '/component/datagrid/datagrid-modal.js'
+import '/component/datagrid/datagrid-table.js'
 
-import '/component/datagrid/element/datagrid-dropdown-action-row.js'
-import '/component/datagrid/element/datagrid-dropdown-setting.js'
+import '/component/datagrid/datagrid-dropdown-action-row.js'
+import '/component/datagrid/datagrid-dropdown-setting.js'
 
 export class WCDataGrid extends LewElement {
   static get observedAttributes() {

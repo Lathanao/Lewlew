@@ -1,11 +1,6 @@
 /* eslint no-undef: 0 */
 import { interpolateTable } from '/js/tool/interpolateTable.js'
 
-import '/component/datagrid/element/wc-datagrid-view-switcher.js'
-import '/component/datagrid/element/wc-datagrid-button-delete.js'
-import '/component/datagrid/element/wc-datagrid-button.js'
-import '/component/datagrid/element/wc-datagrid-pageview.js'
-
 export class WCDataGrid extends HTMLElement {
   static get observedAttributes() {
     return ['src', 'context']

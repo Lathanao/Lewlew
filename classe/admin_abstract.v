@@ -9,16 +9,13 @@ mut:
 }
 
 fn (mut a Admin) init() {
-	// println('---AdminUser-----init-------')
 	// res,_ := a.db.query( 'pragma table_info("admin_user");' )
-	// println(res)
 	// for line in res {
 	// 	a.schema << line.vals[1]
 	// }
 }
 
 // fn (a Admin) hydrate (data sqlite.Row) Admin {
-// 	//println('---AdminUser---hydrate------')
 //   mut result := a
 // 	for iii, name_field  in a.schema {
 // 		$for field in Admin.fields {

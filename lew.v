@@ -109,7 +109,6 @@ fn main() {
 	app.mount_static_folder_at(os.resource_abs_path('log'), '/log')
 
 	os.setenv('VCACHE', vcache_folder, true)
-	eprintln('testsuite_begin, vcache_folder = $vcache_folder')
 	os.rmdir_all(vcache_folder) or {}
 	vcache.new_cache_manager([])
 
@@ -141,7 +140,7 @@ pub fn (mut app App) index_post() ?vweb.Result {
 	// if !validate.is_password_admin(password) {
 	// 		app.error << 'Invalid password.'
 	// }
-	// println('app.error.len' + app.error.len.str())
+
 	if app.error.len == 0 {
 		app.factory = classe.Factory{
 			adminfactory: classe.AdminFactory{
@@ -225,8 +224,6 @@ pub fn (mut app App) clean_session() bool {
 // 	return true
 
 // 	uuid := app.get_cookie('uuid') or { return false }
-// 	println('================ check_session_exist ===================')
-// 	println(uuid)
 // 	return uuid != ''
 // }
 
@@ -281,10 +278,6 @@ pub fn (mut app App) api_order_setup() ?vweb.Result {
 	// fullcolumns := app.db.query('SHOW FULL COLUMNS FROM `ps_orders`;') ?
 	// map_result := orders_result.maps()
 
-	// println("============= api_order_setup =============")
-	// println(map_result[0])
-	// println(typeof(map_result[0]))
-
 	return app.json(count.maps())
 }
 
@@ -332,7 +325,7 @@ pub fn (mut app App) api_order() ?vweb.Result {
                 LEFT JOIN `ps_customer` c ON (c.`id_customer` = o.`id_customer`)
                 ' +
 		' LIMIT 10 OFFSET 0' + ';'
-	println(sql)
+
 	app.db.connect() or { panic(err) }
 	orders_result := app.db.query(sql) or { panic(err) }
 	app.db.close()
@@ -390,9 +383,15 @@ pub fn (mut app App) api_log_ufw() vweb.Result {
 	return app.json(log.api_log_ufw())
 }
 
+['/account']
 pub fn (mut app App) account() vweb.Result {
 	return app.index()
 }
+
+// ['/post/account'; post]
+// pub fn (mut app App) post_account() ?vweb.Result {
+// 	return app.json(post_account())
+// }
 
 pub fn (mut app App) adminaccount() vweb.Result {
 	return app.index()
