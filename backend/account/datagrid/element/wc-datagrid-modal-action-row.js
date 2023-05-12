@@ -21,7 +21,7 @@ export class WCDataGridModalActionRow extends HTMLElement {
       </svg>
     </button>
 
-    <div class="menu transition ease-out duration-100 transform opacity-0 scale-95 origin-top-right absolute right-0 mt-2 w-36 z-10 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
+    <div class="menu absolute transition ease-out duration-100 transform opacity-0 scale-95 origin-top-right right-0 mt-2 w-36 z-10 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
       <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
         <a href="/catalog/product/0" class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900" role="menuitem">
           <i class="fad fa-edit text-xs mr-1"></i>

@@ -21,7 +21,7 @@ export class LewDatagridDropdownSetting extends LewElement {
       <circle cx="12" cy="12" r="3"></circle>
     </svg>
     <div
-      class="menu-dropdown-setting transition ease-out duration-100 transform opacity-0 scale-95 origin-top-right absolute right-0 mt-2 w-36 z-10 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
+      class="menu-dropdown-setting absolute transition ease-out duration-100 transform opacity-0 scale-95 origin-top-right right-0 mt-2 w-36 z-10 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
       <div>
         <div class="text-xs font-semibold text-slate-400 uppercase pt-1.5 pb-2 px-4">Filters</div>
         <ul class="mb-4">
