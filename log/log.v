@@ -23,8 +23,8 @@ pub mut:
 
 pub fn api_log_count() map[string]int {
 	mut count := map[string]int{}
-	// count['count'] = os.execute_or_panic('cat ' + '/home/tanguy/logs/ufw.light.log | wc -l')
-	count['count'] = 42
+	res := os.execute_or_panic('cat /home/tanguy/logs/ufw.light.log | wc -l')
+	count['count'] = res.output.int()
 	return count
 }
 
