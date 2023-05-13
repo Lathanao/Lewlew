@@ -1,4 +1,3 @@
-
 ## Request features
 Delete cache
 add cache seed manualy
@@ -29,17 +28,17 @@ htmlElement.dispatchEvent(new CustomEvent("stringEvent", {detail: payload}));
 const payload = { property:"value", property2: 1234 };
 htmlElement.dispatchEvent(new CustomEvent("complexEvent", {detail: payload}));
 
-
-
 Every thing names in single form, no plural
-Any props get a resources -> All data fetch by API -> No data in template
+Any props are set with a resources -> All data fetch by API -> No data in template
 Every JS import in the main page
 All API request in POST, even witout payload or whatever
 Let V make all the work -> Don't validate anything in JS -> Don't make any buissness logic in JS
-In Prod, stay behind Nginx
-Don't think about GraphQL
+Don't think about GraphQL or TypeScript
+Don't put any JS in the template
 
-
+Prod:
+Don't set v files as assets
+Stay behind Nginx
 
 What is the goal:
 To be in the average in difficulties
