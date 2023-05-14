@@ -232,7 +232,6 @@ pub fn (mut app App) is_logged() bool {
 pub fn (mut app App) api_order_count() vweb.Result {
 	mut count := map[string]int{}
 	count['count'] = 1999
-
 	return app.json(count)
 }
 
@@ -363,6 +362,11 @@ pub fn (mut app App) api_log_column() vweb.Result {
 	return app.json(log.api_ufw_log_column())
 }
 
+['/api/log/stat']
+pub fn (mut app App) api_log_stat() vweb.Result {
+	return app.json(log.api_ufw_log_stat())
+}
+
 ['/api/log'; post]
 pub fn (mut app App) api_log() ?vweb.Result {
 	return app.json(log.api_ufw_log())
@@ -370,7 +374,7 @@ pub fn (mut app App) api_log() ?vweb.Result {
 
 ['/api/ufw-log'; post]
 pub fn (mut app App) api_log_ufw() vweb.Result {
-	return app.json(log.api_ufw_log_ufw())
+	return app.json(log.api_ufw_log())
 }
 
 ['/account']

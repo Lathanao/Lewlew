@@ -5,46 +5,35 @@ export class LewLogMenu extends LewElement {
   constructor() {
     super()
     this.__datasource = ''
-    this.__datamenu = ''
+    this.__data = ''
   }
 
   async connectedCallback() {
     this.__datasource = localStorage.getItem('datagrid_datasource')
 
-    await fetch(this.__datasource + '/menu', { 
+    await fetch(this.__datasource + '/menu', {
       // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
       // https://developer.mozilla.org/en-US/docs/Web/API/fetch
-      method: 'GET'
+      method: 'GET',
     })
       .then((res) => res.json())
-      .then((res) => (this.__datamenu = res))
+      .then((res) => (this.__data = res))
 
-    if (this.hasAttribute('template')) {
-      await fetch(this.getAttribute('template'))
-        .then((res) => res.text())
-        .then((res) => (this.__template = res))
-    }
+    await fetch(this.getAttribute('template'))
+      .then((res) => res.text())
+      .then((res) => (this.__template = res))
 
-    // this.innerHTML = this.__template
-    this.innerHTML = interpolate(this.__template, this.__datamenu)
+      console.log('======= LewLogMenu this.__data ========')
 
-    // let buttonTab = this.querySelectorAll('li')
-    // let contentTab = this.querySelectorAll('article')
-    // buttonTab.forEach((el) => {
-    //   el.onclick = (ev) => {
+      const keys = Object.keys(this.__data)
+      const values = Object.values(this.__data)
+      console.log(typeof this.__data)
+      console.log(this.__data)
+      console.log(keys)
+      console.log(values)
 
-    //     contentTab.forEach((el) => {
-    //       el.classList.add('opacity-0')
-    //       el.classList.add('hidden')
-    //     })
 
-    //     let index = [...el.parentElement.children].indexOf(el)
-    //     let newcontent =  contentTab[index]
-
-    //     newcontent.classList.remove('opacity-0')
-    //     newcontent.classList.remove('hidden')
-    //   }
-    // })
+    this.innerHTML = interpolate(this.__template, this.__data)
   }
 }
 

@@ -26,7 +26,7 @@
 
 export function interpolate(template, data = {}) {
   const keys = Object.keys(data)
-  // const values = Object.values(data)
+  const values = Object.values(data)
   // console.log("============= interpolate keys ==============")
   // console.log(keys)
   // console.log("============= interpolate data[keys] ==============")

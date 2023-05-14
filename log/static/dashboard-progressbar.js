@@ -1,43 +1,40 @@
 import { LewElement } from '/js/LewElement.js'
+import { interpolate } from '/js/tool/interpolate.js'
 
-export class LewLogProgressbar extends LewElement {
+export class LewLogStatProgressbar extends LewElement {
   constructor() {
     super()
-    this.build()
-  }
-
-  create(state, props, storage, query) {
-
-    return this.__template
+    this.__data = ''
   }
 
   async connectedCallback() {
+    this.__datasource = localStorage.getItem('datagrid_datasource')
 
-    if (this.hasAttribute('template')) {
-      await fetch(this.getAttribute('template'))
-        .then((res) => res.text())
-        .then((res) => (this.__template = res))
-    }
-    this.innerHTML = this.__template
-
-    let buttonTab = this.querySelectorAll('li')
-    let contentTab = this.querySelectorAll('article')
-    buttonTab.forEach((el) => {
-      el.onclick = (ev) => {
-
-        contentTab.forEach((el) => {
-          el.classList.add('opacity-0')
-          el.classList.add('hidden')
-        })
-
-        let index = [...el.parentElement.children].indexOf(el)
-        let newcontent =  contentTab[index]
-  
-        newcontent.classList.remove('opacity-0')
-        newcontent.classList.remove('hidden')
-      }
+    await fetch(this.__datasource + '/stat', {
+      // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+      // https://developer.mozilla.org/en-US/docs/Web/API/fetch
+      method: 'GET',
     })
+      .then((res) => res.json())
+      .then((res) => (this.__data = res))
+
+    await fetch(this.getAttribute('template'))
+      .then((res) => res.text())
+      .then((res) => this.__template = res)
+
+    console.log('======= LewLogStatProgressbar this.__data ========')
+
+    const keys = Object.keys(this.__data)
+    const values = Object.values(this.__data)
+    console.log(typeof this.__data)
+    console.log(this.__data)
+    console.log(keys)
+    console.log(values)
+    // console.log("============= interpolate data[keys] ==============")
+    // console.log(data[keys])
+
+    this.innerHTML = interpolate(this.__template, this.__data)
   }
 }
 
-customElements.define('lew-log-progressbar', LewLogProgressbar)
+customElements.define('lew-log-stat-progressbar', LewLogStatProgressbar)

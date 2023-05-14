@@ -1,0 +1,22 @@
+${fullstat
+  .map(
+  (column) => {
+
+      let list_header = ''
+      let list_table = ''
+
+      Object.keys(column).forEach(fields => {
+        list_header += `${fields}` + ' '
+      }) 
+
+      Object.values(column).forEach(fields => {
+        Object.keys(fields).forEach(key => {
+          list_table += `${key}` + ' ' + `${fields[key]}`;
+        });
+      }) 
+    
+      return list_header + ' ' + list_table
+      
+    }
+  )
+  .join('\n')}

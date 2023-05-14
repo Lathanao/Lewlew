@@ -3,6 +3,21 @@ module log
 import time
 import os
 
+const (
+	log_path       = '/home/tanguy/logs'
+	log_ext        = '.log'
+)
+
+struct File {
+mut:
+	real_path string
+	tmp_path  string
+	word      string
+	fields    []string
+	name      string
+	wc_l      int
+}
+
 pub fn parse_date(line string) time.Time {
 	month := line[0..3]
 	day := line[4..6]
@@ -33,7 +48,9 @@ pub fn parse_date(line string) time.Time {
 pub fn api_log_menu() map[string][]map[string]string {
 	mut menu := map[string][]map[string]string{}
 
-	all_batch := sort_log_batches_by_middleware()
+	raw_list := read_and_list_raw_log_files()
+
+	all_batch := sort_files_by_middleware(raw_list)
 
 	for name_batch, _ in all_batch {
 		mut name_batch_url := map[string]string{}
