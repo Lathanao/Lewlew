@@ -24,7 +24,7 @@ mut:
 
 fn sort_log_batches_by_middleware() map[string]map[string]File {
 	start1 := time.ticks()
-	mut raw_list := os.ls('/home/tanguy/logs') or {['']}
+	mut raw_list := os.ls('/home/tanguy/logs') or { [''] }
 	mut logs_list := []string{}
 
 	for k, file_name in raw_list {
@@ -64,16 +64,15 @@ fn sort_log_batches_by_middleware() map[string]map[string]File {
 	}
 	// println('========== type res =========')
 	// println(typeof(res))
-	
+
 	for k, v in res {
 		// println('========== For =========')
 		// println(v)
-		
 	}
 	finish1 := time.ticks()
 	// println('process_thesaurus_light      time ${finish1 - start1} ms')
 
-	return res 
+	return res
 }
 
 // pub fn calculate_score(a Song, b Song) int {

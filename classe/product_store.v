@@ -1,13 +1,5 @@
 module classes
 
-import sqlite
-import time
-import strings
-// import v.ast
-// import strings
-// import v.table
-// import v.util
-
 struct ProductStore {
 pub mut:
 	id               int

@@ -1,5 +1,3 @@
-import { interpolate } from '/static/js/tools/interpolate.js'
-
 export class DatagridButtonOption extends HTMLElement {
   constructor() {
     super()

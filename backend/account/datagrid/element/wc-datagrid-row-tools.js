@@ -1,5 +1,3 @@
-import { interpolate } from '/static/js/tools/interpolate.js'
-
 export class DatagridRowTools extends HTMLElement {
   constructor() {
     super()

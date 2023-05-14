@@ -35,6 +35,7 @@ All API request in POST, even witout payload or whatever
 Let V make all the work -> Don't validate anything in JS -> Don't make any buissness logic in JS
 Don't think about GraphQL or TypeScript
 Don't put any JS in the template
+No id or custom class in HTML tags
 
 Prod:
 Don't set v files as assets

@@ -1,10 +1,10 @@
 module session
 
-import time
-import rand
-import math
+// import time
+// import rand
+// import math
 import x.json2
-import crypto.sha256
+// import crypto.sha256
 // import net
 
 pub const (

@@ -1,5 +1,4 @@
 import { LewElement } from '/js/LewElement.js'
-import { WCHello } from '/component/wc-hello.js'
 export class LewDatagridDropdownSetting extends LewElement {
   constructor() {
     super()

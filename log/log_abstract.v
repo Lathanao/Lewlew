@@ -6,7 +6,6 @@ import os
 import json
 import strings
 
-
 pub fn abstract_parse_date(line string) time.Time {
 	month := line[0..3]
 	day := line[4..6]

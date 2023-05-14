@@ -3,8 +3,6 @@ module log
 import time
 import os
 
-
-
 pub fn parse_date(line string) time.Time {
 	month := line[0..3]
 	day := line[4..6]
@@ -32,14 +30,12 @@ pub fn parse_date(line string) time.Time {
 	return date
 }
 
-pub fn api_log_menu() map[string][]map[string]string  {
-
-	mut menu := map[string][]map[string]string 
+pub fn api_log_menu() map[string][]map[string]string {
+	mut menu := map[string][]map[string]string{}
 
 	all_batch := sort_log_batches_by_middleware()
-	
-	for name_batch, _ in all_batch {
 
+	for name_batch, _ in all_batch {
 		mut name_batch_url := map[string]string{}
 		name_batch_url['url'] = '/log/' + name_batch.replace('.', '-')
 		name_batch_url['label'] = name_batch.capitalize()

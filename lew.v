@@ -120,10 +120,10 @@ pub fn (mut app App) index_post() ?vweb.Result {
 	password := app.form['password']
 
 	if !validate.is_email(email) {
-			app.error << 'Invalid email address.'
+		app.error << 'Invalid email address.'
 	}
 	if !validate.is_password_admin(password) {
-			app.error << 'Invalid password.'
+		app.error << 'Invalid password.'
 	}
 
 	if app.error.len == 0 {

@@ -1,8 +1,5 @@
 module classe
 
-import crypto.sha256
-import rand
-import os
 import time
 import sqlite
 import strings
@@ -43,12 +40,10 @@ pub fn unify_data_for_update(fields string, values string) string {
 // Create a full featured structure after received data from database
 // This method should be called just below a db.query(SELECT ... WHERE id = X)
 fn (mut p Product) hydrate(data sqlite.Row) Product {
-
 	mut schema := p.schema.clone()
 	schema << p.schema_lang
 	mut result := p
 	for iii, name_field in schema {
-
 		$for field in Product.fields {
 			$if field.typ is int {
 				if field.name == name_field {

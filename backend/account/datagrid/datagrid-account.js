@@ -1,8 +1,3 @@
-/* eslint no-undef: 0 */
-
-
-import { interpolateTable } from '/js/tool/interpolateTable.js'
-
 import "/wc/datagrid/wc-datagrid-view-switcher.js"
 import "/wc/datagrid/wc-datagrid-button-delete.js"
 import "/wc/datagrid/wc-datagrid-button.js"

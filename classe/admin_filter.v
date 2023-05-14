@@ -1,11 +1,5 @@
 module classes
 
-// import crypto.sha256
-// import rand
-// import os
-// import time
-import mysql
-
 struct AdminFilter {
 mut:
 	filter Filter

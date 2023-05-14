@@ -2,7 +2,6 @@ module classes
 
 import mysql
 import time
-import strings
 
 pub struct Product {
 pub mut:
@@ -61,10 +60,10 @@ mut:
 }
 
 pub const (
-	VISIBILITY_NOT_VISIBLE = 1
-	VISIBILITY_IN_CATALOG  = 2
-	VISIBILITY_IN_SEARCH   = 3
-	VISIBILITY_BOTH        = 4
+	visibility_not_visible = 1
+	visibility_in_catalog  = 2
+	visibility_in_search   = 3
+	visibility_both        = 4
 )
 
 pub fn (mut p Product) save() ?Product {
