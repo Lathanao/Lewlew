@@ -1,6 +1,6 @@
 import { LewElement } from '/js/LewElement.js'
 
-export class LewDashboardDemo extends LewElement {
+export class LewDashboardProgressbar extends LewElement {
   constructor() {
     super()
     this.build()
@@ -40,4 +40,4 @@ export class LewDashboardDemo extends LewElement {
   }
 }
 
-customElements.define('lew-dashboard-progressbar', LewDashboardDemo)
+customElements.define('lew-dashboard-progressbar', LewDashboardProgressbar)
