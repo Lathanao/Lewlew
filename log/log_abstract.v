@@ -1,77 +1,105 @@
 module log
 
+import time
 import sqlite
 import os
 import json
-import time
 import strings
 
-struct File {
-mut:
-	real_path string
-	tmp_path  string
-	word      string
-	fields    []string
-	name      string
-	nb_line   int
-}
 
-struct LogBatch {
-mut:
-	name  string
-	files []File
-}
+pub fn abstract_parse_date(line string) time.Time {
+	month := line[0..3]
+	day := line[4..6]
+	oclock := line[7..15]
 
-fn get_all_logs() ?bool {
-	start1 := time.ticks()
-	mut raw_list := os.ls('/home/tanguy/logs') ?
-	mut logs_list := []string{}
-
-	for k, file_name in raw_list {
-		if file_name.contains('.log') {
-			logs_list << file_name
-		}
-	}
-	logs_list.sort()
-	mut score := [][]int{len: logs_list.len, init: []int{len: logs_list.len, init: 0}}
-
-	mut res := map[string]map[string]File{}
-
-	for k, file_a in logs_list {
-		cc := logs_list[k + 1..logs_list.len]
-
-		for j, file_b in cc {
-			// cal := strings.levenshtein_distance(file_a, file_b)
-			mut cal := 0
-			short_a := file_a.split('.log').first()
-			short_b := file_b.split('.log').first()
-
-			if short_a == short_b {
-				res[short_a][file_a] = File{}
-				res[short_b][file_b] = File{}
-				// res[short_b] << file_b
-				cal = 1
-			}
-
-			score[k][k + j + 1] = cal
-			score[k + j + 1][k] = cal
-
-			println(k.str() + ' ' + file_a.split('.log').first())
-			println(j.str() + ' ' + file_b.split('.log').first())
-			println(file_a + ' vs ' + file_b + ' : ' + cal.str())
-			println('===================')
+	month_names := ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+		'Dec']
+	mut month_nb := 0
+	for i, name in month_names {
+		if month == name {
+			month_nb = i + 1
+			break
 		}
 	}
 
-	for k, v in res {
-		println(v)
-		println('===================')
+	date := time.Time{
+		year: time.utc().year
+		month: month_nb
+		day: day.trim(' ').int()
+		hour: oclock[..2].int()
+		minute: oclock[3..5].int()
+		second: oclock[6..8].int()
 	}
-	finish1 := time.ticks()
-	println('process_thesaurus_light      time ${finish1 - start1} ms')
 
-	return true
+	return date
 }
+
+// struct LogFile {
+// mut:
+// 	real_path string
+// 	tmp_path  string
+// 	word      string
+// 	fields    []string
+// 	name      string
+// 	nb_line   int
+// }
+
+// struct LogBatch {
+// mut:
+// 	name  string
+// 	files []File
+// }
+
+// fn get_all_logs() ?bool {
+// 	start1 := time.ticks()
+// 	mut raw_list := os.ls('/home/tanguy/logs') ?
+// 	mut logs_list := []string{}
+
+// 	for k, file_name in raw_list {
+// 		if file_name.contains('.log') {
+// 			logs_list << file_name
+// 		}
+// 	}
+// 	logs_list.sort()
+// 	mut score := [][]int{len: logs_list.len, init: []int{len: logs_list.len, init: 0}}
+
+// 	mut res := map[string]map[string]File{}
+
+// 	for k, file_a in logs_list {
+// 		cc := logs_list[k + 1..logs_list.len]
+
+// 		for j, file_b in cc {
+// 			// cal := strings.levenshtein_distance(file_a, file_b)
+// 			mut cal := 0
+// 			short_a := file_a.split('.log').first()
+// 			short_b := file_b.split('.log').first()
+
+// 			if short_a == short_b {
+// 				res[short_a][file_a] = File{}
+// 				res[short_b][file_b] = File{}
+// 				// res[short_b] << file_b
+// 				cal = 1
+// 			}
+
+// 			score[k][k + j + 1] = cal
+// 			score[k + j + 1][k] = cal
+
+// 			println(k.str() + ' ' + file_a.split('.log').first())
+// 			println(j.str() + ' ' + file_b.split('.log').first())
+// 			println(file_a + ' vs ' + file_b + ' : ' + cal.str())
+// 			println('===================')
+// 		}
+// 	}
+
+// 	for k, v in res {
+// 		println(v)
+// 		println('===================')
+// 	}
+// 	finish1 := time.ticks()
+// 	println('process_thesaurus_light      time ${finish1 - start1} ms')
+
+// 	return true
+// }
 
 // pub fn calculate_score(a Song, b Song) int {
 

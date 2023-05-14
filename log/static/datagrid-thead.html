@@ -1,0 +1,16 @@
+<thead class="sticky bg-gray-100 top-0 z-100 p-1">
+  <tr class="w-full h-16 border-gray-300 border-b py-8">
+    ${header
+    .map(
+    (title) => `
+    <th class="pl-4 text-gray-600 text-left text-sm tracking-normal leading-4">
+      <div filter="${title}" attr_order="${title}" way="NONE" class="capitalize cursor-pointer items-center flex mr-10">
+        ${title}
+        <img class="mx-3 opacity-0" src="/image/simple_dropdown_with_icons-svg1.svg" alt="">
+      </div>
+    </th>
+    `
+    )
+    .join('\n')}
+  </tr>
+</thead>

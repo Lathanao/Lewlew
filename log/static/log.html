@@ -1,0 +1,18 @@
+<div class="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 pb-8">
+  <lew-log-progressbar
+  template="/log/dashboard-progressbar.html"></lew-log-progressbar>
+  <lew-dashboard-taksslack></lew-dashboard-taksslack>
+</div>
+
+<wc-datagrid datasource="/api/log" template="/log/datagrid-override.html" template_tbody="/log/datagrid-tbody.html"
+  template_thead="/log/datagrid-thead.html" searched_tables="[
+      ps_orders, 
+      ps_customer
+    ]" column="[
+      id_order, 
+      reference, 
+      delivery_number,
+      email, 
+      valid, 
+      date_add
+    ]"></wc-datagrid>
