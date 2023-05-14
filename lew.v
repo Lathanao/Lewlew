@@ -12,6 +12,7 @@ import mysql
 import v.vcache
 import x.json2
 import log
+import validate
 
 const (
 	port           = 8882
@@ -29,6 +30,8 @@ mut:
 	nb_request int
 pub mut:
 	db      mysql.Connection
+	buffer  []string
+	store   []map[string]string
 	error   []string
 	admin   classe.Admin
 	session classe.Session
@@ -60,24 +63,6 @@ pub mut:
 	rowsbypage  string = '10'
 }
 
-pub struct Row {
-pub mut:
-	date      time.Time
-	host_name string
-	state     string
-	in_       string
-	out_      string
-	mac_      string
-	src_      string
-	dst_      string
-	len_      string
-	tos_      string
-	prec_     string
-	ttl_      string
-	id_       string
-	proto_    string
-}
-
 fn main() {
 	env_content := os.read_file(os.dir(@FILE) + os.path_separator + '.env') ?
 	for line in env_content.split_into_lines() {
@@ -106,7 +91,7 @@ fn main() {
 	app.mount_static_folder_at(os.resource_abs_path('static/image'), '/image')
 	app.mount_static_folder_at(os.resource_abs_path('static/'), '/')
 
-	app.mount_static_folder_at(os.resource_abs_path('log'), '/log')
+	app.mount_static_folder_at(os.resource_abs_path('log/static'), '/log')
 
 	os.setenv('VCACHE', vcache_folder, true)
 	os.rmdir_all(vcache_folder) or {}
@@ -134,12 +119,12 @@ pub fn (mut app App) index_post() ?vweb.Result {
 	email := app.form['email']
 	password := app.form['password']
 
-	// if !validate.is_email(email) {
-	// 		app.error << 'Invalid email address.'
-	// }
-	// if !validate.is_password_admin(password) {
-	// 		app.error << 'Invalid password.'
-	// }
+	if !validate.is_email(email) {
+			app.error << 'Invalid email address.'
+	}
+	if !validate.is_password_admin(password) {
+			app.error << 'Invalid password.'
+	}
 
 	if app.error.len == 0 {
 		app.factory = classe.Factory{
@@ -363,24 +348,29 @@ pub fn make_query(criteria Criteria, schema_name string) string {
 	return condition
 }
 
+['/api/log/menu']
+pub fn (mut app App) api_log_menu() vweb.Result {
+	return app.json(log.api_log_menu())
+}
+
 ['/api/log/count'; post]
 pub fn (mut app App) api_log_count() vweb.Result {
-	return app.json(log.api_log_count())
+	return app.json(log.api_ufw_log_count())
 }
 
 ['/api/log/column'; post]
 pub fn (mut app App) api_log_column() vweb.Result {
-	return app.json(log.api_log_column())
+	return app.json(log.api_ufw_log_column())
 }
 
 ['/api/log'; post]
 pub fn (mut app App) api_log() ?vweb.Result {
-	return app.json(log.api_log())
+	return app.json(log.api_ufw_log())
 }
 
 ['/api/ufw-log'; post]
 pub fn (mut app App) api_log_ufw() vweb.Result {
-	return app.json(log.api_log_ufw())
+	return app.json(log.api_ufw_log_ufw())
 }
 
 ['/account']
