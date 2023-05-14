@@ -9,7 +9,6 @@
 export function interpolateRow(template, data = {}) {
   const keys = Object.keys(data)
   const values = Object.values(data)
-  const tr = 'cells'
 
   try {
     return new Function(keys, `return \`${template}\`;`)(values)
