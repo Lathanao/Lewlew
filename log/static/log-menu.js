@@ -23,16 +23,6 @@ export class LewLogMenu extends LewElement {
       .then((res) => res.text())
       .then((res) => (this.__template = res))
 
-      console.log('======= LewLogMenu this.__data ========')
-
-      const keys = Object.keys(this.__data)
-      const values = Object.values(this.__data)
-      console.log(typeof this.__data)
-      console.log(this.__data)
-      console.log(keys)
-      console.log(values)
-
-
     this.innerHTML = interpolate(this.__template, this.__data)
   }
 }
