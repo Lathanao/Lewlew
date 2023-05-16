@@ -20,18 +20,10 @@ export class LewLogStatProgressbar extends LewElement {
 
     await fetch(this.getAttribute('template'))
       .then((res) => res.text())
-      .then((res) => this.__template = res)
-
-    console.log('======= LewLogStatProgressbar this.__data ========')
+      .then((res) => (this.__template = res))
 
     const keys = Object.keys(this.__data)
     const values = Object.values(this.__data)
-    console.log(typeof this.__data)
-    console.log(this.__data)
-    console.log(keys)
-    console.log(values)
-    // console.log("============= interpolate data[keys] ==============")
-    // console.log(data[keys])
 
     this.innerHTML = interpolate(this.__template, this.__data)
   }

@@ -8,7 +8,6 @@
       }) 
       tabs += '</ul>'
 
-
       let table = ''
       table += '<article>'
       table += '  <table class="min-w-full text-left">'
@@ -20,7 +19,6 @@
       table += '  </tr>'
       table += '  </thead>'
       table += '  <tbody>'
-
 
       Object.values(column).forEach(fields => {
         Object.keys(fields).forEach(key => {
@@ -35,48 +33,11 @@
         });
       }) 
     
-
       table += '</tbody>'
       table += '</table>'
       table += '</article>'
 
       return tabs + ' ' + table
-      
     }
   )
   .join('\n')}
-
-
-  
-
-
-  <article>
-    <table class="min-w-full text-left">
-      <thead class="bg-gray-100 p-2">
-        <tr class="text-gray-600 text-left text-md">
-          <th class="w-10 p-3">Attribute</th>
-          <th class="w-24">Accurence</th>
-          <th class="w-50">Data In Percentage</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="w-1 p-2">
-            <div class="flex items-center">
-              <img src="/log/image/chrome.png" class="w-8">
-              <span class="pl-2 text-gray-500 font-semibold">Chrome</span>
-            </div>
-          </td>
-          <td class="pl-2 text-gray-500 text-lg font-semibold">12.92k</td>
-        </tr>
-      </tbody>
-    </table>
-  </article>
-  
-
-
-
-
-
-
-
