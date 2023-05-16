@@ -80,10 +80,10 @@ fn main() {
 	}
 
 	app.mount_static_folder_at(os.resource_abs_path('/dashboard'), '/dashboard')
-	app.mount_static_folder_at(os.resource_abs_path('backend/account'), '/backend')
-	app.mount_static_folder_at(os.resource_abs_path('backend/login'), '/backend')
-	app.mount_static_folder_at(os.resource_abs_path('backend/forget'), '/backend')
-	app.mount_static_folder_at(os.resource_abs_path('backend/order'), '/backend')
+	app.mount_static_folder_at(os.resource_abs_path('backend/account'), '/account')
+	app.mount_static_folder_at(os.resource_abs_path('backend/login'), '/login')
+	app.mount_static_folder_at(os.resource_abs_path('backend/forget'), '/forget')
+	app.mount_static_folder_at(os.resource_abs_path('backend/order'), '/order')
 
 	app.mount_static_folder_at(os.resource_abs_path('static/component'), '/component')
 	app.mount_static_folder_at(os.resource_abs_path('static/js'), '/js')

@@ -1,9 +1,9 @@
-import Dashboard from '/dashboard/dashboard.js'
-import Orders from '/backend/order.js'
-import Account from '/backend/account.js'
-import Login from '/backend/login.js'
-import Forget from '/backend/forget.js'
-import Log from '/log/log.js'
+// import Dashboard from '/dashboard/dashboard.js'
+// import Order from '/backend/order.js'
+// import Account from '/backend/account.js'
+// import Login from '/backend/login.js'
+// import Forget from '/backend/forget.js'
+// import Log from '/log/log.js'
 
 Storage = {} // https://stackoverflow.com/a/2010994
 Storage.observers = []
@@ -39,18 +39,18 @@ const navigateTo = (url) => {
 
 const router = async () => {
   const routes = [
-    { path: '/', view: Dashboard },
-    { path: '/order', view: Orders },
-    { path: '/login', view: Login },
-    { path: '/logout', view: Login },
-    { path: '/forget', view: Forget },
-    { path: '/log', view: Log },
-    { path: '/account', view: Account },
-    { path: '/account/:id', view: Account },
+    { path: '/dashboard', view: 'dashboard' },
+    { path: '/order', view: 'order' },
+    { path: '/login', view: 'login' },
+    { path: '/logout', view: 'login' },
+    { path: '/forget', view: 'forget' },
+    { path: '/log', view: 'log' },
+    { path: '/account', view: 'account' },
+    { path: '/account/:id', view: 'account' },
   ]
 
   // Test each route for potential match
-  const potentialMatches = routes.map((route) => {
+  const potentialMatches = routes.map( route => {
     return {
       route: route,
       result: location.pathname.match(pathToRegex(route.path)),
@@ -68,9 +68,9 @@ const router = async () => {
     }
   }
 
-  const view = new match.route.view(getParams(match))
-
-  document.querySelector('#app').innerHTML = await view.getHtml()
+  const {default: Page} = await import(`${match.route.path}/${match.route.view}.js`)
+  const page = new Page(getParams(match))
+  document.querySelector('#app').innerHTML = await page.getHtml()
 }
 
 window.addEventListener('popstate', router)

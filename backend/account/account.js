@@ -4,6 +4,6 @@ export default class extends AbstractView {
   constructor(params) {
     super(params)
     this.setTitle("Account")
-    this.__template_path = "/backend/datagrid/datagrid-table-account.html"
+    this.__template_path = "/account/datagrid/datagrid-table-account.html"
   }
 }
