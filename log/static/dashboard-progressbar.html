@@ -5,17 +5,17 @@
       let tabs = '<ul class="mb-4 flex flex-wrap text-sm font-medium text-center text-gray-500">'
       Object.keys(column).forEach(fields => {
         tabs += '<li class="mr-2 inline-block py-3 px-4 text-white bg-indigo-700 rounded-lg active">' + `${fields}` + '</li>'
-      }) 
+      })
       tabs += '</ul>'
 
       let table = ''
       table += '<article>'
-      table += '  <table class="min-w-full text-left">'
+      table += '  <table class="min-w-full h-60 block overflow-auto text-left">'
       table += '  <thead class="bg-gray-100 p-2">'
       table += '  <tr class="text-gray-600 text-left text-md">'
       table += '  <th class="w-10 p-3">Attribute</th>'
-      table += '  <th class="w-24">Accurence</th>'
-      table += '  <th class="w-50">Data In Percentage</th>'
+      table += '  <th class="w-28 pr-3">Accurence</th>'
+      table += '  <th class="w-full">Data In Percentage</th>'
       table += '  </tr>'
       table += '  </thead>'
       table += '  <tbody>'
@@ -31,8 +31,8 @@
           table +=   '<td class="pl-2 text-gray-500 text-lg font-semibold">' + `${fields[key]}` + '</td>';
           table += '</tr>';
         });
-      }) 
-    
+      })
+
       table += '</tbody>'
       table += '</table>'
       table += '</article>'
