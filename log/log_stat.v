@@ -5,14 +5,14 @@ module log
 
 struct StatProgressPligin {
 	host_name map[string]map[string]int
-	state 		map[string]map[string]int
-	@in 			map[string]map[string]int
-	out 			map[string]map[string]int
-	mac 			map[string]map[string]int
-	src 			map[string]map[string]int
-	dst 			map[string]map[string]int
-	tos 			map[string]map[string]int
-	prec 			map[string]map[string]int
+	state     map[string]map[string]int
+	@in       map[string]map[string]int
+	out       map[string]map[string]int
+	mac       map[string]map[string]int
+	src       map[string]map[string]int
+	dst       map[string]map[string]int
+	tos       map[string]map[string]int
+	prec      map[string]map[string]int
 }
 
 pub fn api_ufw_log_stat() map[string][]map[string]map[string]int {
@@ -29,8 +29,7 @@ pub fn api_ufw_log_stat() map[string][]map[string]map[string]int {
 	return stat_rows
 }
 
-pub fn extract_stats(rows []Ufwrow) map[string][]map[string]map[string]int {
-
+fn extract_stats(rows []Ufwrow) map[string][]map[string]map[string]int {
 	mut result := map[string]map[string]int{}
 
 	for line in rows {
@@ -42,6 +41,7 @@ pub fn extract_stats(rows []Ufwrow) map[string][]map[string]map[string]int {
 					result[fieldd][valuee] = 0
 				}
 				result[fieldd][valuee]++
+				result[fieldd]['total']++
 			}
 		}
 	}

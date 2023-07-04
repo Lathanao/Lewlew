@@ -6,9 +6,10 @@ module log
 import time
 
 const (
-	log_path = '/home/tanguy/logs/ufw_small'
-	log_ext  = '.log'
-	month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+	log_path    = '/home/tanguy/logs/ufw_small'
+	log_ext     = '.log'
+	month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+		'Dec']
 )
 
 struct File {
@@ -27,7 +28,7 @@ pub fn parse_date(line string) time.Time {
 	oclock := line[7..15]
 
 	mut month_nb := 0
-	for i, name in month_names {
+	for i, name in log.month_names {
 		if month == name {
 			month_nb = i + 1
 			break
