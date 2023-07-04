@@ -126,17 +126,6 @@ fn concatain_log_by_batch(logs_batch map[string]File) string {
 	return full_result
 }
 
-fn clean_each_line(logs string) string {
-	// for _, file in logs_batch {
-	// 	if file.real_path.ends_with('.gz') {
-	// 		full_result += os.execute_or_panic('zcat ' + file.real_path).output
-	// 	} else {
-	// 		full_result += os.read_file(file.real_path) or { '' }
-	// 	}
-	// }
-	return logs
-}
-
 pub fn parse_concatained_raw_file(raw_ufw_low string) []Ufwrow {
 	mut list := []Ufwrow{}
 
