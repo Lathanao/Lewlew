@@ -52,20 +52,13 @@ pub fn api_ufw_log_column() map[string]string {
 }
 
 pub fn api_ufw_log() []Ufwrow {
-	println('================= read_and_list_raw_log_files =================')
 	files_list := read_and_list_raw_log_files()
 
-	println('================= sort_files_by_middleware =================')
 	logs_batches := sort_files_by_middleware(files_list)
 
-	println('================= concatain_log_by_batch =================')
 	raw_ufw_low := concatain_log_by_batch(logs_batches['ufw'])
 
-	println('================= parse_concatained_raw_file =================')
 	parsed_rows := parse_concatained_raw_file(raw_ufw_low)
-
-	// println('================= extract_stats =================')
-	// stat_rows := extract_stats(parsed_rows)
 
 	return parsed_rows
 }
@@ -125,7 +118,6 @@ fn concatain_log_by_batch(logs_batch map[string]File) string {
 			full_result += os.read_file(file.real_path) or { '' }
 		}
 	}
-	println('================== return full_result ====================')
 	return full_result
 }
 
@@ -172,6 +164,5 @@ pub fn parse_concatained_raw_file(raw_ufw_low string) []Ufwrow {
 	}
 
 	filtered := list.filter(it.src.contains('192.168.1.34'))
-	// println(filtered)
 	return filtered
 }

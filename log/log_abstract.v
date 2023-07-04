@@ -71,30 +71,18 @@ pub fn abstract_parse_date(line string) time.Time {
 // 			mut cal := 0
 // 			short_a := file_a.split('.log').first()
 // 			short_b := file_b.split('.log').first()
-
 // 			if short_a == short_b {
 // 				res[short_a][file_a] = File{}
 // 				res[short_b][file_b] = File{}
 // 				// res[short_b] << file_b
 // 				cal = 1
 // 			}
-
 // 			score[k][k + j + 1] = cal
 // 			score[k + j + 1][k] = cal
-
-// 			println(k.str() + ' ' + file_a.split('.log').first())
-// 			println(j.str() + ' ' + file_b.split('.log').first())
-// 			println(file_a + ' vs ' + file_b + ' : ' + cal.str())
-// 			println('===================')
 // 		}
 // 	}
 
-// 	for k, v in res {
-// 		println(v)
-// 		println('===================')
-// 	}
 // 	finish1 := time.ticks()
-// 	println('process_thesaurus_light      time ${finish1 - start1} ms')
 
 // 	return true
 // }
@@ -125,7 +113,6 @@ pub fn abstract_parse_date(line string) time.Time {
 // 	process_song() ?
 // 	finish1 := time.ticks()
 
-// 	println('process_thesaurus_light      time ${finish1 - start1} ms')
 // }
 
 // fn  process_song() ? {
@@ -141,7 +128,6 @@ pub fn abstract_parse_date(line string) time.Time {
 // 	}
 
 // 	mut score := [][]int{len: songs.len, init: []int{len: songs.len, init: 0}}
-// 	println(score)
 
 // 	for k, songa in songs {
 // 		cc := songs[k + 1..songs.len]
@@ -151,7 +137,6 @@ pub fn abstract_parse_date(line string) time.Time {
 // 			cal := calculate_score(songa, songb)
 // 			score[k][k+j+1] = cal
 // 			score[k+j+1][k] = cal
-// 			println(songa.name + ' vs ' + songb.name + ' : ' + cal.str())
 // 		}
 // 	}
 // }
