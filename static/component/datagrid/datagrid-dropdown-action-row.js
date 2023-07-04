@@ -12,7 +12,7 @@ export class DataGridDropdownActionRow extends HTMLElement {
     <div class="dropdown relative inline-block text-left">
 
     <button type="button" class="inline-flex justify-center shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true">
-      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical dropbtn" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" onclick="console.log(this)">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical dropbtn" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z"></path>
         <circle cx="12" cy="12" r="1"></circle>
         <circle cx="12" cy="19" r="1"></circle>
@@ -30,10 +30,10 @@ export class DataGridDropdownActionRow extends HTMLElement {
         this.__action[k] +
         `"
             class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900" role="menuitem">
-          <i class="fad fa-eye text-xs mr-1"></i> 
+          <i class="fad fa-eye text-xs mr-1"></i>
           ` +
         k +
-        `  
+        `
         </a>`
     })
 

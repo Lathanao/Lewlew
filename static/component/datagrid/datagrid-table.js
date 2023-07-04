@@ -57,7 +57,7 @@ class DataGridTable extends LewElement {
     })
       .then((res) => res.json())
       .then((res) => {
-        // console.log(res)
+
         thead.innerHTML = interpolate(localStorage.getItem('template_thead'), {
           header: Object.values(res),
         })
@@ -65,7 +65,6 @@ class DataGridTable extends LewElement {
         thead.onclick = (ev) => {
           Array.from(ev.target.children).forEach((child) => {
             if (child instanceof HTMLImageElement) {
-              console.log(child)
               toggle_carret(child)
               set_filter_by_element(child)
               this.dispatch('datagrid-table-update-grid', {})
@@ -114,8 +113,6 @@ class DataGridTable extends LewElement {
         }
 
         let set_filter_by_element = function (el) {
-          console.log('======' + el.getAttribute('attr_order'))
-          console.log('======' + el.getAttribute('attr_order'))
           localStorage.setItem(
             'datagrid_order_filter_attribute',
             el.parentNode.getAttribute('filter')
@@ -129,21 +126,6 @@ class DataGridTable extends LewElement {
   }
 
   async update(data) {
-    // console.log('========== Update DataGridTable with: ' + data + ' ==========')
-    // let payload = {
-    //   uuid: '',
-    //   criteria_search: '',
-    //   criteria_name: '',
-    //   criteria_email: '',
-    //   criteria_phone: '',
-    //   order_attribute: localStorage.getItem('datagrid_order_filter_attribute'),
-    //   order_way: localStorage.getItem('datagrid_order_filter_way'),
-    // }
-
-    // jsonq := '{"where": [{"attr": "one", "value": "two"},{"attr": "attr", "value": "3"}],
-    // 					 "orderby": {"attr": "id_product", "way": "DESC"},
-    // 					 "pagelimit": {"page": "10", "number": "20"}}'
-
     let criteria = {
       where: [
         {
@@ -161,8 +143,6 @@ class DataGridTable extends LewElement {
       },
     }
 
-    // console.log(criteria)
-
     if (this.__datasource !== 'undefined') {
       await fetch(this.__datasource, {
         method: 'POST', // *GET, POST, PUT, DELETE
@@ -179,7 +159,7 @@ class DataGridTable extends LewElement {
         .then((res) => res.json())
         .then((res) => (this.__data = res))
     }
-    // console.log(this.__data)
+
     let tbody = this.getElementsByTagName('tbody')[0]
     tbody.innerHTML = interpolate(localStorage.getItem('template_tbody'), {
       cells: this.__data,

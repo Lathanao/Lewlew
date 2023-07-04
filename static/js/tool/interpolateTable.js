@@ -29,7 +29,6 @@ export function interpolateTable(template, datas = {}, column) {
     })
 
   // Object.keys(datas[0]).forEach(key => {
-  //   console.log(key)
   //   headervalues.push(key.charAt(0).toUpperCase() + key.slice(1))
   // })
 

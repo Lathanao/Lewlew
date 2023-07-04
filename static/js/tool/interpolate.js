@@ -17,20 +17,16 @@
       }
 
  *   Easy to get with:
- *     app.json( map[string][]map[string]string ), 
+ *     app.json( map[string][]map[string]string ),
  *   or with any structure maps like:
- *     app.json( map[string][]Struct{} ) 
- * 
+ *     app.json( map[string][]Struct{} )
+ *
  * @returns the template output with the tagged literals applied
 */
 
 export function interpolate(template, data = {}) {
   const keys = Object.keys(data)
   const values = Object.values(data)
-  // console.log("============= interpolate keys ==============")
-  // console.log(keys)
-  // console.log("============= interpolate data[keys] ==============")
-  // console.log(data[keys])
   try {
     return new Function(keys, `return \`${template}\`;`)(data[keys])
   } catch (e) {
