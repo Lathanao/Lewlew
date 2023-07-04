@@ -29,6 +29,11 @@ export class LewLogStatProgressbar extends LewElement {
 
     let buttonTab = this.querySelectorAll('li')
     let contentTab = this.querySelectorAll('article')
+    let tdTab = this.querySelectorAll('td')
+
+    contentTab[0].classList.remove('opacity-0')
+    contentTab[0].classList.remove('hidden')
+
     buttonTab.forEach((el) => {
       el.onclick = (ev) => {
 
@@ -42,6 +47,14 @@ export class LewLogStatProgressbar extends LewElement {
 
         newcontent.classList.remove('opacity-0')
         newcontent.classList.remove('hidden')
+      }
+    })
+
+    tdTab.forEach((el) => {
+      el.onclick = (ev) => {
+        let closest_tr = ev.target.closest('tr')
+        let key_filter = closest_tr.getAttribute('key_filter')
+        let value_filter = closest_tr.getAttribute('value_filter')
       }
     })
   }

@@ -6,7 +6,7 @@ module log
 import time
 
 const (
-	log_path    = '/home/tanguy/logs/ufw_small'
+	log_path    = '/home/tanguy/logs'
 	log_ext     = '.log'
 	month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
 		'Dec']
