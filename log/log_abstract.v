@@ -1,10 +1,6 @@
 module log
 
 import time
-import sqlite
-import os
-import json
-import strings
 
 pub fn abstract_parse_date(line string) time.Time {
 	month := line[0..3]
@@ -144,7 +140,7 @@ pub fn abstract_parse_date(line string) time.Time {
 // 	mut score := [][]int{len: songs.len, init: []int{len: songs.len, init: 0}}
 // 	println(score)
 
-// 	for k, songa in songs {	
+// 	for k, songa in songs {
 // 		cc := songs[k + 1..songs.len]
 
 // 		for j, songb in cc {

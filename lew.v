@@ -7,7 +7,7 @@ import time
 import os
 // import flag
 import crypto.sha256
-import json
+// import json
 import mysql
 import v.vcache
 import x.json2
@@ -141,22 +141,22 @@ pub fn (mut app App) index_post() ?vweb.Result {
 			app.error << 'The admin does not exist, or the password provided is incorrect.'
 			return app.redirect('/logout')
 		} else {
-			tool := classe.Tool{}
+			// tool := classe.Tool{}
 
 			uuid := rand.uuid_v4()
-			ses := classe.Session{
-				uuid: uuid
-				ip: '127.0.0.1'
-				created_at: time.ticks()
-				updated_at: time.ticks()
-			}
+			// ses := classe.Session{
+			// 	uuid: uuid
+			// 	ip: '127.0.0.1'
+			// 	created_at: time.ticks()
+			// 	updated_at: time.ticks()
+			// }
 
-			ses_json := json2.encode<classe.Session>(ses)
-			mut cm := vcache.new_cache_manager([])
-			saved := cm.save('.session', 'admin/session/test', ses_json) or {
-				assert false
-				''
-			}
+			// ses_json := json2.encode<classe.Session>(ses)
+			// mut cm := vcache.new_cache_manager([])
+			// saved := cm.save('.session', 'admin/session/test', ses_json) or {
+			// 	assert false
+			// 	''
+			// }
 
 			time_now := time.Time{
 				unix: time.utc().unix_time()
@@ -290,12 +290,11 @@ pub fn (mut app App) api_order() ?vweb.Result {
 	// if app.is_logged() {
 	// 	return app.json('Resource not found')
 	// }
-	mut query := ''
 
 	// out := json.decode(map[string]string, app.form['json']) ?
 
-	criteria := json.decode(Criteria, app.form['json']) or { Criteria{} }
-	query = make_query(criteria, 'o')
+	// criteria := json.decode(Criteria, app.form['json']) or { Criteria{} }
+	// query := make_query(criteria, 'o')
 
 	sql :=
 		'SELECT *, (

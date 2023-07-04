@@ -1,10 +1,8 @@
 module log
 
-import sqlite
+
 import os
-import json
 import time
-import strings
 
 pub struct Phprow {
 pub mut:
@@ -61,7 +59,7 @@ pub fn api_php_log() []Ufwrow {
 
 	for line in raw_list.output.split_into_lines() {
 		splitted := line.split(' ')
-		param := line.split('] ')
+		// param := line.split('] ')
 
 		mut result := Ufwrow{
 			date: parse_date(line)

@@ -30,7 +30,7 @@ mut:
 pub fn unify_data_for_update(fields string, values string) string {
 	mut values_to_update := strings.new_builder(1024)
 
-	for iii, name_field in fields {
+	for _, name_field in fields {
 		values_to_update.write_string('\r\n$name_field = $values[iii],')
 	}
 	return values_to_update.str()
@@ -78,7 +78,7 @@ fn (mut p Product) hydrate(data sqlite.Row) Product {
 // This method should be called in a annatated methode [post]
 pub fn (p Product) hydrate_form_post(data map[string]string) Product {
 	mut result := p
-	for iii, name_field in data {
+	for iii, _ in data {
 		$for field in Product.fields {
 			$if field.typ is int {
 				if field.name == iii {
@@ -107,8 +107,8 @@ pub fn (p Product) hydrate_form_post(data map[string]string) Product {
 		}
 	}
 
-	schema := p.schema_lang.clone()
-	today := time.now()
+	// schema := p.schema_lang.clone()
+	// today := time.now()
 	tick := time.ticks()
 
 	result.modified_at = tick
@@ -132,7 +132,7 @@ fn dehydrate_product(p Product) (string, string, string) {
 
 	schema := p.schema.clone()
 
-	for iii, name_field in schema {
+	for _, name_field in schema {
 		match name_field {
 			'id', 'created_at', 'images', 'type' {
 				continue
@@ -187,7 +187,7 @@ fn dehydrate_product_lang(p Product) (string, string, string) {
 
 	schema := p.schema_lang.clone()
 
-	for iii, name_field in schema {
+	for _, name_field in schema {
 		match name_field {
 			'id', 'images', 'type', 'tags' {
 				continue

@@ -2,7 +2,6 @@ module log
 
 import os
 import time
-import strings
 
 pub struct Ufwrow {
 pub mut:
@@ -73,7 +72,7 @@ fn read_and_list_raw_log_files() []string {
 fn sort_files_by_middleware(raw_list []string) map[string]map[string]File {
 	mut logs_list := []string{}
 
-	for k, file_name in raw_list {
+	for _, file_name in raw_list {
 		if file_name.contains(log_ext) {
 			logs_list << file_name
 		}
@@ -84,8 +83,8 @@ fn sort_files_by_middleware(raw_list []string) map[string]map[string]File {
 	for k, file_a in logs_list {
 		cc := logs_list[k + 1..logs_list.len]
 
-		for j, file_b in cc {
-			mut cal := 0
+		for _, file_b in cc {
+			// mut cal := 0
 			short_a := file_a.split('.log').first()
 			short_b := file_b.split('.log').first()
 
@@ -97,7 +96,7 @@ fn sort_files_by_middleware(raw_list []string) map[string]map[string]File {
 					real_path: log_path + os.path_separator + file_b
 				}
 
-				cal = 1
+				// cal = 1
 			}
 		}
 	}
@@ -107,7 +106,7 @@ fn sort_files_by_middleware(raw_list []string) map[string]map[string]File {
 
 fn concatain_log_by_batch(logs_batch map[string]File) string {
 	mut full_result := ''
-	for label, file in logs_batch {
+	for _, file in logs_batch {
 		if file.real_path.ends_with('.gz') {
 			full_result += os.execute_or_panic('zcat ' + file.real_path).output
 		} else {
@@ -123,7 +122,7 @@ pub fn parse_concatained_raw_file(raw_ufw_low string) []Ufwrow {
 
 	for line in raw_ufw_low.split_into_lines() {
 		splitted := line.split(' ')
-		param := line.split('] ')
+		// param := line.split('] ')
 
 		mut result := Ufwrow{
 			date: parse_date(line)

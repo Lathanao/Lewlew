@@ -1,7 +1,6 @@
 module classes
 
 import mysql
-import time
 
 pub struct Product {
 pub mut:
@@ -67,14 +66,13 @@ pub const (
 )
 
 pub fn (mut p Product) save() ?Product {
-	today := time.now()
 
 	mut condition_where := ';'
 	mut condition_where_lang := ';'
-	mut type_query := 'INSERT INTO '
+	// mut type_query := 'INSERT INTO '
 
-	fields, values, update := dehydrate_product(p)
-	fieldsl, valuesl, updatel := dehydrate_product_lang(p)
+	_, _, update := dehydrate_product(p)
+	_, _, updatel := dehydrate_product_lang(p)
 	if p.id == 0 {
 		// next_id := p.db.q_int('SELECT MAX(id) from product') + 1
 		// p.id = next_id
@@ -90,10 +88,10 @@ pub fn (mut p Product) save() ?Product {
 		// mut data := unify_data_for_update(fields, values)
 
 		query := 'UPDATE `product` SET $update WHERE $condition_where;'
-		sig := p.db.query(query) ?
+		p.db.query(query) ?
 
 		queryl := 'UPDATE `product_lang` SET $updatel WHERE $condition_where_lang;'
-		sigl := p.db.query(queryl) ?
+		p.db.query(queryl) ?
 	}
 
 	return p

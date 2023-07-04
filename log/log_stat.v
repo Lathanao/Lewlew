@@ -21,12 +21,6 @@ This file contains regex module
 
 module log
 
-import sqlite
-import os
-import json
-import time
-import strings
-
 
 
 pub fn api_ufw_log_stat() map[string][]map[string]map[string]int {
@@ -46,7 +40,7 @@ pub fn api_ufw_log_stat() map[string][]map[string]map[string]int {
 
 pub fn extract_stats(rows []Ufwrow) map[string][]map[string]map[string]int {
 	mut result := map[string]map[string]int{}
-	
+
 	for line in rows {
 		$for field in Ufwrow.fields {
 			$if field.typ is string {

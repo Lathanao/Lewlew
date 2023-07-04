@@ -1,7 +1,7 @@
 module classes
 
 import mysql
-//  
+//
 //  classes
 //  _____________________________________________
 // import crypto.sha256
@@ -47,7 +47,7 @@ pub fn (pp Product) filter_by_id(criteria map[string]string) ?Product {
 
 	// result << p.hydrate(res[0])
 
-	return Product{}
+	return result
 }
 
 pub fn (pp Product) filter_by_query(criteria map[string]string) ?[]Product {
@@ -73,7 +73,7 @@ pub fn (pp Product) filter_by_query(criteria map[string]string) ?[]Product {
 pub fn make_query_fileds_required(p Product) string {
 	mut fileds_required := strings.new_builder(1024)
 
-	for iii, name_field in p.schema {
+	for _, name_field in p.schema {
 		fileds_required.write_string('\r\n`' + p.schema_name + '`.' + name_field + ',')
 	}
 	for iii, name_field in p.schema_lang {

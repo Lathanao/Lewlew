@@ -15,9 +15,9 @@ mut:
 
 pub fn (a AdminFactory) init() {
 	// dump(a)
-	schema_name := 'ps_employee'
+	// schema_name := 'ps_employee'
 
-	query_main := 'DESCRIBE `$schema_name`;'
+	// query_main := 'DESCRIBE `$schema_name`;'
 
 	// mut p := (Product{db: &f.db})
 	// // Add Generic field to easy iterate in hydrate(), etc...

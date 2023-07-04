@@ -1,7 +1,6 @@
 module log
 
 import time
-import os
 
 const (
 	log_path       = '/home/tanguy/logs'
