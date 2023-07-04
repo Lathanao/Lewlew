@@ -53,9 +53,9 @@ pub fn api_ufw_log_column() map[string]string {
 
 pub fn api_ufw_log() []Ufwrow {
 	files_list := read_and_list_raw_log_files()
-
+	println(files_list)
 	logs_batches := sort_files_by_middleware(files_list)
-
+	println(logs_batches)
 	raw_ufw_low := concatain_log_by_batch(logs_batches['ufw'])
 
 	parsed_rows := parse_concatained_raw_file(raw_ufw_low)
@@ -89,17 +89,24 @@ fn sort_files_by_middleware(files_list []string) map[string]map[string]File {
 	logs_list.sort()
 
 	mut res := map[string]map[string]File{}
+
 	for k, file_a in logs_list {
+
+		short_a := file_a.split('.log').first()
+		res[short_a][file_a] = File{
+			real_path: log_path + os.path_separator + file_a
+		}
 		cc := logs_list[k + 1..logs_list.len]
 
+
 		for _, file_b in cc {
-			short_a := file_a.split('.log').first()
+			// short_a := file_a.split('.log').first()
 			short_b := file_b.split('.log').first()
 
 			if short_a == short_b {
-				res[short_a][file_a] = File{
-					real_path: log_path + os.path_separator + file_a
-				}
+				// res[short_a][file_a] = File{
+				// 	real_path: log_path + os.path_separator + file_a
+				// }
 				res[short_b][file_b] = File{
 					real_path: log_path + os.path_separator + file_b
 				}
@@ -114,12 +121,28 @@ fn concatain_log_by_batch(logs_batch map[string]File) string {
 	for _, file in logs_batch {
 		if file.real_path.ends_with('.gz') {
 			full_result += os.execute_or_panic('zcat ' + file.real_path).output
+			// println(os.execute_or_panic('zcat ' + file.real_path).output)
 		} else {
 			full_result += os.read_file(file.real_path) or { '' }
 		}
 	}
 	return full_result
 }
+
+
+fn clean_each_line(logs string) string {
+
+	// for _, file in logs_batch {
+	// 	if file.real_path.ends_with('.gz') {
+	// 		full_result += os.execute_or_panic('zcat ' + file.real_path).output
+	// 	} else {
+	// 		full_result += os.read_file(file.real_path) or { '' }
+	// 	}
+	// }
+	return logs
+}
+
+
 
 pub fn parse_concatained_raw_file(raw_ufw_low string) []Ufwrow {
 	mut list := []Ufwrow{}
@@ -129,16 +152,25 @@ pub fn parse_concatained_raw_file(raw_ufw_low string) []Ufwrow {
 			continue
 		}
 
+		// ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+		if -1 == line[0..1].index_any('JFMASOND') {
+			continue
+		}
+
 		splitted := line.split(' ')
 		param := line.split('] ')
+
+		last_bracket_open := line.last_index('[') or {-1}
+		last_bracket_close := line.last_index(']') or {-1}
+		state := line[last_bracket_open..last_bracket_close+1]
 
 		mut result := Ufwrow{
 			date: parse_date(line)
 			host_name: splitted[4]
-			state: splitted[7] + ' ' + splitted[8]
+			state: state
 		}
 
-		for attr in line.split(' ') {
+		for attr in line[last_bracket_close..].split(' ') {
 			if !attr.contains('=') {
 				continue
 			}
@@ -160,6 +192,8 @@ pub fn parse_concatained_raw_file(raw_ufw_low string) []Ufwrow {
 				}
 			}
 		}
+
+		println(result)
 		list << result
 	}
 

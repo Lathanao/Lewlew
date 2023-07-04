@@ -3,6 +3,18 @@
 
 module log
 
+struct StatProgressPligin {
+	host_name map[string]map[string]int
+	state 		map[string]map[string]int
+	@in 			map[string]map[string]int
+	out 			map[string]map[string]int
+	mac 			map[string]map[string]int
+	src 			map[string]map[string]int
+	dst 			map[string]map[string]int
+	tos 			map[string]map[string]int
+	prec 			map[string]map[string]int
+}
+
 pub fn api_ufw_log_stat() map[string][]map[string]map[string]int {
 	raw_list := read_and_list_raw_log_files()
 
@@ -18,6 +30,7 @@ pub fn api_ufw_log_stat() map[string][]map[string]map[string]int {
 }
 
 pub fn extract_stats(rows []Ufwrow) map[string][]map[string]map[string]int {
+
 	mut result := map[string]map[string]int{}
 
 	for line in rows {

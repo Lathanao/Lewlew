@@ -6,8 +6,9 @@ module log
 import time
 
 const (
-	log_path = '/home/tanguy/logs'
+	log_path = '/home/tanguy/logs/ufw_small'
 	log_ext  = '.log'
+	month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 )
 
 struct File {
@@ -25,8 +26,6 @@ pub fn parse_date(line string) time.Time {
 	day := line[4..6]
 	oclock := line[7..15]
 
-	month_names := ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
-		'Dec']
 	mut month_nb := 0
 	for i, name in month_names {
 		if month == name {
@@ -44,7 +43,7 @@ pub fn parse_date(line string) time.Time {
 		second: oclock[6..8].int()
 	}
 
-	return time.Time{}
+	return date
 }
 
 pub fn api_log_menu() map[string][]map[string]string {
