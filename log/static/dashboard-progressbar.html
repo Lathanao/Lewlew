@@ -9,33 +9,34 @@
       tabs += '</ul>'
 
       let table = ''
-      table += '<article>'
-      table += '  <table class="min-w-full h-60 block overflow-auto text-left">'
-      table += '  <thead class="bg-gray-100 p-2">'
-      table += '  <tr class="text-gray-600 text-left text-md">'
-      table += '  <th class="w-10 p-3">Attribute</th>'
-      table += '  <th class="w-28 pr-3">Accurence</th>'
-      table += '  <th class="w-full">Data In Percentage</th>'
-      table += '  </tr>'
-      table += '  </thead>'
-      table += '  <tbody>'
 
       Object.values(column).forEach(fields => {
+        table += '<article class="opacity-0 hidden">'
+          table += '<table class="min-w-full h-60 block overflow-auto text-left">'
+          table += '  <thead class="bg-gray-100 p-2">'
+          table += '  <tr class="text-gray-600 text-left text-md">'
+          table += '  <th class="w-10 p-3">Attribute</th>'
+          table += '  <th class="w-28 pr-3">Accurence</th>'
+          table += '  <th class="w-full">Data In Percentage</th>'
+          table += '  </tr>'
+          table += '  </thead>'
+          table += '  <tbody>'
         Object.keys(fields).forEach(key => {
-          table += '<tr>';
-          table +=   '<td class="w-1 p-2">';
-          table +=     '<div class="flex items-center">';
-          table +=       '<span class="pl-2 text-gray-500 font-semibold">' + `${key}` + '</span>';
-          table +=     '</div>';
-          table +=   '</td>';
-          table +=   '<td class="pl-2 text-gray-500 text-lg font-semibold">' + `${fields[key]}` + '</td>';
-          table += '</tr>';
-        });
-      })
 
-      table += '</tbody>'
-      table += '</table>'
-      table += '</article>'
+          table += '    <tr>';
+          table += '      <td class="w-1 p-2">';
+          table += '        <div class="flex items-center">';
+          table += '          <span class="pl-2 text-gray-500 font-semibold">' + `${key}` + '</span>';
+          table += '        </div>';
+          table += '     </td>';
+          table += '     <td class="pl-2 text-gray-500 text-lg font-semibold">' + `${fields[key]}` + '</td>';
+          table += '   </tr>';
+
+        });
+        table += '  </tbody>'
+        table += '</table>'
+        table += '</article>'
+      })
 
       return tabs + ' ' + table
     }

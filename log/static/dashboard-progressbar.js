@@ -26,6 +26,24 @@ export class LewLogStatProgressbar extends LewElement {
     const values = Object.values(this.__data)
 
     this.innerHTML = interpolate(this.__template, this.__data)
+
+    let buttonTab = this.querySelectorAll('li')
+    let contentTab = this.querySelectorAll('article')
+    buttonTab.forEach((el) => {
+      el.onclick = (ev) => {
+
+        contentTab.forEach((el) => {
+          el.classList.add('opacity-0')
+          el.classList.add('hidden')
+        })
+
+        let index = [...el.parentElement.children].indexOf(el)
+        let newcontent =  contentTab[index]
+
+        newcontent.classList.remove('opacity-0')
+        newcontent.classList.remove('hidden')
+      }
+    })
   }
 }
 
