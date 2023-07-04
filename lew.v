@@ -64,7 +64,7 @@ pub mut:
 }
 
 fn main() {
-	env_content := os.read_file(os.dir(@FILE) + os.path_separator + '.env') ?
+	env_content := os.read_file(os.dir(@FILE) + os.path_separator + '.env')?
 	for line in env_content.split_into_lines() {
 		a := line.split('=')
 		os.setenv(a[0], a[1], true)
@@ -135,7 +135,7 @@ pub fn (mut app App) index_post() ?vweb.Result {
 		passhash := sha256.sum('$password$hash_key'.bytes()).hex().str()
 		admin := app.factory.fetch_admin({
 			'password': passhash
-		}) ?
+		})?
 
 		if admin.id == 0 || admin.email != email {
 			app.error << 'The admin does not exist, or the password provided is incorrect.'
@@ -346,6 +346,36 @@ pub fn make_query(criteria Criteria, schema_name string) string {
 	return condition
 }
 
+['/api/log'; post]
+pub fn (mut app App) api_log() ?vweb.Result {
+	return app.json(log.api_ufw_log())
+}
+
+['/api/log'; get]
+pub fn (mut app App) api_log_get() ?vweb.Result {
+	return app.json(log.api_ufw_log())
+}
+
+['/api/log/stat'; post]
+pub fn (mut app App) api_log_stat() vweb.Result {
+	return app.json(log.api_ufw_log_stat())
+}
+
+['/api/log/stat'; get]
+pub fn (mut app App) api_log_stat_get() vweb.Result {
+	return app.json(log.api_ufw_log_stat())
+}
+
+['/api/ufw-log'; post]
+pub fn (mut app App) api_ufw_log() vweb.Result {
+	return app.json(log.api_ufw_log())
+}
+
+['/api/log-ufw'; post]
+pub fn (mut app App) api_log_ufw() vweb.Result {
+	return app.json(log.api_ufw_log())
+}
+
 ['/api/log/menu']
 pub fn (mut app App) api_log_menu() vweb.Result {
 	return app.json(log.api_log_menu())
@@ -359,21 +389,6 @@ pub fn (mut app App) api_log_count() vweb.Result {
 ['/api/log/column'; post]
 pub fn (mut app App) api_log_column() vweb.Result {
 	return app.json(log.api_ufw_log_column())
-}
-
-['/api/log/stat']
-pub fn (mut app App) api_log_stat() vweb.Result {
-	return app.json(log.api_ufw_log_stat())
-}
-
-['/api/log'; post]
-pub fn (mut app App) api_log() ?vweb.Result {
-	return app.json(log.api_ufw_log())
-}
-
-['/api/ufw-log'; post]
-pub fn (mut app App) api_log_ufw() vweb.Result {
-	return app.json(log.api_ufw_log())
 }
 
 ['/account']

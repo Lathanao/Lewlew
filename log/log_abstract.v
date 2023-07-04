@@ -1,3 +1,6 @@
+// Copyright 2022, Tanguy Salmon. All rights reserved.
+// MIT license, please check LICENSE file.
+
 module log
 
 import time

@@ -1,10 +1,13 @@
+// Copyright 2022, Tanguy Salmon. All rights reserved.
+// MIT license, please check LICENSE file.
+
 module log
 
 import time
 
 const (
-	log_path       = '/home/tanguy/logs'
-	log_ext        = '.log'
+	log_path = '/home/tanguy/logs'
+	log_ext  = '.log'
 )
 
 struct File {
@@ -41,7 +44,7 @@ pub fn parse_date(line string) time.Time {
 		second: oclock[6..8].int()
 	}
 
-	return date
+	return time.Time{}
 }
 
 pub fn api_log_menu() map[string][]map[string]string {

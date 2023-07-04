@@ -66,7 +66,6 @@ pub const (
 )
 
 pub fn (mut p Product) save() ?Product {
-
 	mut condition_where := ';'
 	mut condition_where_lang := ';'
 	// mut type_query := 'INSERT INTO '
@@ -88,10 +87,10 @@ pub fn (mut p Product) save() ?Product {
 		// mut data := unify_data_for_update(fields, values)
 
 		query := 'UPDATE `product` SET $update WHERE $condition_where;'
-		p.db.query(query) ?
+		p.db.query(query)?
 
 		queryl := 'UPDATE `product_lang` SET $updatel WHERE $condition_where_lang;'
-		p.db.query(queryl) ?
+		p.db.query(queryl)?
 	}
 
 	return p

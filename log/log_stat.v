@@ -1,30 +1,9 @@
-/*
-log stat 0.0 alpha
-
-Copyright (c) 2019-2022 Tanguy Salmon. All rights reserved.
-Use of this source code is governed by an MIT license
-that can be found in the LICENSE file.
-
-This file contains regex module
-
-	raw_list := read_and_list_raw_log_files()
-
-	logs_batches := sort_files_by_middleware(raw_list)
-
-	raw_ufw_low := concatain_log_by_batch(logs_batches['ufw'])
-
-	parsed_rows := parse_concatained_raw_file(raw_ufw_low)
-
-	stat_rows := extract_stats(parsed_rows)
-
-*/
+// Copyright 2022, Tanguy Salmon. All rights reserved.
+// MIT license, please check LICENSE file.
 
 module log
 
-
-
 pub fn api_ufw_log_stat() map[string][]map[string]map[string]int {
-
 	raw_list := read_and_list_raw_log_files()
 
 	logs_batches := sort_files_by_middleware(raw_list)
@@ -34,7 +13,7 @@ pub fn api_ufw_log_stat() map[string][]map[string]map[string]int {
 	parsed_rows := parse_concatained_raw_file(raw_ufw_low)
 
 	stat_rows := extract_stats(parsed_rows)
-	println(stat_rows)
+
 	return stat_rows
 }
 
@@ -46,7 +25,9 @@ pub fn extract_stats(rows []Ufwrow) map[string][]map[string]map[string]int {
 			$if field.typ is string {
 				fieldd := field.name.str()
 				valuee := line.$(field.name).str()
-				if result[fieldd][valuee] == 0 {result[fieldd][valuee] = 0}
+				if result[fieldd][valuee] == 0 {
+					result[fieldd][valuee] = 0
+				}
 				result[fieldd][valuee]++
 			}
 		}
@@ -57,7 +38,6 @@ pub fn extract_stats(rows []Ufwrow) map[string][]map[string]map[string]int {
 	stat['fullstat'] << result.clone()
 	return stat
 }
-
 
 pub fn api_log_menu_ttt() map[string][]map[string]string {
 	mut menu := map[string][]map[string]string{}

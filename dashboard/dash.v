@@ -24,7 +24,7 @@ mut:
 
 fn main() {
 	start1 := time.ticks()
-	mut raw_list := os.ls('/home/tanguy/logs') ?
+	mut raw_list := os.ls('/home/tanguy/logs')?
 	mut logs_list := []string{}
 
 	for k, file_name in raw_list {

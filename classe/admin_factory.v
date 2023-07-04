@@ -36,8 +36,8 @@ pub fn (mut a AdminFactory) fetch_admin(criteria map[string]string) ?Admin {
 	filter := make_query_condition(criteria, 'ps_employee')
 	query := 'SELECT * FROM `ps_employee` $filter;'
 
-	a.db.connect() ?
-	results := a.db.query(query) ?
+	a.db.connect()?
+	results := a.db.query(query)?
 	a.db.close()
 
 	result_maps := results.maps().clone()

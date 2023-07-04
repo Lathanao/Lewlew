@@ -1,3 +1,6 @@
+// Copyright 2022, Tanguy Salmon. All rights reserved.
+// MIT license, please check LICENSE file.
+
 module log
 
 import os
@@ -20,7 +23,6 @@ pub mut:
 	id        int
 	proto     int
 }
-
 
 pub fn api_ufw_log_count() map[string]int {
 	mut count := map[string]int{}
@@ -50,15 +52,19 @@ pub fn api_ufw_log_column() map[string]string {
 }
 
 pub fn api_ufw_log() []Ufwrow {
+	println('================= read_and_list_raw_log_files =================')
+	files_list := read_and_list_raw_log_files()
 
-	raw_list := read_and_list_raw_log_files()
+	println('================= sort_files_by_middleware =================')
+	logs_batches := sort_files_by_middleware(files_list)
 
-	logs_batches := sort_files_by_middleware(raw_list)
-
+	println('================= concatain_log_by_batch =================')
 	raw_ufw_low := concatain_log_by_batch(logs_batches['ufw'])
 
+	println('================= parse_concatained_raw_file =================')
 	parsed_rows := parse_concatained_raw_file(raw_ufw_low)
 
+	// println('================= extract_stats =================')
 	// stat_rows := extract_stats(parsed_rows)
 
 	return parsed_rows
@@ -69,10 +75,20 @@ fn read_and_list_raw_log_files() []string {
 	return raw_list
 }
 
-fn sort_files_by_middleware(raw_list []string) map[string]map[string]File {
+/*
+* Get a table like:
+* {middleware_1: File_format[
+					log.File{
+										real_path: '/logs_path/middleware.log.1'
+										...etc
+			]
+*  ...etc
+* ]}
+*/
+fn sort_files_by_middleware(files_list []string) map[string]map[string]File {
 	mut logs_list := []string{}
 
-	for _, file_name in raw_list {
+	for _, file_name in files_list {
 		if file_name.contains(log_ext) {
 			logs_list << file_name
 		}
@@ -84,7 +100,6 @@ fn sort_files_by_middleware(raw_list []string) map[string]map[string]File {
 		cc := logs_list[k + 1..logs_list.len]
 
 		for _, file_b in cc {
-			// mut cal := 0
 			short_a := file_a.split('.log').first()
 			short_b := file_b.split('.log').first()
 
@@ -95,12 +110,9 @@ fn sort_files_by_middleware(raw_list []string) map[string]map[string]File {
 				res[short_b][file_b] = File{
 					real_path: log_path + os.path_separator + file_b
 				}
-
-				// cal = 1
 			}
 		}
 	}
-
 	return res
 }
 
@@ -113,7 +125,7 @@ fn concatain_log_by_batch(logs_batch map[string]File) string {
 			full_result += os.read_file(file.real_path) or { '' }
 		}
 	}
-
+	println('================== return full_result ====================')
 	return full_result
 }
 
@@ -121,8 +133,12 @@ pub fn parse_concatained_raw_file(raw_ufw_low string) []Ufwrow {
 	mut list := []Ufwrow{}
 
 	for line in raw_ufw_low.split_into_lines() {
+		if line.len == 0 {
+			continue
+		}
+
 		splitted := line.split(' ')
-		// param := line.split('] ')
+		param := line.split('] ')
 
 		mut result := Ufwrow{
 			date: parse_date(line)
@@ -155,5 +171,7 @@ pub fn parse_concatained_raw_file(raw_ufw_low string) []Ufwrow {
 		list << result
 	}
 
-	return list.filter(it.src.contains('192.168.1.34'))
+	filtered := list.filter(it.src.contains('192.168.1.34'))
+	// println(filtered)
+	return filtered
 }

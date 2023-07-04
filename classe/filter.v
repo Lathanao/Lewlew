@@ -1,7 +1,6 @@
 module classes
 
 import mysql
-//
 //  classes
 //  _____________________________________________
 // import crypto.sha256
@@ -23,7 +22,7 @@ pub mut:
 }
 
 pub fn (mut p Product) filter_id(q int) ?Product {
-	res := p.db.query('SELECT * FROM product WHERE id_product == $q;') ?
+	res := p.db.query('SELECT * FROM product WHERE id_product == $q;')?
 	if res.maps().len == 0 {
 		return Product{}
 	}
@@ -38,7 +37,7 @@ pub fn (pp Product) filter_by_id(criteria map[string]string) ?Product {
 
 	query := 'SELECT $fileds_required FROM `product` INNER JOIN `product_lang` ON (`product`.`id` = `product_lang`.`id_product`) $filter;'
 
-	res := p.db.query(query) ?
+	res := p.db.query(query)?
 	if res.maps().len == 0 {
 		return Product{}
 	}
@@ -55,7 +54,7 @@ pub fn (pp Product) filter_by_query(criteria map[string]string) ?[]Product {
 
 	filter := make_query_condition(criteria, p.schema_name)
 	query := 'SELECT * FROM `product` p INNER JOIN `product_lang` pl ON (p.`id` = pl.`id_product`) $filter;'
-	rows := p.db.query(query) ?
+	rows := p.db.query(query)?
 
 	if rows.maps().len == 0 {
 		return [Product{}]
